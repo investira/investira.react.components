@@ -26,6 +26,7 @@ export { default as FilterBar } from "./FilterBar";
 export { default as Format } from "./Format";
 export { default as FluidPaper } from "./FluidPaper";
 export { default as GridVirtualized } from "./GridVirtualized";
+export { default as Highlight } from "./Highlight";
 export { default as HorizontalList } from "./HorizontalList";
 export { default as Icon } from "./Icon";
 export { default as IconDatePicker } from "./IconDatePicker";
