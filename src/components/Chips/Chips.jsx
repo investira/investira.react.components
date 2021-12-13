@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Typography, Chip } from '../wrapper-material-ui';
+import { Typography, Chip } from '../wrappers';
 import unsupportedProp from '../utils/unsupportedProp';
 import Style from './Chips.module.scss';
 import PropTypes from 'prop-types';

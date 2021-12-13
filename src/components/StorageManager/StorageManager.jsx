@@ -1,5 +1,5 @@
 // import React from 'react';
-import { listenStorage } from '../../lib';
+import { listenStorage } from 'investira.react.lib';
 
 const StorageManager = ({ storage, store, children }) => {
     //console.log(props);

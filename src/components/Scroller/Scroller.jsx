@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import Style from './Scroller.module.scss';
-import { browsers } from '../../lib';
+import { browsers } from 'investira.react.lib';
 //import classNames from 'classnames';
 
 export class Scroller extends PureComponent {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { renders } from '../../lib';
+import { renders } from 'investira.react.lib';
 import Basic from '../Basic';
 
 import Style from './ContainerFeedback.module.scss';

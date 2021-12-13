@@ -1,3 +1,3 @@
-import { PersistGate } from 'redux-persist/integration/react';
+import { persistGateComponent as PersistGate } from 'investira.react.lib';
 
 export default PersistGate;

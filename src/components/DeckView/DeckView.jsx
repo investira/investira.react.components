@@ -1,5 +1,5 @@
 import React, { memo, useContext } from 'react';
-import { DeckContext } from '../';
+import DeckContext from '../DeckContext';
 
 const DeckView = memo(props => {
     const deckContext = useContext(DeckContext);
