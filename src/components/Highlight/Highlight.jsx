@@ -5,9 +5,11 @@ import { displays } from "investira.react.lib";
 import Style from "./Highlight.module.scss";
 
 const Highlight = memo((props) => {
-  if (validators.isEmpty(props.value)) {
+  if (validators.isEmpty(props.query)) {
     return <span>{props.text}</span>;
   }
+
+  console.log("Highlight", props);
 
   const xResult = displays.highlightSearch(props.query, props.text);
 
