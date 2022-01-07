@@ -1,8 +1,14 @@
 import React, { memo } from "react";
+import { validators } from "investira.sdk";
 import { displays } from "investira.react.lib";
+
 import Style from "./Highlight.module.scss";
 
 const Highlight = memo((props) => {
+  if (validators.isEmpty(props.value)) {
+    return <span>{props.text}</span>;
+  }
+
   const xResult = displays.highlightSearch(props.query, props.text);
 
   return xResult.map((xPart, i) => {
