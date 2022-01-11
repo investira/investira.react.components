@@ -9,8 +9,6 @@ const Highlight = memo((props) => {
     return <span>{props.text}</span>;
   }
 
-  console.log("Highlight", props);
-
   const xResult = displays.highlightSearch(props.query, props.text);
 
   return xResult.map((xPart, i) => {
