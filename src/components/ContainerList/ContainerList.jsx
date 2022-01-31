@@ -58,4 +58,6 @@ ContainerList.defaultProps = {
   sticky: false,
 };
 
+ContainerList.displayName = "ContainerList";
+
 export default ContainerList;
