@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as WCard } from '@material-ui/core/Card';
+import React from "react";
+import { default as WCard } from "@mui/material/Card";
 
 function Card(props) {
-    return <WCard {...props} />;
+  return <WCard {...props} />;
 }
 
 export default Card;

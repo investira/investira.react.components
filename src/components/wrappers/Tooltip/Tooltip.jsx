@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as WTooltip } from '@material-ui/core/Tooltip';
+import React from "react";
+import { default as WTooltip } from "@mui/material/Tooltip";
 
 function Tooltip(props) {
-    return <WTooltip {...props} />;
+  return <WTooltip {...props} />;
 }
 
 export default Tooltip;

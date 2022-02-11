@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as WCircularProgress } from '@material-ui/core/CircularProgress';
+import React from "react";
+import { default as WCircularProgress } from "@mui/material/CircularProgress";
 
 function CircularProgress(props) {
-    return <WCircularProgress {...props} />;
+  return <WCircularProgress {...props} />;
 }
 
 export default CircularProgress;

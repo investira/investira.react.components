@@ -1,6 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { default as WBadge } from "@material-ui/core/Badge";
+import makeStyles from "@mui/styles/makeStyles";
+import { default as WBadge } from "@mui/material/Badge";
 import { classList } from "../../utils/helpers";
 
 const useStyles = makeStyles(

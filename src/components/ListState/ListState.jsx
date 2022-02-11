@@ -47,4 +47,6 @@ ListMessage.propTypes = {
   message: PropTypes.string,
 };
 
+ListMessage.displayName = "ListMessage";
+
 export default ListMessage;
