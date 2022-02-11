@@ -176,7 +176,7 @@ export const themePrimary = createTheme({
     MuiInputAdornment: {
       styleOverrides: {
         root: {
-          "white-space": `nowrap`,
+          whiteSpace: "nowrap",
         },
       },
     },
@@ -218,22 +218,10 @@ export const themePrimary = createTheme({
     MuiDialogActions: {},
     MuiButton: {
       styleOverrides: {
-        root: {
-          color: "#fff",
-          "&:hover": {
-            "&$disabled": {
-              color: base.colors.text.disabled,
-              border: `1px solid ${base.colors.text.disabled}`,
-            },
-          },
-        },
         contained: {
           borderRadius: base.spacing.unit * 4,
         },
         outlined: { borderRadius: base.spacing.unit * 4 },
-        containedPrimary: {
-          color: base.colors.primary.contrastText,
-        },
       },
     },
     MuiSnackbarContent: {
@@ -302,7 +290,7 @@ export const themePrimary = createTheme({
         },
         input: {
           "&:-webkit-autofill": {
-            "-webkit-text-fill-color": "rgb(255,255,255)",
+            WebkitTextFillColor: "rgb(255,255,255)",
           },
           caretColor: "#00dfa8",
         },
@@ -561,7 +549,7 @@ export const themeSecondary = createTheme({
     MuiInputAdornment: {
       styleOverrides: {
         root: {
-          "white-space": `nowrap`,
+          whiteSpace: "nowrap",
         },
       },
     },

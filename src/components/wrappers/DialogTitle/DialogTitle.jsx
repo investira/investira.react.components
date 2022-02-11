@@ -15,7 +15,7 @@ const DialogTitle = (props) => {
   };
 
   return (
-    <MuiDialogTitle disableTypography {...otherProps}>
+    <MuiDialogTitle {...otherProps}>
       {children}
       {onClose ? (
         <IconButton {...xIconButtonProps}>

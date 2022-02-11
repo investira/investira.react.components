@@ -1,8 +1,8 @@
 import React from "react";
-import { default as WTextField } from "@mui/material/TextField";
+import { default as MuiTextField } from "@mui/material/TextField";
 
 function TextField(props) {
-  return <WTextField {...props} />;
+  return <MuiTextField {...props} />;
 }
 
 export default TextField;
