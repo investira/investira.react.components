@@ -20,9 +20,9 @@ const initProps = { wrapContent: true, fullScreen: false };
 
 // Decorator
 const withDialog = (Component, pProps = initProps) => {
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+  // const Transition = React.forwardRef(function Transition(props, ref) {
+  //   return <Slide direction="up" ref={ref} {...props} />;
+  // });
 
   const styles = {
     actions: {
@@ -228,13 +228,14 @@ const withDialog = (Component, pProps = initProps) => {
                 ? {}
                 : { onClose: handleCloseDialog })}
             >
-              {title.label && typeof title.label === "string" ? (
+              {title.label}
+              {/* {title.label && typeof title.label === "string" ? (
                 <Typography variant={"h6"} color={"textPrimary"}>
                   {title.label}
                 </Typography>
               ) : (
                 title.label
-              )}
+              )} */}
             </DialogTitle>
           );
       }
@@ -374,7 +375,7 @@ const withDialog = (Component, pProps = initProps) => {
           fullWidth
           fullScreen={withProps.fullScreen}
           open={isOpen}
-          TransitionComponent={Transition}
+          //TransitionComponent={Transition}
           onClose={handleCloseDialog}
           //PaperProps={{ style: { pointerEvents: 'none' } }}
         >
