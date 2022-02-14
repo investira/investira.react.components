@@ -366,16 +366,6 @@ export const themePrimary = createTheme({
         },
       },
     },
-    MuiSlider: {
-      styleOverrides: {
-        thumb: {
-          width: "16px",
-          height: "16px",
-          marginTop: "-7px",
-          marginLeft: "-8px",
-        },
-      },
-    },
   },
   palette: {
     mode: "light",
@@ -736,16 +726,6 @@ export const themeSecondary = createTheme({
         root: {
           padding: base.spacing.unit / 2,
           margin: base.spacing.unit,
-        },
-      },
-    },
-    MuiSlider: {
-      styleOverrides: {
-        thumb: {
-          width: "16px",
-          height: "16px",
-          marginTop: "-7px",
-          marginLeft: "-8px",
         },
       },
     },
