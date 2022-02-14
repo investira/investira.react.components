@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { validators } from "investira.sdk";
 import {
   Dialog,
@@ -125,25 +125,25 @@ const withDialog = (Component, pProps = initProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [status, setStatus] = useState(null); //success | error
     const [message, setMessage] = useState(null);
-    let body = {};
-    let formSubmit = null;
+    const body = useRef({});
+    const formSubmit = useRef(null);
 
     const handleOpenDialog = (pProps) => {
-      body = { ...pProps };
+      body.current = { ...pProps };
       setIsOpen(true);
     };
 
     // Fechar Dialog
-    const handleCloseDialog = (e, callback) => {
-      e && e.preventDefault();
-      body = {};
+    const handleCloseDialog = (pEvent, callback) => {
+      pEvent && pEvent.preventDefault();
+      body.current = {};
       setIsOpen(false);
       setStatus(null);
       setMessage(null);
 
       validators.isFunction(callback) && callback();
 
-      e && e.stopPropagation();
+      pEvent && pEvent.stopPropagation();
     };
 
     // Altera para Dialog de sucesso
@@ -176,23 +176,23 @@ const withDialog = (Component, pProps = initProps) => {
 
     // Ação de nova tentativa do Dialog de erro
     const handleRetry = () => {
-      const { retryAction } = body;
+      const { retryAction } = body.current;
       retryAction && retryAction();
     };
 
     const registerSubmitDialog = (pFormikHandleSubmit) => {
-      formSubmit = pFormikHandleSubmit;
+      formSubmit.current = pFormikHandleSubmit;
     };
 
     const handleSubmitDialog = (pEvent) => {
       pEvent && pEvent.preventDefault();
-      formSubmit && formSubmit();
+      formSubmit.current && formSubmit.current();
       pEvent && pEvent.stopPropagation();
     };
 
     // Renders
     const titleRender = (pStatus) => {
-      const { title } = body;
+      const { title } = body.current;
       switch (pStatus) {
         case "success":
           return (
@@ -242,7 +242,7 @@ const withDialog = (Component, pProps = initProps) => {
     };
 
     const contentRender = (pStatus) => {
-      const { content, messages, retryAction, actions } = body;
+      const { content, messages, retryAction, actions } = body.current;
 
       const withProps = {
         ...initProps,
@@ -311,7 +311,7 @@ const withDialog = (Component, pProps = initProps) => {
     };
 
     const actionRender = (pStatus) => {
-      const { actions } = body;
+      const { actions } = body.current;
       switch (pStatus) {
         case "success":
           return null;
@@ -362,7 +362,7 @@ const withDialog = (Component, pProps = initProps) => {
       ...pProps,
     };
 
-    const { title, content, actions } = body;
+    const { title, content, actions } = body.current;
 
     if (!validators.isEmpty(actions) && actions.length > 3) {
       console.error("Não adicione mais que 3 actions para o dialog");
