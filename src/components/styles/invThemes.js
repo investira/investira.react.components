@@ -4,6 +4,11 @@ import { createTheme } from "@mui/material/styles";
 // Tema principal
 export const themePrimary = createTheme({
   components: {
+    MuiTextField: {
+      defaultProps: {
+        variant: "standard",
+      },
+    },
     MuiLinearProgress: {
       styleOverrides: {
         root: {
