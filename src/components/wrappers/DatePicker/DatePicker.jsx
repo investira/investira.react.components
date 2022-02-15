@@ -3,6 +3,7 @@ import makeStyles from "@mui/styles/makeStyles";
 import MomentUtils from "@date-io/moment";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { TextField } from "..";
 import { DatePicker as MuiDatePicker, LocalizationProvider } from "@mui/lab/";
 import AdapterMoment from "@mui/lab/AdapterMoment";
 import FriendlyDatePicker from "../FriendlyDatePicker/FriendlyDatePicker";
@@ -54,6 +55,7 @@ const DatePicker = (props) => {
           refuse={/[^\d]+/gi}
           cancelLabel="fechar"
           className={xClassPicker}
+          renderInput={(params) => <TextField {...params} />}
         />
       </>
     </LocalizationProvider>
