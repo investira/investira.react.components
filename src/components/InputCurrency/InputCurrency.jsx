@@ -38,10 +38,6 @@ const InputCurrency = forwardRef((props, ref) => {
     }
   }
 
-  function getValue() {
-    return value || props.value;
-  }
-
   useEffect(() => {
     if (formatTextValue(props.value) !== value) {
       setValue(formatTextValue(props.value));
@@ -57,7 +53,7 @@ const InputCurrency = forwardRef((props, ref) => {
       type="text"
       pattern="\d*"
       data-numeric-input
-      value={getValue()}
+      value={value || props.value}
       onChange={handleChange}
     />
   );
