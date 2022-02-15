@@ -223,6 +223,12 @@ export const themePrimary = createTheme({
     MuiDialogActions: {},
     MuiButton: {
       styleOverrides: {
+        root: {
+          "&.Mui-disabled": {
+            color: base.colors.text.disabled,
+            border: `1px solid ${base.colors.text.disabled}`,
+          },
+        },
         contained: {
           borderRadius: base.spacing.unit * 4,
         },
@@ -262,7 +268,7 @@ export const themePrimary = createTheme({
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          "&$disabled": {
+          "&.Mui-disabled": {
             color: base.colors.text.disabled,
           },
         },
@@ -271,7 +277,7 @@ export const themePrimary = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          "&$disabled": {
+          "&.Mui-disabled": {
             color: base.colors.text.disabled,
           },
         },
@@ -286,7 +292,7 @@ export const themePrimary = createTheme({
           "&:before": {
             borderBottom: "1px solid rgba(255, 255, 255, 0.87)",
           },
-          "&$disabled": {
+          "&.Mui-disabled": {
             color: base.colors.text.disabled,
             "&:before": {
               borderBottom: `1px solid ${base.colors.text.disabled}`,
@@ -466,11 +472,11 @@ export const themeSecondary = createTheme({
     MuiAccordion: {
       styleOverrides: {
         rounded: {
-          "&:last-child": {
+          "&:last-of-type": {
             borderBottomLeftRadius: "10px",
             borderBottomRightRadius: "10px",
           },
-          "&:first-child": {
+          "&:first-of-type": {
             borderTopLeftRadius: "10px",
             borderTopRightRadius: "10px",
           },
@@ -629,7 +635,7 @@ export const themeSecondary = createTheme({
     MuiFormLabel: {
       styleOverrides: {
         root: {
-          "&$disabled": {
+          "&.Mui-disabled": {
             color: base.colors.text.disabled,
           },
         },
@@ -638,7 +644,7 @@ export const themeSecondary = createTheme({
     MuiInputBase: {
       styleOverrides: {
         root: {
-          "&$disabled": {
+          "&.Mui-disabled": {
             color: base.colors.text.disabled,
           },
         },
@@ -650,7 +656,7 @@ export const themeSecondary = createTheme({
           "&:before": {
             borderBottom: "1px solid rgba(255, 255, 255, 0.87)",
           },
-          "&$disabled": {
+          "&.Mui-disabled": {
             color: base.colors.text.disabled,
             "&:before": {
               borderBottom: `1px solid ${base.colors.text.disabled}`,
