@@ -331,6 +331,9 @@ export const themePrimary = createTheme({
     },
     MuiPaper: {
       styleOverrides: {
+        root: {
+          backgroundImage: `none`,
+        },
         rounded: {
           borderRadius: "8px",
         },
@@ -379,11 +382,10 @@ export const themePrimary = createTheme({
     },
   },
   palette: {
-    mode: "light",
+    mode: "dark",
     ...base.colors.common,
     background: {
-      paper: base.colors.background.main,
-      default: base.colors.background.dark,
+      ...base.colors.background,
     },
     primary: {
       ...base.colors.primary,
