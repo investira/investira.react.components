@@ -48,7 +48,7 @@ const InputCurrency = forwardRef((props, ref) => {
 
   return (
     <input
-      ref={ref}
+      //ref={ref}
       {...inputProps}
       type="text"
       pattern="\d*"

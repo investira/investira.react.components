@@ -139,22 +139,22 @@ export const themePrimary = createTheme({
     },
     MuiSwitch: {
       styleOverrides: {
-        root: {
-          height: "48px",
-        },
-        switchBase: {
-          top: "5px",
-          left: "5px",
-          color: base.colors.secondary.light,
-          "&$checked": {
-            transform: "translateX(26%)",
-          },
-        },
-        track: {
-          backgroundColor: base.colors.background.light,
-          height: "24px",
-          borderRadius: "12px",
-        },
+        // root: {
+        //   height: "48px",
+        // },
+        // switchBase: {
+        //   top: "5px",
+        //   left: "5px",
+        //   color: base.colors.secondary.light,
+        //   "&$checked": {
+        //     transform: "translateX(26%)",
+        //   },
+        // },
+        // track: {
+        //   backgroundColor: base.colors.background.light,
+        //   height: "24px",
+        //   borderRadius: "12px",
+        // },
       },
     },
     MuiChip: {
@@ -504,28 +504,28 @@ export const themeSecondary = createTheme({
     },
     MuiSwitch: {
       styleOverrides: {
-        root: {
-          height: "48px",
-        },
-        switchBase: {
-          top: "5px",
-          left: "5px",
-          color: base.colors.primary.light,
-          "&$checked": {
-            transform: "translateX(26%)",
-          },
-        },
-        track: {
-          backgroundColor: base.colors.background.light,
-          height: "24px",
-          borderRadius: "12px",
-        },
-        colorPrimary: {
-          color: base.colors.primary.main,
-          "&$checked": {
-            color: base.colors.primary.light,
-          },
-        },
+        // root: {
+        //   height: "48px",
+        // },
+        // switchBase: {
+        //   top: "5px",
+        //   left: "5px",
+        //   color: base.colors.primary.light,
+        //   "&$checked": {
+        //     transform: "translateX(26%)",
+        //   },
+        // },
+        // track: {
+        //   backgroundColor: base.colors.background.light,
+        //   height: "24px",
+        //   borderRadius: "12px",
+        // },
+        // colorPrimary: {
+        //   color: base.colors.primary.main,
+        //   "&$checked": {
+        //     color: base.colors.primary.light,
+        //   },
+        // },
       },
     },
     MuiChip: {
