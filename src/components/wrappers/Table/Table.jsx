@@ -1,8 +1,8 @@
-import React from "react";
-import { default as WTable } from "@mui/material/Table";
+import React from 'react';
+import { default as WTable } from '@material-ui/core/Table';
 
 function Table(props) {
-  return <WTable {...props} />;
+    return <WTable {...props} />;
 }
 
 export default Table;

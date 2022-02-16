@@ -1,8 +1,8 @@
-import React from "react";
-import { default as WDialogContent } from "@mui/material/DialogContent";
+import React from 'react';
+import { default as WDialogContent } from '@material-ui/core/DialogContent';
 
 function DialogContent(props) {
-  return <WDialogContent {...props} />;
+    return <WDialogContent {...props} />;
 }
 
 export default DialogContent;

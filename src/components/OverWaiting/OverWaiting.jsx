@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Backdrop, Typography, LinearProgress, Button } from "../wrappers";
 import { Icon } from "../";
 import classNames from "classnames";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {

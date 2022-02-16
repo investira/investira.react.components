@@ -340,11 +340,7 @@ const SearchFilters = memo((props) => {
                               >
                                 {xOption.icon && (
                                   <ListItemIcon>
-                                    <Icon
-                                      iconName={xOption.icon}
-                                      color="primary"
-                                      size={18}
-                                    />
+                                    <Icon iconName={xOption.icon} size={18} />
                                   </ListItemIcon>
                                 )}
                                 <ListItemText>{xOption.label}</ListItemText>

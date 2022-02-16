@@ -1,73 +1,73 @@
-import React from "react";
-import makeStyles from "@mui/styles/makeStyles";
-import MomentUtils from "@date-io/moment";
-import classNames from "classnames";
-import PropTypes from "prop-types";
-import { TextField } from "..";
-import { DatePicker as MuiDatePicker, LocalizationProvider } from "@mui/lab/";
-import AdapterMoment from "@mui/lab/AdapterMoment";
-import FriendlyDatePicker from "../FriendlyDatePicker/FriendlyDatePicker";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import MomentUtils from '@date-io/moment';
+import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import {
+    DatePicker as WDatePicker,
+    MuiPickersUtilsProvider
+} from '@material-ui/pickers/';
 
-import "moment/min/locales";
+import FriendlyDatePicker from '../FriendlyDatePicker/FriendlyDatePicker';
+import 'moment/min/locales';
 
 const useStyles = makeStyles(
-  (theme) => ({
-    root: {
-      position: "relative",
-    },
-    hidePicker: {
-      position: "absolute !important",
-      top: "0",
-      left: "0",
-      opacity: "0",
-      height: "100%",
-    },
-  }),
-  { name: "DatePicker" }
+    theme => ({
+        root: {
+            position: 'relative'
+        },
+        hidePicker: {
+            position: 'absolute !important',
+            top: '0',
+            left: '0',
+            opacity: '0',
+            height: '100%'
+        }
+    }),
+    { name: 'DatePicker' }
 );
 
-const DatePicker = (props) => {
-  const classes = useStyles();
+const DatePicker = props => {
+    const classes = useStyles();
 
-  const { friendly, locked, disabled, ...otherProps } = props;
+    const { friendly, locked, disabled, ...otherProps } = props;
 
-  const xClassPicker = classNames(classes.picker, {
-    [classes.hidePicker]: friendly,
-  });
+    const xClassPicker = classNames(classes.picker, {
+        [classes.hidePicker]: friendly
+    });
 
-  return (
-    <LocalizationProvider dateAdapter={AdapterMoment} locale={props.locale}>
-      <>
-        {friendly && (
-          <FriendlyDatePicker
-            utils={MomentUtils}
-            locale={props.locale}
-            locked={locked}
-            disabled={disabled}
-            {...otherProps}
-          />
-        )}
+    return (
+        <MuiPickersUtilsProvider utils={MomentUtils} locale={props.locale}>
+            <>
+                {friendly && (
+                    <FriendlyDatePicker
+                        utils={MomentUtils}
+                        locale={props.locale}
+                        locked={locked}
+                        disabled={disabled}
+                        {...otherProps}
+                    />
+                )}
 
-        <MuiDatePicker
-          {...otherProps}
-          disabled={locked || disabled}
-          autoComplete={"off"}
-          refuse={/[^\d]+/gi}
-          cancelLabel="fechar"
-          className={xClassPicker}
-          renderInput={(params) => <TextField {...params} />}
-        />
-      </>
-    </LocalizationProvider>
-  );
+                <WDatePicker
+                    {...otherProps}
+                    disabled={locked || disabled}
+                    autoComplete={'off'}
+                    refuse={/[^\d]+/gi}
+                    cancelLabel="fechar"
+                    className={xClassPicker}
+                />
+            </>
+        </MuiPickersUtilsProvider>
+    );
 };
 
 DatePicker.propTypes = {
-  friendly: PropTypes.bool,
+    friendly: PropTypes.bool
 };
 
 DatePicker.defaultProps = {
-  friendly: true,
+    friendly: true
 };
 
 export default DatePicker;

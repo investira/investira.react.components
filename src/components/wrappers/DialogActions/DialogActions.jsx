@@ -1,8 +1,8 @@
-import React from "react";
-import { default as WDialogActions } from "@mui/material/DialogActions";
+import React from 'react';
+import { default as WDialogActions } from '@material-ui/core/DialogActions';
 
 function DialogActions(props) {
-  return <WDialogActions {...props} />;
+    return <WDialogActions {...props} />;
 }
 
 export default DialogActions;

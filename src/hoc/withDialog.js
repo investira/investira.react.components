@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { validators } from "investira.sdk";
 import {
   Dialog,
@@ -20,9 +20,9 @@ const initProps = { wrapContent: true, fullScreen: false };
 
 // Decorator
 const withDialog = (Component, pProps = initProps) => {
-  // const Transition = React.forwardRef(function Transition(props, ref) {
-  //   return <Slide direction="up" ref={ref} {...props} />;
-  // });
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
 
   const styles = {
     actions: {
@@ -69,7 +69,7 @@ const withDialog = (Component, pProps = initProps) => {
             key={"success_ok"}
             variant={"outlined"}
             color={"primary"}
-            //onClick={handleCloseDialog}
+            //onClick={this.handleCloseDialog}
             onClick={onClick}
           >
             OK
@@ -121,78 +121,124 @@ const withDialog = (Component, pProps = initProps) => {
     );
   };
 
-  function WrapComponent(props) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [status, setStatus] = useState(null); //success | error
-    const [message, setMessage] = useState(null);
-    const body = useRef({});
-    const formSubmit = useRef(null);
+  class wrapComponent extends React.Component {
+    initialState = {
+      isOpen: false,
+      status: null, //success | error
+      message: null,
+    };
 
-    const handleOpenDialog = (pProps) => {
-      body.current = { ...pProps };
-      setIsOpen(true);
+    body = {};
+
+    state = {
+      ...this.initialState,
+    };
+
+    formSubmit = null;
+
+    /**
+     * Exibe o Dialog
+     *
+     * @param {object} pProps
+     * {
+     *   title: {
+     *       label: 'Teste'
+     *   },
+     *  content: <p>Apenas um conteúdo de teste</p>,
+     *   actions: [
+     *       {
+     *            label: 'Action',
+     *            onClick: handleAction
+     *        }
+     *    ],
+     *    messages: {
+     *        success: {
+     *            title: 'Sucesso!',
+     *            content:
+     *                'Contato foi bloqueado, a partir de agora nenhuma das suas infomações serão compartilhadas com José Silva.'
+     *        },
+     *        error: {
+     *           title: 'Falha ao bloquear',
+     *            content: 'Ocorreu um erro ao tentar bloquear o contato.'
+     *        }
+     *    },
+     *    retryAction: handleAction
+     * }
+     */
+
+    handleOpenDialog = (pProps) => {
+      this.body = { ...pProps };
+
+      this.setState({
+        isOpen: true,
+      });
     };
 
     // Fechar Dialog
-    const handleCloseDialog = (pEvent, callback) => {
-      pEvent && pEvent.preventDefault();
-      body.current = {};
-      setIsOpen(false);
-      setStatus(null);
-      setMessage(null);
-
-      validators.isFunction(callback) && callback();
-
-      pEvent && pEvent.stopPropagation();
+    handleCloseDialog = (e, callback) => {
+      e && e.preventDefault();
+      this.body = {};
+      this.setState(
+        {
+          ...this.initialState,
+        },
+        () => {
+          validators.isFunction(callback) && callback();
+        }
+      );
+      e && e.stopPropagation();
     };
 
     // Altera para Dialog de sucesso
-    const handleSuccess = (pMessage = null) => {
-      setStatus("success");
-      setMessage(pMessage);
-      setIsOpen(isOpen);
+    handleSuccess = (pMessage = null) => {
+      this.setState({
+        ...this.state,
+        status: "success",
+        message: pMessage,
+      });
     };
 
     // Altera para Dialog de erro
-    const handleError = (pMessage = null) => {
-      setStatus("error");
-      setMessage(pMessage);
-      setIsOpen(isOpen);
+    handleError = (pMessage = null) => {
+      this.setState({
+        ...this.state,
+        status: "error",
+        message: pMessage,
+      });
     };
 
     // Altera para Dialog de loading
-    const handleFetching = () => {
-      setStatus("fetching");
-      setMessage(message);
-      setIsOpen(isOpen);
+    handleFetching = () => {
+      this.setState({ ...this.state, status: "fetching" });
     };
 
     // Reinicia para Dialog default
-    const handleResetStatus = () => {
-      setStatus("null");
-      setMessage(message);
-      setIsOpen(isOpen);
+    handleResetStatus = () => {
+      this.setState({ ...this.state, status: "null" });
     };
 
     // Ação de nova tentativa do Dialog de erro
-    const handleRetry = () => {
-      const { retryAction } = body.current;
+    handleRetry = () => {
+      const { retryAction } = this.body;
       retryAction && retryAction();
     };
 
-    const registerSubmitDialog = (pFormikHandleSubmit) => {
-      formSubmit.current = pFormikHandleSubmit;
+    registerSubmitDialog = (pFormikHandleSubmit) => {
+      this.formSubmit = pFormikHandleSubmit;
+      // if (validators.isNull(this.formSubmit)) {
+      //     this.formSubmit = pFormikHandleSubmit;
+      // }
     };
 
-    const handleSubmitDialog = (pEvent) => {
+    handleSubmitDialog = (pEvent) => {
       pEvent && pEvent.preventDefault();
-      formSubmit.current && formSubmit.current();
+      this.formSubmit && this.formSubmit();
       pEvent && pEvent.stopPropagation();
     };
 
     // Renders
-    const titleRender = (pStatus) => {
-      const { title } = body.current;
+    titleRender = (pStatus) => {
+      const { title } = this.body;
       switch (pStatus) {
         case "success":
           return (
@@ -201,7 +247,7 @@ const withDialog = (Component, pProps = initProps) => {
                 textAlign: "right",
                 justifyContent: "flex-end",
               }}
-              onClose={handleCloseDialog}
+              onClose={this.handleCloseDialog}
             />
           );
         case "error":
@@ -211,7 +257,7 @@ const withDialog = (Component, pProps = initProps) => {
                 textAlign: "right",
                 justifyContent: "flex-end",
               }}
-              onClose={handleCloseDialog}
+              onClose={this.handleCloseDialog}
             />
           );
         case "fetching":
@@ -226,23 +272,23 @@ const withDialog = (Component, pProps = initProps) => {
               }}
               {...(title.onclose === false
                 ? {}
-                : { onClose: handleCloseDialog })}
+                : { onClose: this.handleCloseDialog })}
             >
-              {title.label}
-              {/* {title.label && typeof title.label === "string" ? (
+              {title.label && typeof title.label === "string" ? (
                 <Typography variant={"h6"} color={"textPrimary"}>
                   {title.label}
                 </Typography>
               ) : (
                 title.label
-              )} */}
+              )}
             </DialogTitle>
           );
       }
     };
 
-    const contentRender = (pStatus) => {
-      const { content, messages, retryAction, actions } = body.current;
+    contentRender = (pStatus) => {
+      const { content, messages, retryAction, actions } = this.body;
+      const { message } = this.state;
 
       const withProps = {
         ...initProps,
@@ -256,7 +302,7 @@ const withDialog = (Component, pProps = initProps) => {
               <SuccessContent
                 messages={messages}
                 message={message}
-                onClick={handleCloseDialog}
+                onClick={this.handleCloseDialog}
                 width={175}
                 height={175}
               />
@@ -267,7 +313,9 @@ const withDialog = (Component, pProps = initProps) => {
               height={100}
               messages={messages}
               message={message}
-              onClick={(e) => handleCloseDialog(e, messages?.success?.callback)}
+              onClick={(e) =>
+                this.handleCloseDialog(e, messages?.success?.callback)
+              }
             />
           );
         case "error":
@@ -279,7 +327,7 @@ const withDialog = (Component, pProps = initProps) => {
                 messages={messages}
                 message={message}
                 retryAction={retryAction}
-                onClick={handleRetry}
+                onClick={this.handleRetr}
               />
             </CenterInView>
           ) : (
@@ -289,7 +337,7 @@ const withDialog = (Component, pProps = initProps) => {
               messages={messages}
               message={message}
               retryAction={retryAction}
-              onClick={handleRetry}
+              onClick={this.handleRetr}
             />
           );
 
@@ -310,8 +358,8 @@ const withDialog = (Component, pProps = initProps) => {
       }
     };
 
-    const actionRender = (pStatus) => {
-      const { actions } = body.current;
+    actionRender = (pStatus) => {
+      const { actions } = this.body;
       switch (pStatus) {
         case "success":
           return null;
@@ -326,7 +374,7 @@ const withDialog = (Component, pProps = initProps) => {
                 const xActionProps = {
                   onClick: xAction.onClick,
                   ...(xAction.type === "submit" && {
-                    onClick: handleSubmitDialog,
+                    onClick: this.handleSubmitDialog,
                   }),
                   style: { pointerEvents: "all" },
                   color: xAction.color || "primary",
@@ -346,55 +394,58 @@ const withDialog = (Component, pProps = initProps) => {
       }
     };
 
-    const xProps = {
-      onOpenDialog: handleOpenDialog,
-      onCloseDialog: handleCloseDialog,
-      onSuccess: handleSuccess,
-      onError: handleError,
-      onFetching: handleFetching,
-      onResetStatus: handleResetStatus,
-      registerSubmit: registerSubmitDialog,
-      ...props,
-    };
+    render() {
+      const xProps = {
+        onOpenDialog: this.handleOpenDialog,
+        onCloseDialog: this.handleCloseDialog,
+        onSuccess: this.handleSuccess,
+        onError: this.handleError,
+        onFetching: this.handleFetching,
+        onResetStatus: this.handleResetStatus,
+        registerSubmit: this.registerSubmitDialog,
+        ...this.props,
+      };
 
-    const withProps = {
-      ...initProps,
-      ...pProps,
-    };
+      const withProps = {
+        ...initProps,
+        ...pProps,
+      };
 
-    const { title, content, actions } = body.current;
+      const { status } = this.state;
+      const { title, content, actions } = this.body;
 
-    if (!validators.isEmpty(actions) && actions.length > 3) {
-      console.error("Não adicione mais que 3 actions para o dialog");
+      if (!validators.isEmpty(actions) && actions.length > 3) {
+        console.error("Não adicione mais que 3 actions para o dialog");
+      }
+
+      return (
+        <>
+          <Component {...xProps} />
+          <Dialog
+            fullWidth
+            fullScreen={withProps.fullScreen}
+            open={this.state.isOpen}
+            TransitionComponent={Transition}
+            onClose={this.handleCloseDialog}
+            //PaperProps={{ style: { pointerEvents: 'none' } }}
+          >
+            {!validators.isEmpty(title) && this.titleRender(status)}
+
+            {!validators.isNull(content) &&
+              (withProps.wrapContent ? (
+                <DialogContent>{this.contentRender(status)}</DialogContent>
+              ) : (
+                this.contentRender(status)
+              ))}
+
+            {!validators.isEmpty(actions) && this.actionRender(status)}
+          </Dialog>
+        </>
+      );
     }
-
-    return (
-      <>
-        <Component {...xProps} />
-        <Dialog
-          fullWidth
-          fullScreen={withProps.fullScreen}
-          open={isOpen}
-          //TransitionComponent={Transition}
-          onClose={handleCloseDialog}
-          //PaperProps={{ style: { pointerEvents: 'none' } }}
-        >
-          {!validators.isEmpty(title) && titleRender(status)}
-
-          {!validators.isNull(content) &&
-            (withProps.wrapContent ? (
-              <DialogContent>{contentRender(status)}</DialogContent>
-            ) : (
-              contentRender(status)
-            ))}
-
-          {!validators.isEmpty(actions) && actionRender(status)}
-        </Dialog>
-      </>
-    );
   }
 
-  return WrapComponent;
+  return wrapComponent;
 };
 
 export default withDialog;

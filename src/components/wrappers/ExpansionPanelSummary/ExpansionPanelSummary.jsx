@@ -1,13 +1,13 @@
-import React from "react";
-import { default as MuiExpansionPanelSummary } from "@mui/material/AccordionSummary";
+import React from 'react';
+import { default as WExpansionPanelSummary } from '@material-ui/core/ExpansionPanelSummary';
 
 function ExpansionPanelSummary(props) {
-  const { children, ...otherProps } = props;
-  return (
-    <MuiExpansionPanelSummary {...otherProps}>
-      {children}
-    </MuiExpansionPanelSummary>
-  );
+    const { children, ...otherProps } = props;
+    return (
+        <WExpansionPanelSummary {...otherProps}>
+            {children}
+        </WExpansionPanelSummary>
+    );
 }
 
 export default ExpansionPanelSummary;

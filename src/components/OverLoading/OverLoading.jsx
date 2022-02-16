@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { CircularProgress, Backdrop, Typography } from "../wrappers";
 import classNames from "classnames";
-import makeStyles from "@mui/styles/makeStyles";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {

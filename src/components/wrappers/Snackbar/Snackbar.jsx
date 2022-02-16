@@ -1,5 +1,5 @@
 import React from "react";
-import { default as MuiSnackbar } from "@mui/material/Snackbar";
+import { default as MuiSnackbar } from "@material-ui/core/Snackbar";
 
 function Snackbar(props) {
   const { children, onClose, ...xPassThruAttrs } = props;

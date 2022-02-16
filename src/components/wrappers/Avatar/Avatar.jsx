@@ -1,6 +1,6 @@
 import React from "react";
-import makeStyles from "@mui/styles/makeStyles";
-import { default as WAvatar } from "@mui/material/Avatar";
+import { makeStyles } from "@material-ui/core/styles";
+import { default as WAvatar } from "@material-ui/core/Avatar";
 import {
   red,
   purple,
@@ -9,7 +9,7 @@ import {
   lightBlue,
   amber,
   pink,
-} from "@mui/material/colors";
+} from "@material-ui/core/colors";
 import { classList } from "../../utils/helpers";
 
 const useStyles = makeStyles((theme) => ({

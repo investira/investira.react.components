@@ -1,21 +1,24 @@
-import React from "react";
-import { TextField } from "..";
-import { DatePicker as MuiDatePicker, LocalizationProvider } from "@mui/lab/";
-import AdapterMoment from "@mui/lab/AdapterMoment";
+import React from 'react';
+import MomentUtils from '@date-io/moment';
+//import { Icon } from '../../app/components';
+import {
+    KeyboardDatePicker as WKeyboardDatePicker,
+    MuiPickersUtilsProvider
+} from '@material-ui/pickers/';
 
-import "moment/min/locales";
+import 'moment/min/locales';
 
-const KeyboardDatePicker = (props) => {
-  return (
-    <LocalizationProvider dateAdapter={AdapterMoment} locale={props.locale}>
-      <MuiDatePicker
-        {...props}
-        refuse={/[^\d]+/gi}
-        cancelLabel="fechar"
-        renderInput={(params) => <TextField {...params} />}
-      />
-    </LocalizationProvider>
-  );
+const KeyboardDatePicker = props => {
+    return (
+        <MuiPickersUtilsProvider utils={MomentUtils} locale={props.locale}>
+            <WKeyboardDatePicker
+                {...props}
+                // keyboardIcon={<Icon iconName="calendar" size="21" />}
+                refuse={/[^\d]+/gi}
+                cancelLabel="fechar"
+            />
+        </MuiPickersUtilsProvider>
+    );
 };
 
 export default KeyboardDatePicker;

@@ -1,4 +1,4 @@
-import ListItemSecondaryAction from "@mui/material/ListItemSecondaryAction";
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 
 /* 
     Exportando diretamente para manter a assinatura. 

@@ -1,8 +1,8 @@
-import React from "react";
-import { default as WMenu } from "@mui/material/Menu";
+import React from 'react';
+import { default as WMenu } from '@material-ui/core/Menu';
 
 function Menu(props) {
-  return <WMenu {...props} />;
+    return <WMenu {...props} />;
 }
 
 export default Menu;
