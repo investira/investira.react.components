@@ -27,7 +27,7 @@ const Crood = memo((props) => {
 
   const { onNextView, onPrevView, prevView, onReset } = deckContext || {};
 
-  const onConfirmDelete = (pData, pCallback, pView) => {
+  const onConfirmDelete = (pData, pCallback, pResetToView) => {
     const { itemData, onDelete } = crudContext;
     const xData = pData || itemData;
     if (deckContext) {
@@ -37,8 +37,9 @@ const Crood = memo((props) => {
           pCallback && pCallback();
           !validators.isEmpty(prevView) && setDeleted(true);
           setTimeout(() => {
-            if (pView) {
-              onReset(pView);
+            if (pResetToView) {
+              props.onCloseDialog();
+              onReset(pResetToView);
             } else {
               onPrevView();
             }
