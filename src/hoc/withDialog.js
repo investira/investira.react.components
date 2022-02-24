@@ -5,7 +5,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Slide,
+  //Slide,
   Success,
   Error,
   Button,
@@ -125,9 +125,39 @@ const withDialog = (Component, pProps = initProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [status, setStatus] = useState(null); //success | error
     const [message, setMessage] = useState(null);
+
     const body = useRef({});
     const formSubmit = useRef(null);
 
+    /**
+     * Exibe o Dialog
+     *
+     * @param {object} pProps
+     * {
+     *   title: {
+     *       label: 'Teste'
+     *   },
+     *  content: <p>Apenas um conteúdo de teste</p>,
+     *   actions: [
+     *       {
+     *            label: 'Action',
+     *            onClick: handleAction
+     *        }
+     *    ],
+     *    messages: {
+     *        success: {
+     *            title: 'Sucesso!',
+     *            content:
+     *                'Contato foi bloqueado, a partir de agora nenhuma das suas infomações serão compartilhadas com José Silva.'
+     *        },
+     *        error: {
+     *           title: 'Falha ao bloquear',
+     *            content: 'Ocorreu um erro ao tentar bloquear o contato.'
+     *        }
+     *    },
+     *    retryAction: handleAction
+     * }
+     */
     const handleOpenDialog = (pProps) => {
       body.current = { ...pProps };
       setIsOpen(true);
@@ -375,8 +405,8 @@ const withDialog = (Component, pProps = initProps) => {
           fullWidth
           fullScreen={withProps.fullScreen}
           open={isOpen}
-          //TransitionComponent={Transition}
           onClose={handleCloseDialog}
+          //TransitionComponent={Transition}
           //PaperProps={{ style: { pointerEvents: 'none' } }}
         >
           {!validators.isEmpty(title) && titleRender(status)}
