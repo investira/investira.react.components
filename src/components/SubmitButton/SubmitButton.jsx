@@ -5,10 +5,12 @@ import { Button, CircularProgress } from "../";
 import Style from "./SubmitButton.module.scss";
 
 const SubmitButton = memo((props) => {
-  const { children, isSubmitting, variant, disabled, ...restProps } = props;
+  const { children, isSubmitting, variant, disabled, fullWidth, ...restProps } =
+    props;
   return (
     <div className={Style.root}>
       <Button
+        fullWidth={fullWidth}
         {...restProps}
         type={"submit"}
         color={"primary"}
