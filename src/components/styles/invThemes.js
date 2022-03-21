@@ -192,13 +192,6 @@ export const themePrimary = createTheme({
         },
       },
     },
-    MuiDialog: {
-      styleOverrides: {
-        paper: {
-          margin: 24,
-        },
-      },
-    },
     MuiDrawer: {
       styleOverrides: {
         paper: {
@@ -560,13 +553,6 @@ export const themeSecondary = createTheme({
       styleOverrides: {
         root: {
           boxShadow: `0 0 8px ${base.colors.primary.main}`,
-        },
-      },
-    },
-    MuiDialog: {
-      styleOverrides: {
-        paper: {
-          margin: 24,
         },
       },
     },
