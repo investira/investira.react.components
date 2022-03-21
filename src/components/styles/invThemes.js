@@ -195,7 +195,7 @@ export const themePrimary = createTheme({
     MuiDialog: {
       styleOverrides: {
         paper: {
-          margin: "0px",
+          margin: 24,
         },
       },
     },
@@ -333,7 +333,6 @@ export const themePrimary = createTheme({
       styleOverrides: {
         root: {
           backgroundImage: `none`,
-          margin: "0px",
         },
         rounded: {
           borderRadius: "8px",
@@ -567,7 +566,7 @@ export const themeSecondary = createTheme({
     MuiDialog: {
       styleOverrides: {
         paper: {
-          margin: "0px",
+          margin: 24,
         },
       },
     },
