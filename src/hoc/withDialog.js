@@ -180,28 +180,24 @@ const withDialog = (Component, pProps = initProps) => {
     const handleSuccess = (pMessage = null) => {
       setStatus("success");
       setMessage(pMessage);
-      setIsOpen(isOpen);
     };
 
     // Altera para Dialog de erro
     const handleError = (pMessage = null) => {
       setStatus("error");
       setMessage(pMessage);
-      setIsOpen(isOpen);
     };
 
     // Altera para Dialog de loading
     const handleFetching = () => {
       setStatus("fetching");
       setMessage(message);
-      setIsOpen(isOpen);
     };
 
     // Reinicia para Dialog default
     const handleResetStatus = () => {
       setStatus("null");
       setMessage(message);
-      setIsOpen(isOpen);
     };
 
     // Ação de nova tentativa do Dialog de erro
