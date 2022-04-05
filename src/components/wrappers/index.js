@@ -60,6 +60,7 @@ export { default as Select } from "./Select";
 export { default as Slide } from "./Slide";
 export { default as Slider } from "./Slider";
 export { default as Snackbar } from "./Snackbar";
+export { default as Stack } from "./Stack";
 export { default as SwipeableDrawer } from "./SwipeableDrawer";
 export { default as Switch } from "./Switch";
 export { default as Table } from "./Table";
