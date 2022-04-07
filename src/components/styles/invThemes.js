@@ -9,6 +9,13 @@ export const themePrimary = createTheme({
         variant: "standard",
       },
     },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: base.colors.secondary.main,
+        },
+      },
+    },
     MuiLinearProgress: {
       styleOverrides: {
         root: {
