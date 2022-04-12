@@ -4,6 +4,15 @@ import { createTheme } from "@mui/material/styles";
 // Tema principal
 export const themePrimary = createTheme({
   components: {
+    MuiCardContent: {
+      styleOverrides: {
+        root: {
+          "&:last-child": {
+            paddingBottom: "16px",
+          },
+        },
+      },
+    },
     MuiTextField: {
       defaultProps: {
         variant: "standard",
