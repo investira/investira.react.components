@@ -3503,6 +3503,11 @@ constants-browserify@^1.0.0:
   resolved "https://registry.yarnpkg.com/constants-browserify/-/constants-browserify-1.0.0.tgz#c20b96d8c617748aaf1c16021760cd27fcb8cb75"
   integrity sha1-wguW2MYXdIqvHBYCF2DNJ/y4y3U=
 
+contactjs@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/contactjs/-/contactjs-1.4.0.tgz#11473766e641ef4dfc2b3c5dc268cf3a8236d049"
+  integrity sha512-NnudMJiNTWYqWhJyUfAvljlOsu32paz/icZ/+1LcZSUZz3WNsV7wnpz6b7MCXHXutwoA5/P+DAuL1PBjh1lb3A==
+
 content-disposition@0.5.4:
   version "0.5.4"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.4.tgz#8b82b4efac82512a02bb0b1dcec9d2c5e8eb5bfe"
