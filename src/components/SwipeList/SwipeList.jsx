@@ -1,70 +1,49 @@
-import React, { memo, useEffect, useState, useRef } from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
-import contact from "contactjs";
-import { Box, Stack, Grid } from "../";
+import { Pagination } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
+import "swiper/swiper.scss";
+import "swiper/modules/navigation/navigation.scss";
+import "swiper/modules/pagination/pagination.scss";
+import Style from "./SwipeList.module.scss";
 
 const SwipeList = memo((props) => {
-  console.log("SwipeList", props);
-
-  const areaRef = useRef(null);
-  const warpRef = useRef(null);
-  const itemsRef = [];
-
-  const xId = `swipe-list-${props.id}`;
-  const Component = props.child;
-
+  // HANDLERS
   const handleClick = (pData, pIndex, pEvent) => () => {
     if (props.onClick) {
       props.onClick(pData, pIndex, pEvent);
     }
   };
 
-  function getElemRect(pElemRef) {
-    console.log("getItemRect", pElemRef);
-  }
-
-  useEffect(() => {
-    console.log("areaRef.current", areaRef.current);
-    console.log("warpRef.current", warpRef.current);
-    console.log("itemsRef", itemsRef);
-    if (!validators.isEmpty(itemsRef)) {
-      getElemRect(itemsRef[0]);
-    }
-  }, [props.data]);
+  // RENDER
+  const xId = `swipe-list-${props.id}`;
+  const Component = props.child;
 
   return (
-    <Stack
-      id={xId}
-      ref={areaRef}
-      sx={{
-        touchAction: "pan-y",
-        position: "relative",
-        overflow: "overflow-x",
-        maxHeight: "100%",
-      }}
+    <Swiper
+      pagination={props.pagination}
+      modules={[Pagination]}
+      centeredSlides={props.centeredSlides}
+      centeredSlidesBounds={props.centeredSlidesBounds}
+      slidesPerView={props.slidesPerView}
+      spaceBetween={props.spaceBetween}
+      className={Style.container}
     >
-      <Stack ref={warpRef} direction="row" spacing={1} mx={2} flexGrow={1}>
-        {!validators.isEmpty(props.data) &&
-          Object.values(props.data).map((xItem, xIndex) => {
-            const xElemKey = `${xId}-${xIndex}`;
-            return (
-              <div
-                key={xElemKey}
-                id={xElemKey}
-                ref={(elem) => (itemsRef[xIndex] = elem)}
-                data-index={xIndex}
-              >
-                <Component
-                  {...props.childProps}
-                  data={xItem}
-                  onClick={(e) => handleClick(xItem, xIndex, e)}
-                />
-              </div>
-            );
-          })}
-      </Stack>
-    </Stack>
+      {!validators.isEmpty(props.data) &&
+        Object.values(props.data).map((xItem, xIndex) => {
+          const xElemKey = `${xId}-item-${xIndex}`;
+          return (
+            <SwiperSlide key={xElemKey} style={{ width: props.slideWidth }}>
+              <Component
+                {...props.childProps}
+                data={xItem}
+                onClick={(e) => handleClick(xItem, xIndex, e)}
+              />
+            </SwiperSlide>
+          );
+        })}
+    </Swiper>
   );
 });
 
@@ -74,13 +53,24 @@ SwipeList.propTypes = {
   child: PropTypes.elementType.isRequired,
   childProps: PropTypes.object,
   keyValue: PropTypes.string,
-  stepInicialFocus: PropTypes.number,
+  pagination: PropTypes.bool,
+  slideWidth: PropTypes.number,
+  spaceBetween: PropTypes.number,
+  centeredSlides: PropTypes.bool,
+  centeredSlidesBounds: PropTypes.bool,
+  slidesPerView: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 SwipeList.defaultProps = {
   id: "default",
   data: [],
-  stepInicialFocus: 0,
+  keyValue: "id",
+  pagination: true,
+  slideWidth: 343,
+  spaceBetween: 8,
+  centeredSlides: true,
+  centeredSlidesBounds: true,
+  slidesPerView: "auto",
 };
 
 export default SwipeList;
