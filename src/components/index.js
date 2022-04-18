@@ -23,6 +23,7 @@ export { default as DeckProvider } from "./DeckProvider";
 export { default as DeckView } from "./DeckView";
 export { default as Divisor } from "./Divisor";
 export { default as DndProvider } from "./DndProvider";
+export { default as DraggableList } from "./DraggableList";
 export { default as FilterBar } from "./FilterBar";
 export { default as Format } from "./Format";
 export { default as FluidPaper } from "./FluidPaper";
