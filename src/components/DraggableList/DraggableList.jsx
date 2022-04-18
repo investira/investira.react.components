@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { objects, arrays, validators } from "investira.sdk";
 import { List, ListSubheader } from "../";
-import { sortByAttr } from "../utils";
+import { sortByAttr } from "../utils/helpers";
 import DraggableItem from "./DraggableItem";
 
 const DraggableList = memo((props) => {
