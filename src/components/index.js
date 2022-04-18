@@ -69,4 +69,4 @@ export { default as Search } from "./Search";
 export { default as SubmitButton } from "./SubmitButton";
 export { default as SwitchIconButton } from "./SwitchIconButton";
 export { default as SwipeList } from "./SwipeList";
-//export { default as SwipeGridList } from "./SwipeGridList";
+export { default as SwipeGridList } from "./SwipeGridList";
