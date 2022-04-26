@@ -13,7 +13,6 @@ import Style from "./SwipeGridList.module.scss";
 const SwipeGridList = memo((props) => {
   const [warpHeight, setWarpHeight] = useState(300);
   const slideRef = useRef(null);
-
   const PAGINATION_HEIGHT = 28;
 
   // HANDLERS
@@ -47,6 +46,7 @@ const SwipeGridList = memo((props) => {
       <Swiper
         slidesPerView={props.columns}
         grid={{
+          fill: "row",
           rows: props.rows,
         }}
         spaceBetween={props.spaceBetween}
