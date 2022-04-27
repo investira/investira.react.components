@@ -42,33 +42,31 @@ const SwipeGridList = memo((props) => {
   };
 
   return (
-    <div style={{ height: warpHeight }}>
-      <Swiper
-        slidesPerView={props.columns}
-        grid={{
-          fill: "row",
-          rows: props.rows,
-        }}
-        spaceBetween={props.spaceBetween}
-        pagination={props.pagination}
-        modules={[Grid, Pagination]}
-        className={Style.gridContainer}
-      >
-        {!validators.isEmpty(props.data) &&
-          Object.values(props.data).map((xItem, xIndex) => {
-            const xElemKey = `${xId}-grid-item-${xIndex}`;
-            return (
-              <SwiperSlide key={xElemKey} ref={slideRef} style={xSlideStyle}>
-                <Component
-                  {...props.childProps}
-                  data={xItem}
-                  onClick={(e) => handleClick(xItem, xIndex, e)}
-                />
-              </SwiperSlide>
-            );
-          })}
-      </Swiper>
-    </div>
+    <Swiper
+      slidesPerView={props.columns}
+      grid={{
+        fill: "row",
+        rows: props.rows,
+      }}
+      spaceBetween={props.spaceBetween}
+      pagination={props.pagination}
+      modules={[Grid, Pagination]}
+      className={Style.gridContainer}
+    >
+      {!validators.isEmpty(props.data) &&
+        Object.values(props.data).map((xItem, xIndex) => {
+          const xElemKey = `${xId}-grid-item-${xIndex}`;
+          return (
+            <SwiperSlide key={xElemKey} ref={slideRef} style={xSlideStyle}>
+              <Component
+                {...props.childProps}
+                data={xItem}
+                onClick={(e) => handleClick(xItem, xIndex, e)}
+              />
+            </SwiperSlide>
+          );
+        })}
+    </Swiper>
   );
 });
 
