@@ -1,12 +1,18 @@
-import React, { memo, useState, useEffect } from "react";
+import React, { memo, useState, useEffect, useRef } from "react";
 import { validators } from "investira.sdk";
 import PropTypes from "prop-types";
 import { DeckContext } from "../";
+import { useRouteMatch, useHistory } from "react-router-dom";
 
 const DeckProvider = memo((props) => {
   const [activeView, setActive] = useState(null);
   const [prevView, setPreview] = useState([]);
   const [beforeView, setBeforeView] = useState(null);
+
+  const URL = useRef(null);
+
+  const match = useRouteMatch();
+  const history = useHistory();
 
   const isActive = (pId) => {
     return pId === activeView;
@@ -14,6 +20,10 @@ const DeckProvider = memo((props) => {
 
   const isBefore = (pId) => {
     return pId === beforeView;
+  };
+
+  const pushRoute = (pId) => {
+    history.push(`${URL.current}/${pId}`);
   };
 
   const handleNextView = (pId) => {
@@ -24,10 +34,17 @@ const DeckProvider = memo((props) => {
     setBeforeView(activeView);
   };
 
+  const handleFowardView = (pId) => {
+    pushRoute(pId);
+    handleNextView(pId);
+  };
+
   const handlePrevView = (pCallback) => {
     if (!validators.isEmpty(prevView)) {
       let xPrevView = [...prevView];
       const xActive = xPrevView.pop();
+
+      props.withRoute && history.goBack();
 
       setActive(xActive);
       setPreview(xPrevView);
@@ -44,6 +61,9 @@ const DeckProvider = memo((props) => {
   };
 
   useEffect(() => {
+    URL.current = match.url;
+    //pushRoute(props.initialView);
+
     setActive(props.initialView);
     setPreview(props.initialPrev);
   }, [props.initialView, props.initialPrev]);
@@ -61,6 +81,7 @@ const DeckProvider = memo((props) => {
           onNextView: handleNextView,
           onPrevView: handlePrevView,
           onReset: handleResetState,
+          onFowardView: handleFowardView,
         }}
       >
         {props.children}
@@ -74,11 +95,13 @@ DeckProvider.displayName = "DeckProvider";
 DeckProvider.propTypes = {
   initialView: PropTypes.string.isRequired,
   initialPrev: PropTypes.array,
+  withRoute: PropTypes.bool,
 };
 
 DeckProvider.defaultProps = {
   value: {},
   initialPrev: [],
+  withRoute: false,
 };
 
 export default DeckProvider;
