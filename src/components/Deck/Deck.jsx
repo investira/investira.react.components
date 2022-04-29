@@ -1,109 +1,102 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { validators } from 'investira.sdk';
-import Style from './Deck.module.scss';
+import React, { memo } from "react";
+import PropTypes from "prop-types";
+import { validators } from "investira.sdk";
+import Style from "./Deck.module.scss";
 
-export class Deck extends Component {
-    viewState(pId) {
-        let classname = Style.view;
+const Deck = memo((props) => {
+  function isActive(activeView, id) {
+    if (activeView === id) {
+      return true;
+    }
+    return false;
+  }
 
-        if (this.isPrev(this.props.prevView, pId)) {
-            classname += ` ${Style.viewPrev} `;
-        }
+  function isPrev(prevView, id) {
+    if (prevView.includes(id)) {
+      return true;
+    }
+    return false;
+  }
 
-        if (this.isActive(this.props.activeView, pId)) {
-            classname += ` ${Style.viewActive} `;
-        }
+  function viewState(pId) {
+    let classname = Style.view;
 
-        if (
-            !this.isActive(this.props.activeView, pId) &&
-            !this.isPrev(this.props.prevView, pId)
-        ) {
-            classname += ` ${Style.viewOffset} `;
-        }
-
-        return classname;
+    if (isPrev(props.prevView, pId)) {
+      classname += ` ${Style.viewPrev} `;
     }
 
-    isActive(activeView, id) {
-        if (activeView === id) {
-            return true;
-        }
-        return false;
+    if (isActive(props.activeView, pId)) {
+      classname += ` ${Style.viewActive} `;
     }
 
-    isPrev(prevView, id) {
-        if (prevView.includes(id)) {
-            return true;
-        }
-        return false;
+    if (!isActive(props.activeView, pId) && !isPrev(props.prevView, pId)) {
+      classname += ` ${Style.viewOffset} `;
     }
 
-    spreadChildren = pChildren => {
-        const xNewChildren = [];
+    return classname;
+  }
 
-        for (const child of pChildren) {
-            if (validators.isArray(child)) {
-                xNewChildren.push(...child);
-            } else {
-                xNewChildren.push(child);
-            }
-        }
+  const spreadChildren = (pChildren) => {
+    const xNewChildren = [];
 
-        return xNewChildren;
-    };
-
-    styleView = (pActiveView, pChildId, pIndex) => {
-        const isActive = pActiveView === pChildId;
-        return isActive ? { zIndex: 1101 + pIndex } : { zIndex: 1100 };
-    };
-
-    mapChildrens(pChildren) {
-        const xChildrens = this.spreadChildren(pChildren);
-        const xElements = xChildrens.map((xChild, xIndex) => {
-            if (xChild !== false) {
-                return (
-                    <div
-                        key={xIndex}
-                        id={`${xChild.props.id}`}
-                        className={this.viewState(xChild.props.id)}
-                        style={this.styleView(
-                            this.props.activeView,
-                            xChild.props.id,
-                            xIndex
-                        )}>
-                        {xChild}
-                    </div>
-                );
-            }
-            return false;
-        });
-
-        return xElements;
+    for (const child of pChildren) {
+      if (validators.isArray(child)) {
+        xNewChildren.push(...child);
+      } else {
+        xNewChildren.push(child);
+      }
     }
 
-    render() {
-        const { children, id } = this.props;
+    return xNewChildren;
+  };
+
+  const styleView = (pActiveView, pChildId, pIndex) => {
+    const isActive = pActiveView === pChildId;
+    return isActive ? { zIndex: 1101 + pIndex } : { zIndex: 1100 };
+  };
+
+  function mapChildrens(pChildren) {
+    const xChildrens = spreadChildren(pChildren);
+    const xElements = xChildrens.map((xChild, xIndex) => {
+      if (xChild !== false) {
         return (
-            <div id={`deck-${id}`} className={Style.deck}>
-                <div id={`deck-${id}__wrap`} className={Style.wrap}>
-                    {children.constructor === Array
-                        ? this.mapChildrens(children)
-                        : this.props.children}
-                </div>
-            </div>
+          <div
+            key={xIndex}
+            id={`${xChild.props.id}`}
+            className={viewState(xChild.props.id)}
+            style={styleView(props.activeView, xChild.props.id, xIndex)}
+          >
+            {xChild}
+          </div>
         );
-    }
-}
+      }
+      return false;
+    });
+
+    return xElements;
+  }
+
+  const { children, id } = props;
+
+  return (
+    <div id={`deck-${id}`} className={Style.deck}>
+      <div id={`deck-${id}__wrap`} className={Style.wrap}>
+        {children.constructor === Array
+          ? mapChildrens(children)
+          : props.children}
+      </div>
+    </div>
+  );
+});
 
 Deck.propTypes = {
-    id: PropTypes.string.isRequired,
-    prevView: PropTypes.array,
-    activeView: PropTypes.string
+  id: PropTypes.string.isRequired,
+  prevView: PropTypes.array,
+  activeView: PropTypes.string,
 };
 
 Deck.defaultProps = {
-    prevView: []
+  prevView: [],
 };
 
 export default Deck;
