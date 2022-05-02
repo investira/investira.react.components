@@ -34,7 +34,7 @@ const DeckProvider = memo((props) => {
     setBeforeView(activeView);
   };
 
-  const handleFowardView = (pId) => {
+  const handleForwardView = (pId) => {
     pushRoute(pId);
     handleNextView(pId);
   };
@@ -81,7 +81,7 @@ const DeckProvider = memo((props) => {
           onNextView: handleNextView,
           onPrevView: handlePrevView,
           onReset: handleResetState,
-          onFowardView: handleFowardView,
+          onForwardView: handleForwardView,
         }}
       >
         {props.children}
