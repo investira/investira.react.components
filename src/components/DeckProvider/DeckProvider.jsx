@@ -22,8 +22,12 @@ const DeckProvider = memo((props) => {
     return pId === beforeView;
   };
 
-  const pushRoute = (pId) => {
-    history.push(`${URL.current}/${pId}`);
+  const pushRoute = (pUrl, pId) => {
+    history.push(`${pUrl}/${pId}`);
+  };
+
+  const pushPathName = () => {
+    history.push({ pathname: match.url + `/${props.initialView}` });
   };
 
   const handleNextView = (pId) => {
@@ -35,7 +39,7 @@ const DeckProvider = memo((props) => {
   };
 
   const handleForwardView = (pId) => {
-    pushRoute(pId);
+    pushRoute(URL.current, pId);
     handleNextView(pId);
   };
 
@@ -43,8 +47,9 @@ const DeckProvider = memo((props) => {
     if (!validators.isEmpty(prevView)) {
       let xPrevView = [...prevView];
       const xActive = xPrevView.pop();
-
+      const xIsInitialView = xActive === props.initialView;
       props.withRoute && history.goBack();
+      xIsInitialView && pushPathName();
 
       setActive(xActive);
       setPreview(xPrevView);
@@ -62,26 +67,27 @@ const DeckProvider = memo((props) => {
 
   useEffect(() => {
     URL.current = match.url;
-    //pushRoute(props.initialView);
-
     setActive(props.initialView);
     setPreview(props.initialPrev);
   }, [props.initialView, props.initialPrev]);
 
+  useEffect(() => {
+    pushPathName();
+  }, []);
   return (
     <>
       <DeckContext.Provider
         value={{
           ...props.value,
-          activeView,
-          prevView,
-          isActive,
-          isBefore,
-          beforeView,
-          onNextView: handleNextView,
-          onPrevView: handlePrevView,
-          onReset: handleResetState,
-          onForwardView: handleForwardView,
+          activeView: activeView,
+          prevView: prevView,
+          isActive: isActive,
+          isBefore: isBefore,
+          beforeView: beforeView,
+          handleNextView: handleNextView,
+          handlePrevView: handlePrevView,
+          handleReset: handleResetState,
+          handleForwardView: handleForwardView,
         }}
       >
         {props.children}
