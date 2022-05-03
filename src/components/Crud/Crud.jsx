@@ -39,7 +39,8 @@ const Crud = memo(
       const crudContext = useContext(CrudContext);
       const deckContext = useContext(DeckContext);
 
-      const { onNextView, onPrevView, prevView, onReset } = deckContext;
+      const { handleNextView, handlePrevView, prevView, handleReset } =
+        deckContext;
 
       const onConfirmDelete = (pData) => {
         const { itemData, onDelete } = crudContext;
@@ -51,7 +52,7 @@ const Crud = memo(
               handleCloseDialog();
               !validators.isEmpty(prevView) && setDeleted(true);
               setTimeout(() => {
-                onPrevView();
+                handlePrevView();
                 crudContext.onReadOne({});
               }, 300);
             },
@@ -75,9 +76,9 @@ const Crud = memo(
       const onConfirmCreate = (pData, pActions) => {
         crudContext.onCreate(pData, {
           ...pActions,
-          onNextView,
-          onPrevView,
-          onReset,
+          handleNextView,
+          handlePrevView,
+          handleReset,
           prevView,
         });
       };
@@ -85,9 +86,9 @@ const Crud = memo(
       const onConfirmUpdate = (pData, pActions) => {
         crudContext.onUpdate(pData, {
           ...pActions,
-          onNextView,
-          onPrevView,
-          onReset,
+          handleNextView,
+          handlePrevView,
+          handleReset,
           prevView,
         });
       };
