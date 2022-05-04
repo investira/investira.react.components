@@ -15,10 +15,10 @@ const Deck = memo((props) => {
   const params = useParams();
   const history = useHistory();
 
-  console.log("match", match);
-  console.log("location", location);
-  console.log("params", params);
-  console.log("history", history);
+  // console.log("match", match);
+  // console.log("location", location);
+  // console.log("params", params);
+  // console.log("history", history);
 
   const isActive = useCallback(
     (pActiveView, pId) => {

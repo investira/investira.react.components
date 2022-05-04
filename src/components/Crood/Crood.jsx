@@ -25,7 +25,8 @@ const Crood = memo((props) => {
   const crudContext = useContext(CrudContext);
   const deckContext = useContext(DeckContext);
 
-  const { onNextView, onPrevView, prevView, onReset } = deckContext || {};
+  const { handleNextView, handlePrevView, prevView, handleReset } =
+    deckContext || {};
 
   const onConfirmDelete = (pData, pCallback, pResetToView) => {
     const { itemData, onDelete } = crudContext;
@@ -39,9 +40,9 @@ const Crood = memo((props) => {
           setTimeout(() => {
             if (pResetToView) {
               props.onCloseDialog();
-              onReset(pResetToView);
+              handleReset(pResetToView);
             } else {
-              onPrevView();
+              handlePrevView();
             }
             crudContext.onReadOne({});
           }, 300);
@@ -71,9 +72,9 @@ const Crood = memo((props) => {
   const onConfirmCreate = (pData, pActions) => {
     crudContext.onCreate(pData, {
       ...pActions,
-      onNextView,
-      onPrevView,
-      onReset,
+      handleNextView,
+      handlePrevView,
+      handleReset,
       prevView,
     });
   };
@@ -81,9 +82,9 @@ const Crood = memo((props) => {
   const onConfirmUpdate = (pData, pActions) => {
     crudContext.onUpdate(pData, {
       ...pActions,
-      onNextView,
-      onPrevView,
-      onReset,
+      handleNextView,
+      handlePrevView,
+      handleReset,
       prevView,
       onCloseDialog: handleCloseDialog,
       onSuccessDialog: handleSuccessDialog,
