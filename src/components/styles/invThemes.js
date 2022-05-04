@@ -136,6 +136,45 @@ export const themePrimary = createTheme({
         },
       },
     },
+    MuiCalendarPicker: {
+      styleOverrides: {
+        root: {
+          color: base.colors.text.primary,
+        },
+      },
+    },
+    MuiYearPicker: {
+      styleOverrides: {
+        root: {
+          "& div > button": {
+            justifyContent: "center",
+            alignItems: "center",
+            "&.Mui-selected": {
+              backgroundColor: "transparent",
+              color: base.colors.text.primary,
+              border: `1px solid ${base.colors.primary.main}`,
+              "&:hover": {
+                backgroundColor: base.colors.primary.main,
+                color: base.colors.primary.contrastText,
+              },
+            },
+          },
+        },
+      },
+    },
+    MuiPickersDay: {
+      styleOverrides: {
+        root: {
+          "&:hover": {
+            backgroundColor: base.colors.primary.main,
+            color: base.colors.primary.contrastText,
+          },
+        },
+        today: {
+          border: `1px solid ${base.colors.primary.main} !important`,
+        },
+      },
+    },
     MuiPickersToolbar: {
       styleOverrides: {
         toolbar: {
@@ -154,24 +193,7 @@ export const themePrimary = createTheme({
       },
     },
     MuiSwitch: {
-      styleOverrides: {
-        // root: {
-        //   height: "48px",
-        // },
-        // switchBase: {
-        //   top: "5px",
-        //   left: "5px",
-        //   color: base.colors.secondary.light,
-        //   "&$checked": {
-        //     transform: "translateX(26%)",
-        //   },
-        // },
-        // track: {
-        //   backgroundColor: base.colors.background.light,
-        //   height: "24px",
-        //   borderRadius: "12px",
-        // },
-      },
+      styleOverrides: {},
     },
     MuiChip: {
       styleOverrides: {
