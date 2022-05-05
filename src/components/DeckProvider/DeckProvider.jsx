@@ -49,7 +49,7 @@ const DeckProvider = memo((props) => {
       const xActive = xPrevView.pop();
       const xIsInitialView = xActive === props.initialView;
       props.withRoute && history.goBack();
-      xIsInitialView && pushPathName();
+      xIsInitialView && props.withRoute && pushPathName();
 
       setActive(xActive);
       setPreview(xPrevView);
@@ -72,7 +72,7 @@ const DeckProvider = memo((props) => {
   }, [props.initialView, props.initialPrev]);
 
   useEffect(() => {
-    pushPathName();
+    props.withRoute && pushPathName();
   }, []);
   return (
     <>
