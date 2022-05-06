@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
-import { SearchBox, CrudConsumer, CrudContext } from "../";
+import { SearchBox, CrudContext } from "../";
 
 import Style from "./Search.module.scss";
 
