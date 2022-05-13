@@ -61,6 +61,12 @@ const DraggableList = memo((props) => {
 
   const renderItem = useCallback(
     (pItem, pIndex) => {
+      if (props.disableDrag) {
+        return (
+          <Item key={pItem.id} {...pItem} option={pItem} {...props.itemProps} />
+        );
+      }
+
       return (
         <DraggableItem
           id={pItem.id}
@@ -72,7 +78,7 @@ const DraggableList = memo((props) => {
         </DraggableItem>
       );
     },
-    [handleMoveItem]
+    [handleMoveItem, props.disableDrag]
   );
 
   return (
@@ -92,6 +98,11 @@ DraggableList.propTypes = {
   options: PropTypes.object,
   orderby: PropTypes.string,
   subheader: PropTypes.string,
+  disableDrag: PropTypes.bool,
+};
+
+DraggableList.defaultProps = {
+  disableDrag: false,
 };
 
 export default DraggableList;
