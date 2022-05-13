@@ -1,4 +1,4 @@
-import React, { memo, useRef, useEffect, useState } from "react";
+import React, { memo, useRef, useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
 import { Grid, Pagination } from "swiper";
@@ -16,11 +16,14 @@ const SwipeGridList = memo((props) => {
   const PAGINATION_HEIGHT = 28;
 
   // HANDLERS
-  const handleClick = (pData, pIndex, pEvent) => () => {
-    if (props.onClick) {
-      props.onClick(pData, pIndex, pEvent);
-    }
-  };
+  const handleClick = useCallback(
+    (pData, pIndex, pEvent) => () => {
+      if (props.onClick) {
+        props.onClick(pData, pIndex, pEvent);
+      }
+    },
+    [props]
+  );
 
   useEffect(() => {
     if (slideRef.current) {
@@ -37,9 +40,24 @@ const SwipeGridList = memo((props) => {
   const xId = `swipe-grid-list-${props.id}`;
   const Component = props.child;
 
-  const xSlideStyle = {
-    height: `calc((100% - ${props.spaceBetween}px) / ${props.rows})`,
-  };
+  const renderItem = useCallback(
+    (pItem, pIndex) => {
+      const xElemKey = `${xId}-grid-item-${pIndex}`;
+      const xSlideStyle = {
+        height: `calc((100% - ${props.spaceBetween}px) / ${props.rows})`,
+      };
+      return (
+        <SwiperSlide id={xId} key={xElemKey} ref={slideRef} style={xSlideStyle}>
+          <Component
+            {...props.childProps}
+            data={pItem}
+            onClick={(e) => handleClick(pItem, pIndex, e)}
+          />
+        </SwiperSlide>
+      );
+    },
+    [handleClick, props.childProps, props.rows, props.spaceBetween, xId]
+  );
 
   return (
     <Swiper
@@ -55,16 +73,7 @@ const SwipeGridList = memo((props) => {
     >
       {!validators.isEmpty(props.data) &&
         Object.values(props.data).map((xItem, xIndex) => {
-          const xElemKey = `${xId}-grid-item-${xIndex}`;
-          return (
-            <SwiperSlide key={xElemKey} ref={slideRef} style={xSlideStyle}>
-              <Component
-                {...props.childProps}
-                data={xItem}
-                onClick={(e) => handleClick(xItem, xIndex, e)}
-              />
-            </SwiperSlide>
-          );
+          return renderItem(xItem, xIndex);
         })}
     </Swiper>
   );
