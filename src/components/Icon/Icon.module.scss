@@ -39,7 +39,7 @@
     fill: var(--color-warning);
 }
 
-.colorDanger {
+.colorDanger, .colorError {
     stroke: var(--color-danger);
     fill: var(--color-danger);
 }
