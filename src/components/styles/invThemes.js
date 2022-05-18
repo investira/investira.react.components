@@ -448,6 +448,10 @@ export const themePrimary = createTheme({
     useNextVariants: true,
     fontFamily: ["Montserrat", "sans-serif"].join(","),
     fontSize: base.typo.fontSize,
+    inherit: {
+      fontFamily: "inherit",
+      fontSize: "inherit",
+    },
   },
   shape: {
     borderRadius: 0,
