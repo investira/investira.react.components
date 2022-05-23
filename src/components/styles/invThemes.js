@@ -47,22 +47,22 @@ export const themePrimary = createTheme({
       },
     },
     MuiSelect: {
-      styleOverrides: {
-        select: {
-          paddingLeft: "12px",
-        },
-        selectMenu: {
-          display: "flex",
-          alignItems: "center",
-        },
-      },
+      // styleOverrides: {
+      //   select: {
+      //     paddingLeft: "12px",
+      //   },
+      //   selectMenu: {
+      //     display: "flex",
+      //     alignItems: "center",
+      //   },
+      // },
     },
     MuiOutlinedInput: {
-      styleOverrides: {
-        notchedOutline: {
-          borderRadius: "30px",
-        },
-      },
+      // styleOverrides: {
+      //   notchedOutline: {
+      //     borderRadius: "30px",
+      //   },
+      // },
     },
     MuiMobileStepper: {
       styleOverrides: {
@@ -454,9 +454,9 @@ export const themePrimary = createTheme({
     },
   },
   shape: {
-    borderRadius: 0,
-    borderRadiusTopLeft: 5,
-    borderRadiusBottomRight: 5,
+    // borderRadius: 0,
+    // borderRadiusTopLeft: 5,
+    // borderRadiusBottomRight: 5,
   },
 });
 
@@ -827,8 +827,8 @@ export const themeSecondary = createTheme({
     fontSize: base.typo.fontSize,
   },
   shape: {
-    borderRadius: 0,
-    borderRadiusTopLeft: 5,
-    borderRadiusBottomRight: 5,
+    // borderRadius: 0,
+    // borderRadiusTopLeft: 5,
+    // borderRadiusBottomRight: 5,
   },
 });
