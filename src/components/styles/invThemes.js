@@ -4,6 +4,11 @@ import { createTheme } from "@mui/material/styles";
 // Tema principal
 export const themePrimary = createTheme({
   components: {
+    MuiMobileDatePicker: {
+      defaultProps: {
+        cancelText: "Cancelar",
+      },
+    },
     MuiCardContent: {
       styleOverrides: {
         root: {
