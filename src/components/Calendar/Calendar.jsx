@@ -1,11 +1,12 @@
 import React, { memo, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
   CalendarPicker as MuiCalendarPicker,
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { styled } from "@mui/material/styles";
+import brLocale from "date-fns/locale/pt-BR";
 
 const CalendarPicker = styled(MuiCalendarPicker)(({ theme }) => ({
   width: "100%",
@@ -26,6 +27,7 @@ const CalendarPicker = styled(MuiCalendarPicker)(({ theme }) => ({
 
 const Calendar = memo((props) => {
   const [date, setDate] = useState(new Date());
+  const locale = "pt-BR";
 
   function handleChange(pNewDate) {
     setDate(pNewDate);
@@ -37,7 +39,7 @@ const Calendar = memo((props) => {
   }, [date]);
 
   return (
-    <LocalizationProvider dateAdapter={AdapterMoment}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
       <CalendarPicker
         value={date}
         onChange={handleChange}

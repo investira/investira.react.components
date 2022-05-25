@@ -31,13 +31,14 @@ function InfoBar(props) {
         />
       </Box>
 
-      {!validators.isEmpty(props.caption) && (
+      {(!validators.isEmpty(props.caption) ||
+        !validators.isEmpty(props.children)) && (
         <Typography
           variant={props.captionVariant}
           color={props.captionColor}
           component={props.captionComponent}
         >
-          {props.caption}
+          {props.children || props.caption}
         </Typography>
       )}
     </Stack>
