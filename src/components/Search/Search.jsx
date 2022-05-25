@@ -27,7 +27,7 @@ const Search = forwardRef((props, ref) => {
     setParams(xParams);
   };
 
-  const handleClear = (pValue) => {
+  const handleClear = () => {
     props.onResetData && props.onResetData({});
     setParams({ pesquisa: null });
     props.onUpdateParams &&
@@ -42,7 +42,7 @@ const Search = forwardRef((props, ref) => {
       const xParams = props.onUpdateParams
         ? props.onUpdateParams(params)
         : params;
-      onRead && onRead(xParams, service, success, error, isFetching);
+      onRead && onRead(xParams, service, success, error, isFetching, true);
     }
   }, [params.pesquisa]);
 
