@@ -29,12 +29,13 @@ const Search = forwardRef((props, ref) => {
 
   const handleClear = () => {
     props.onResetData && props.onResetData({});
+    props.onClear && props.onClear();
     setParams({ pesquisa: null });
     props.onUpdateParams &&
       props.onUpdateParams({ ...params, pesquisa: undefined });
   };
 
-  const { service, success, error, isFetching } = props;
+  const { service, success, error, isFetching, preRequest } = props;
 
   useEffect(() => {
     if (mount.current) {
@@ -42,7 +43,8 @@ const Search = forwardRef((props, ref) => {
       const xParams = props.onUpdateParams
         ? props.onUpdateParams(params)
         : params;
-      onRead && onRead(xParams, service, success, error, isFetching, true);
+      onRead &&
+        onRead(xParams, service, success, error, isFetching, preRequest);
     }
   }, [params.pesquisa]);
 
@@ -64,6 +66,7 @@ const Search = forwardRef((props, ref) => {
 });
 
 Search.propTypes = {
+  onClear: PropTypes.func,
   onResetData: PropTypes.func,
   forwardRef: PropTypes.func,
   onUpdateParams: PropTypes.func,
