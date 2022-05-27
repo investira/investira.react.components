@@ -10,9 +10,23 @@ const CrudProvider = memo((props) => {
     props.actions.onCreate && props.actions.onCreate(pValues, pActions);
   };
 
-  const onRead = (pParams, pService, pSuccess, pError, pIsFetching) => {
+  const onRead = (
+    pParams,
+    pService,
+    pSuccess,
+    pError,
+    pIsFetching,
+    pPreRequest
+  ) => {
     props.actions.onRead &&
-      props.actions.onRead(pParams, pService, pSuccess, pError, pIsFetching);
+      props.actions.onRead(
+        pParams,
+        pService,
+        pSuccess,
+        pError,
+        pIsFetching,
+        pPreRequest
+      );
   };
 
   const onReadOne = (pData, pCallback) => {
