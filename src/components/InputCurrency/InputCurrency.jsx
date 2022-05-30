@@ -61,14 +61,12 @@ const InputCurrency = forwardRef((props, ref) => {
 
 InputCurrency.propTypes = {
   onChange: PropTypes.func,
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   currency: PropTypes.string,
   separator: PropTypes.oneOf([".", ","]),
 };
 
 InputCurrency.defaultProps = {
-  defaultValue: "0.00",
   separator: ",",
   currency: "BRL",
 };
