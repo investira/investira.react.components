@@ -34,7 +34,6 @@ const Calendar = memo((props) => {
   }
 
   useEffect(() => {
-    console.log("Calendar: useEffect", date);
     props.onChange(date);
   }, [date]);
 
