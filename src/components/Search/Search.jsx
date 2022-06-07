@@ -35,16 +35,13 @@ const Search = forwardRef((props, ref) => {
       props.onUpdateParams({ ...params, pesquisa: undefined });
   };
 
-  const { service, success, error, isFetching, preRequest } = props;
-
   useEffect(() => {
     if (mount.current) {
       props.onResetData && props.onResetData({});
       const xParams = props.onUpdateParams
         ? props.onUpdateParams(params)
         : params;
-      onRead &&
-        onRead(xParams, service, success, error, isFetching, preRequest);
+      onRead && onRead(xParams);
     }
   }, [params.pesquisa]);
 

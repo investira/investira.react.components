@@ -51,15 +51,7 @@ class ListVirtual extends PureComponent {
   };
 
   loadMoreRows = ({ startIndex, stopIndex }) => {
-    const {
-      nextPage,
-      onNextPage,
-      service,
-      success,
-      error,
-      isFetching,
-      preRequest,
-    } = this.props;
+    const { nextPage, onNextPage } = this.props;
     const { loadedRowsMap, loadingRowCount } = this.state;
 
     const xIncrement = stopIndex - startIndex + 1;
@@ -98,8 +90,7 @@ class ListVirtual extends PureComponent {
 
     if (startIndex > xSize / 2 && stopIndex <= xSize - 1 && nextPage) {
       const xParams = strings.querystringToObject(nextPage);
-      onNextPage &&
-        onNextPage(xParams, service, success, error, isFetching, preRequest);
+      onNextPage && onNextPage(xParams);
     }
 
     return new Promise((resolve) => {
