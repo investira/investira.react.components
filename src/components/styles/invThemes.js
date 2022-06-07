@@ -378,7 +378,7 @@ export const themePrimary = createTheme({
           backgroundImage: `none`,
         },
         rounded: {
-          borderRadius: "8px",
+          borderRadius: base.spacing.unit * 2,
         },
       },
     },
@@ -612,9 +612,9 @@ export const themeSecondary = createTheme({
     },
     MuiDialog: {
       styleOverrides: {
-        paper: {
-          margin: 24,
-        },
+        // paper: {
+        //   margin: 24,
+        // },
       },
     },
     MuiDrawer: {
@@ -627,16 +627,16 @@ export const themeSecondary = createTheme({
     },
     MuiDialogTitle: {
       styleOverrides: {
-        root: {
-          padding: 16,
-        },
+        // root: {
+        //   padding: 16,
+        // },
       },
     },
     MuiDialogContent: {
       styleOverrides: {
-        root: {
-          padding: "0 16px 16px",
-        },
+        // root: {
+        //   padding: "0 16px 16px",
+        // },
       },
     },
     MuiButton: {
@@ -744,15 +744,15 @@ export const themeSecondary = createTheme({
     MuiPaper: {
       styleOverrides: {
         rounded: {
-          borderRadius: "8px",
+          borderRadius: base.spacing.unit * 2,
         },
       },
     },
     MuiAlert: {
       styleOverrides: {
-        root: {
-          borderRadius: "8px",
-        },
+        // root: {
+        //   borderRadius: "8px",
+        // },
       },
     },
     MuiTypography: {
