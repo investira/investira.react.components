@@ -12,6 +12,8 @@ import {
 // import withResponseHandling from "../../../hoc/withResponseHandling";
 
 const SearchList = (props) => {
+  console.log("SearchList.jsx", props);
+
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
   const [isFetchingState, setIsFetching] = useState(false);
@@ -73,7 +75,7 @@ const SearchList = (props) => {
         setIsFetching(false);
         setMessage(rErr.message);
         xError && xError(rErr);
-        // props.responseErrorHandling(rErr);
+        props.responseErrorHandling && props.responseErrorHandling(rErr);
       }
     );
   }
