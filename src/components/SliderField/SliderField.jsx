@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import { formats } from "investira.sdk";
 import { useFormikContext } from "formik";
-import { validators, numbers } from "investira.sdk";
+import { numbers } from "investira.sdk";
 
 const SliderField = memo((props) => {
   // State
