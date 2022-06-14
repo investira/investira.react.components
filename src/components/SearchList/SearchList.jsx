@@ -9,11 +9,8 @@ import {
   ListVirtual,
   FilterBar,
 } from "../";
-// import withResponseHandling from "../../../hoc/withResponseHandling";
 
 const SearchList = (props) => {
-  console.log("SearchList.jsx", props);
-
   const [data, setData] = useState([]);
   const [message, setMessage] = useState("");
   const [isFetchingState, setIsFetching] = useState(false);
@@ -35,7 +32,6 @@ const SearchList = (props) => {
     onResetData,
     placeholder,
     onClear,
-    divided,
   } = props;
 
   function requestList(pParams) {
@@ -178,5 +174,4 @@ SearchList.defaultProps = {
   padding: false,
 };
 
-// export default withResponseHandling(SearchList);
 export default SearchList;
