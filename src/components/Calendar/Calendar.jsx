@@ -26,7 +26,7 @@ const CalendarPicker = styled(MuiCalendarPicker)(({ theme }) => ({
 }));
 
 const Calendar = memo((props) => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(props.initialSelectDate);
   const locale = "pt-BR";
 
   function handleChange(pNewDate) {
@@ -40,9 +40,10 @@ const Calendar = memo((props) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} locale={brLocale}>
       <CalendarPicker
-        value={date}
+        date={date}
         onChange={handleChange}
-        disableHighlightToday={props.disableHighlightToday}
+        //disableHighlightToday={props.disableHighlightToday}
+        {...props.calendarPickerProps}
       />
     </LocalizationProvider>
   );
@@ -51,17 +52,21 @@ const Calendar = memo((props) => {
 Calendar.displayName = "Calendar";
 
 Calendar.propTypes = {
+  initialSelectDate: PropTypes.instanceOf(Date),
   onChange: PropTypes.func,
   displayStaticWrapperAs: PropTypes.string,
   openTo: PropTypes.string,
   disableHighlightToday: PropTypes.bool,
+  calendarPickerProps: PropTypes.object,
 };
 
 Calendar.defaultProps = {
+  initialSelectDate: new Date(),
   onChange: () => {},
   displayStaticWrapperAs: "mobile",
   openTo: "year",
   disableHighlightToday: false,
+  calendarPickerProps: {},
 };
 
 export default Calendar;
