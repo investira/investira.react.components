@@ -57,6 +57,7 @@ export { default as ProgressBar } from "./ProgressBar";
 export { default as Rate } from "./Rate";
 export { default as Scroller } from "./Scroller";
 export { default as SearchBox } from "./SearchBox";
+export { default as SearchList } from "./SearchList";
 export { default as SlideView } from "./SlideView";
 export { default as StorageManager } from "./StorageManager";
 export { default as SSE } from "./SSE";
