@@ -10,8 +10,6 @@ import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
 import { SearchBox, CrudContext } from "../";
 
-import Style from "./Search.module.scss";
-
 const Search = forwardRef((props, ref) => {
   const [params, setParams] = useState({});
   const mount = useRef(false);
@@ -50,15 +48,13 @@ const Search = forwardRef((props, ref) => {
   }, []);
 
   return (
-    <div className={Style.padding}>
-      <SearchBox
-        ref={ref}
-        value={props.value}
-        onChange={handleSearch}
-        placeholder={props.placeholder}
-        clearCallback={handleClear}
-      />
-    </div>
+    <SearchBox
+      ref={ref}
+      value={props.value}
+      onChange={handleSearch}
+      placeholder={props.placeholder}
+      clearCallback={handleClear}
+    />
   );
 });
 
