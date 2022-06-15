@@ -145,7 +145,10 @@ const SearchList = (props) => {
               totalItens={pages?.total_items}
               list={data}
               item={props.item}
-              itemProps={props.itemProps}
+              itemProps={{
+                ...props.itemProps,
+                pesquisa: paramsRef.current.pesquisa,
+              }}
             />
           </ListState>
         </ContainerList>
