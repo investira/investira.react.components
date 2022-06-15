@@ -25,9 +25,9 @@ const SearchList = (props) => {
     service,
     success,
     error,
-    isFetching,
+    onFetching,
     preRequest,
-    updateTheList,
+    refreshList,
     padding,
     onResetData,
     placeholder,
@@ -38,7 +38,7 @@ const SearchList = (props) => {
     const xService = service;
     const xSuccess = success;
     const xError = error;
-    const xIsFetching = isFetching;
+    const xOnFetching = onFetching;
     const xPreRequest = preRequest;
     const xParams = { ...pParams };
     const xIsSearch = !validators.isNull(pParams.pesquisa);
@@ -50,13 +50,13 @@ const SearchList = (props) => {
       return;
     }
     setMessage("");
-    xIsFetching && xIsFetching(true);
+    xOnFetching && xOnFetching(true);
     setIsFetching(true);
     xService(
       xParams,
       (rRes) => {
         setIsFetching(false);
-        xIsFetching && xIsFetching(false);
+        xOnFetching && xOnFetching(false);
         setPages(rRes.pages);
         if (xSuccess) {
           setData(xSuccess(rRes.data, xIsSearch, data));
@@ -67,7 +67,7 @@ const SearchList = (props) => {
         }
       },
       (rErr) => {
-        xIsFetching && xIsFetching(false);
+        xOnFetching && xOnFetching(false);
         setIsFetching(false);
         setMessage(rErr.message);
         xError && xError(rErr);
@@ -88,10 +88,10 @@ const SearchList = (props) => {
   }, [data]);
 
   useEffect(() => {
-    if (updateTheList && isMount.current) {
+    if (refreshList && isMount.current) {
       requestList(params);
     }
-  }, [updateTheList]);
+  }, [refreshList]);
 
   useEffect(() => {
     let xNewParams = onUpdateParams(params);
@@ -162,9 +162,9 @@ SearchList.propTypes = {
     success: PropTypes.func.isRequired,
     error: PropTypes.func.isRequired,
     params: PropTypes.object,
-    isFetching: PropTypes.func,
+    onFetching: PropTypes.func,
   }),
-  updateTheList: PropTypes.bool,
+  refreshList: PropTypes.bool,
   padding: PropTypes.bool,
   virtual: PropTypes.bool,
   item: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
