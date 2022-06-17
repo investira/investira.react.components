@@ -8,6 +8,7 @@ import {
   ListState,
   ListVirtual,
   FilterBar,
+  Container,
 } from "../";
 
 const SearchList = (props) => {
@@ -28,7 +29,6 @@ const SearchList = (props) => {
     onFetching,
     preRequest,
     refreshList,
-    padding,
     onResetData,
     placeholder,
     onClear,
@@ -111,47 +111,49 @@ const SearchList = (props) => {
   }, []);
 
   return (
-    <CrudProvider
-      actions={{
-        onRead: requestList,
-      }}
-    >
-      <ContainerList
-        search={
-          <Search
-            {...props}
-            ref={searchRef}
-            value={paramsRef.current.pesquisa}
-            placeholder={placeholder}
-            inputProps={{ autofocus: true }}
-            onUpdateParams={onUpdateParams}
-            onResetData={onResetData}
-            onClear={onClear}
-          />
-        }
-        filter={props.filterProps && <FilterBar {...props.filterProps} />}
+    <Container sx={{ height: "100%" }}>
+      <CrudProvider
+        actions={{
+          onRead: requestList,
+        }}
       >
-        <ListState
-          padding={padding}
-          listSize={data.length}
-          isFetching={isFetchingState}
-          message={message}
+        <ContainerList
+          search={
+            <Search
+              {...props}
+              ref={searchRef}
+              value={paramsRef.current.pesquisa}
+              placeholder={placeholder}
+              inputProps={{ autofocus: true }}
+              onUpdateParams={onUpdateParams}
+              onResetData={onResetData}
+              onClear={onClear}
+            />
+          }
+          filter={props.filterProps && <FilterBar {...props.filterProps} />}
         >
-          <ListVirtual
-            {...props}
-            nextPage={pages?.next}
-            onNextPage={requestList}
-            totalItens={pages?.total_items}
-            list={data}
-            item={props.item}
-            itemProps={{
-              ...props.itemProps,
-              pesquisa: paramsRef.current.pesquisa,
-            }}
-          />
-        </ListState>
-      </ContainerList>
-    </CrudProvider>
+          <ListState
+            padding={false}
+            listSize={data.length}
+            isFetching={isFetchingState}
+            message={message}
+          >
+            <ListVirtual
+              {...props}
+              nextPage={pages?.next}
+              onNextPage={requestList}
+              totalItens={pages?.total_items}
+              list={data}
+              item={props.item}
+              itemProps={{
+                ...props.itemProps,
+                pesquisa: paramsRef.current.pesquisa,
+              }}
+            />
+          </ListState>
+        </ContainerList>
+      </CrudProvider>
+    </Container>
   );
 };
 
@@ -165,16 +167,11 @@ SearchList.propTypes = {
     onFetching: PropTypes.func,
   }),
   refreshList: PropTypes.bool,
-  padding: PropTypes.bool,
   virtual: PropTypes.bool,
   item: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   itemProps: PropTypes.object,
   filterProps: PropTypes.object,
   placeholder: PropTypes.string,
-};
-
-SearchList.defaultProps = {
-  padding: false,
 };
 
 export default SearchList;
