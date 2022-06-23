@@ -71,4 +71,6 @@ InputCurrency.defaultProps = {
   currency: "BRL",
 };
 
+InputCurrency.displayName = "InputCurrency";
+
 export default InputCurrency;
