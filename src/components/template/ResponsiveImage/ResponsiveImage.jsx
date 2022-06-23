@@ -50,12 +50,14 @@ const ResponsiveImage = (props) => {
       const xErrorSet = [
         { srcSet: `${noImage} 1x, ${noImage2x} 2x, ${noImage3x} 3x` },
       ];
-      const xSet = props.placeholder || xErrorSet;
-      filterImages(xSet);
-    } else {
-      filterImages(props.source);
+      const xSource = props.placeholder || xErrorSet;
+      filterImages(xSource);
     }
-  }, [hasError, props.placeholder, props.source]);
+  }, [hasError, props.placeholder]);
+
+  useEffect(() => {
+    filterImages(props.source);
+  }, [props.source]);
 
   const xClassImage = classNames(props.className, Style.img, {
     [Style.show]: show,
