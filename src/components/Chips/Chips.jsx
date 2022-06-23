@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
-import { validators } from "investira.sdk";
 import unsupportedProp from "../utils/unsupportedProp";
 import HorizontalList from "../HorizontalList";
 import ChipsItem from "./ChipsItem";
 
 function Chips(props) {
-  console.log(props);
   const [data, setData] = useState([]);
 
   const handleClick = (pData, pIndex) => {
