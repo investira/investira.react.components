@@ -1,6 +1,7 @@
 import React, { memo, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
+import { Stack } from "../wrappers";
 import {
   CrudContext,
   DeckContext,
@@ -10,8 +11,6 @@ import {
   DialogContentText,
   CenterInView,
 } from "../";
-
-import Style from "./Crood.module.scss";
 
 const Crood = memo((props) => {
   // Verifica se há o HOC withDialog
@@ -201,9 +200,9 @@ const Crood = memo((props) => {
 
   return (
     <>
-      <div className={Style.root}>
+      <Stack height="100%" position="relative">
         {deleted ? (
-          <main className={Style.main}>
+          <Stack component="main" flexGrow="1">
             <CenterInView>
               <Typography
                 align={"center"}
@@ -214,15 +213,26 @@ const Crood = memo((props) => {
                 Excluído com sucesso
               </Typography>
             </CenterInView>
-          </main>
+          </Stack>
         ) : (
           <>
-            <main className={Style.main}>
+            <Stack component="main" flexGrow="1">
               {editable ? editWithProps() : childrenWithProps}
-            </main>
+            </Stack>
 
             {props.showActions && (
-              <nav className={Style.nav}>
+              <Stack
+                component="nav"
+                sx={{
+                  flexGrow: 0,
+                  flexShrink: 0,
+                  py: 2,
+                  textAlign: "right",
+                  "& > button": {
+                    my: 1,
+                  },
+                }}
+              >
                 {crudContext.onDelete && !editable && (
                   <Button
                     onClick={handleDeleteDialog}
@@ -249,14 +259,14 @@ const Crood = memo((props) => {
                     color={"primary"}
                     variant={"outlined"}
                   >
-                    {"Editar"}
+                    Editar
                   </Button>
                 )}
-              </nav>
+              </Stack>
             )}
           </>
         )}
-      </div>
+      </Stack>
     </>
   );
 });

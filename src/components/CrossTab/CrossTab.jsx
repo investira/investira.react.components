@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import { CenterInView, Typography } from "../";
-import Style from "./CrossTab.module.scss";
+import { CenterInView, Typography, Box } from "../";
 
 const CrossTab = (props) => {
   const [anotherTabISOpen, setOpen] = useState(false);
@@ -23,14 +22,20 @@ const CrossTab = (props) => {
 
   if (anotherTabISOpen) {
     return (
-      <div className={Style.root}>
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+        }}
+      >
         <CenterInView>
           <Typography align={"center"} color={"textPrimary"}>
             Esta aplicação está sendo executada <br />
             em outra janela
           </Typography>
         </CenterInView>
-      </div>
+      </Box>
     );
   } else {
     return props.children;
