@@ -13,7 +13,6 @@ export { default as CrossTab } from "./CrossTab";
 export { default as CrudContext } from "./CrudContext";
 export { default as CrudProvider } from "./CrudProvider";
 export { default as CrudConsumer } from "./CrudConsumer";
-export { default as Crud } from "./Crud";
 export { default as Crood } from "./Crood";
 export { default as Deck } from "./Deck";
 export { default as DeckContext } from "./DeckContext";

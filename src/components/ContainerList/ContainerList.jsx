@@ -1,48 +1,80 @@
 import React, { memo } from "react";
-import classNames from "classnames";
+import { Stack, Box } from "../";
 import PropTypes from "prop-types";
-
+import { styled } from "@mui/material/styles";
 import { Typography } from "../";
 
-import Style from "./ContainerList.module.scss";
+const FilterArea = styled(Stack)(({ sticky, theme }) => ({
+  position: "relative",
+  overflow: "auto",
+  flexShrink: "0",
+  flexGrow: "0",
+  ...(sticky && {
+    position: "sticky",
+    top: "0",
+    zIndex: "100",
+    background: theme.palette.secondary.darkness,
+  }),
+}));
+
+const Area = styled(Stack)(({ sticky }) => ({
+  flexGrow: 1,
+  overflow: "auto",
+  position: "relative",
+  flexDirection: "row",
+  ...(sticky && {
+    overflow: "unset",
+  }),
+}));
 
 const ContainerList = memo((props) => {
   const { search, filter, bottomLabel } = props;
-
-  const xClassRoot = classNames(Style.root, {
-    [Style.withSearch]: search && !filter,
-    [Style.withFilter]: filter && !search,
-    [Style.withFullHead]: search && filter,
-  });
 
   if (React.Children.count(props.children) > 1) {
     console.error("Container list deve possuir apenas 1 elemento filho.");
     return null;
   }
 
-  const xClassFilter = classNames(Style.filterArea, {
-    [Style.filterAreaSticky]: props.sticky,
-  });
-
-  const xClassList = classNames(Style.listArea, {
-    [Style.listAreaSticky]: props.sticky,
-  });
-
   return (
-    <div className={xClassRoot}>
-      {search && <div className={Style.searchArea}>{search}</div>}
-      {filter && <div className={xClassFilter}>{filter}</div>}
+    <Stack
+      sx={{
+        position: "relative",
+        maxHeight: "100%",
+        minHeight: "100%",
+        width: "100%",
+      }}
+    >
+      {search && (
+        <Stack
+          sx={{
+            position: "relative",
+            overflow: "auto",
+            flexShrink: "0",
+            flexGrow: "0",
+          }}
+        >
+          {search}
+        </Stack>
+      )}
+      {filter && <FilterArea>{filter}</FilterArea>}
       {bottomLabel && (
-        <div className={Style.bottomLabelArea}>
+        <Stack
+          sx={{
+            position: "relative",
+            padding: "0 16px 12px 16px",
+            flexShrink: "0",
+            flexGrow: "0",
+          }}
+        >
           {
             <Typography variant={"caption"} color={"textSecondary"}>
               {bottomLabel}
             </Typography>
           }
-        </div>
+        </Stack>
       )}
-      <div className={xClassList}>{props.children}</div>
-    </div>
+      <Area>{props.children}</Area>
+    </Stack>
   );
 });
 
