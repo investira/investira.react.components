@@ -1,14 +1,22 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
+import { styled } from "@mui/material/styles";
+import { Icon, IconButton, JsonTextFormated, Stack, Box } from "../";
 
-import { Icon, IconButton, JsonTextFormated } from "../";
-
-import Style from "./Tips.module.scss";
+const Desc = styled(Box)(({ show }) => ({
+  height: 0,
+  overflow: "hidden,",
+  opacity: "0.5",
+  transition: "all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)",
+  ...(show && {
+    opacity: "1",
+    transition: "all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)",
+  }),
+}));
 
 const Tips = memo((props) => {
-  const descRef = React.useRef();
-  const bodyRef = React.useRef();
+  const descRef = useRef();
+  const bodyRef = useRef();
 
   const [show, setShow] = useState(false);
 
@@ -19,17 +27,19 @@ const Tips = memo((props) => {
     xDescElem.style.height = xHeightSize;
   };
 
-  const xClassDesk = classNames(Style.desc, props.className, {
-    [Style.show]: show,
-  });
-
   return (
-    <div className={Style.root}>
+    <Stack
+      sx={{
+        position: "relative",
+        alignItems: "flex-start",
+        flexDirection: "row",
+      }}
+    >
       <IconButton onClick={handleToogle}>
         <Icon iconName={props.iconName} size={props.size} color={props.color} />
       </IconButton>
-      <div ref={descRef} className={xClassDesk} style={{ height: 0 }}>
-        <div ref={bodyRef} className={Style.body}>
+      <Desc show={show} ref={descRef}>
+        <Box ref={bodyRef} sx={{ padding: "12px 8px" }}>
           <JsonTextFormated
             text={props.desc}
             color={"textSecondary"}
@@ -37,9 +47,9 @@ const Tips = memo((props) => {
             component={"p"}
             gutterBottom
           />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Desc>
+    </Stack>
   );
 });
 

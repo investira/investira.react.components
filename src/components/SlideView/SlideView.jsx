@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { useState, useRef, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import Hammer from "hammerjs";
@@ -7,53 +7,41 @@ import Icon from "../Icon";
 import { ButtonBase, IconButton } from "../wrappers";
 import Style from "./SlideView.module.scss";
 
-export class SlideView extends Component {
-  constructor(props) {
-    super(props);
+function SlideView(props) {
+  const [wrapWidth, setWrapWidth] = useState(0);
+  const [wrapPosition, setWrapPosition] = useState(0);
+  const [slideWidth, setSlideWidth] = useState(0);
+  const [slideChildWidth, setSlideChildWidth] = useState(0);
+  const [slideCount, setSlideCount] = useState(0);
+  const [slideCurrent, setSlideCurrent] = useState(0);
+  const [backButton, setBackButton] = useState(false);
+  const [nextButton, setNextButton] = useState(true);
+  const [swipeable, setSwipeable] = useState(props.swipeable);
+  const [roadmap, setRoadmap] = useState([]);
+  const [triggerNext, setTriggerNext] = useState(false);
 
-    this.initialState = {
-      wrapWidth: 0,
-      wrapPosition: 0,
-      slideWidth: 0,
-      slideCount: 0,
-      slideCurrent: 0,
-      backButton: false,
-      nextButton: true,
-      swipeable: this.props.swipeable,
-      roadmap: [],
-      triggerNext: false,
-    };
+  const slideRef = useRef();
+  const slideWrapRef = useRef();
+  const slideChildRef = useRef();
 
-    this.state = {
-      ...this.initialState,
-    };
+  const _isMounted = useRef(false);
 
-    this.slideRef = React.createRef();
-    this.slideWrapRef = React.createRef();
-    this.slideChildRef = React.createRef();
-
-    this.nextSlide = this.nextSlide.bind(this);
-    this.prevSlide = this.prevSlide.bind(this);
-  }
-
-  _isMounted = false;
-
-  dotsButtons(pChildrens) {
+  function dotsButtons(pChildrens) {
     const xMaxDots = 5;
 
     let xCurrent = [...pChildrens];
 
-    xCurrent.slice(this.state.slideCurrent, this.state.slideCurrent + xMaxDots);
+    xCurrent.slice(slideCurrent, slideCurrent + xMaxDots);
 
     const elements = xCurrent.map((_, i) => {
-      const isActive = this.state.slideCurrent === i ? Style.isActive : "";
+      const isActive = slideCurrent === i ? Style.isActive : "";
 
       return (
         <ButtonBase
           key={i}
           centerRipple={true}
           className={Style.dotButton}
-          onClick={() => this.move(i)}
+          onClick={() => move(i)}
         >
           <span className={Style.dot + " " + isActive} />
         </ButtonBase>
@@ -63,33 +51,31 @@ export class SlideView extends Component {
     return elements;
   }
 
-  nextSlide = () => {
-    if (this.state.slideCurrent < this.state.slideCount - 1) {
-      this.setState(
+  const nextSlide = () => {
+    if (slideCurrent < slideCount - 1) {
+      setState(
         {
-          slideCurrent: this.state.slideCurrent + 1,
+          slideCurrent: slideCurrent + 1,
         },
-        () => this.move(this.state.slideCurrent)
+        () => move(slideCurrent)
       );
     }
   };
 
-  prevSlide = () => {
-    if (this.state.slideCurrent > 0) {
-      this.setState({ slideCurrent: this.state.slideCurrent - 1 }, () =>
-        this.move(this.state.slideCurrent)
-      );
+  const prevSlide = () => {
+    if (slideCurrent > 0) {
+      setState({ slideCurrent: slideCurrent - 1 }, () => move(slideCurrent));
     }
   };
 
-  mapChildrens = () => {
-    let xClass = this.props.fullWidth ? Style.viewFull : Style.view;
+  const mapChildrens = () => {
+    let xClass = props.fullWidth ? Style.viewFull : Style.view;
 
-    let elements = this.props.children.map((child, i) => {
+    let elements = props.children.map((child, i) => {
       return (
         <div
-          key={`${this.props.id}-${i}`}
-          ref={this.slideChildRef}
+          key={`${props.id}-${i}`}
+          ref={slideChildRef}
           id={`slideview-${i}`}
           className={xClass}
           style={{
@@ -104,43 +90,34 @@ export class SlideView extends Component {
     return elements;
   };
 
-  setElementsSizes() {
-    if (this._isMounted) {
-      let xChildCount = React.Children.count(this.props.children);
-      let xSlideWidth = this.slideRef.current.offsetWidth;
-      let xSlideChildWidth = this.slideChildRef.current.offsetWidth;
+  function setElementsSizes() {
+    if (_isMounted.current) {
+      let xChildCount = React.Children.count(props.children);
+      let xSlideWidth = slideRef.current.offsetWidth;
+      let xSlideChildWidth = slideChildRef.current.offsetWidth;
       let xWrapWidth = xSlideWidth;
 
-      this.setState({
-        wrapWidth: xWrapWidth,
-        slideWidth: xSlideWidth,
-        slideChildWidth: xSlideChildWidth,
-        slideCount: xChildCount,
-      });
+      setWrapWidth(xWrapWidth);
+      setSlideWidth(xSlideWidth);
+      setSlideChildWidth(xSlideChildWidth), setSlideCount(xChildCount);
     }
   }
 
-  onPan(e) {
+  function onPan(e) {
     e.preventDefault();
     let xDelta = e.deltaX;
-    let xPercent = (100 / this.state.wrapWidth) * xDelta;
+    let xPercent = (100 / wrapWidth) * xDelta;
 
     let xAnimate = false;
 
     if (e.type === "panend" || e.type === "pancancel") {
       if (Math.abs(xPercent) > 21 && e.type === "panend") {
-        let xSlideCurrent = this.state.slideCurrent;
+        let xSlideCurrent = slideCurrent;
 
-        this.setState({
-          slideCurrent: (xSlideCurrent += xPercent < 0 ? 1 : -1),
-        });
+        setSlideCurrent((xSlideCurrent += xPercent < 0 ? 1 : -1));
 
-        if (
-          this.state.swipeable &&
-          this.state.slideCount === this.state.slideCurrent &&
-          xPercent < -50
-        ) {
-          this.props.onSlideFinish && this.props.onSlideFinish();
+        if (swipeable && slideCount === slideCurrent && xPercent < -50) {
+          props.onSlideFinish && props.onSlideFinish();
         }
       }
 
@@ -148,29 +125,26 @@ export class SlideView extends Component {
       xAnimate = true;
     }
 
-    this.move(this.state.slideCurrent, xPercent, xAnimate);
+    move(slideCurrent, xPercent, xAnimate);
   }
 
-  move = (pMoveIndex, pPercent, pAnimate) => {
-    if (this._isMounted) {
-      this.setState({
+  const move = (pMoveIndex, pPercent, pAnimate) => {
+    if (_isMounted.current) {
+      setState({
         slideCurrent: pMoveIndex,
       });
 
-      let xMoveIndex = Math.max(
-        0,
-        Math.min(pMoveIndex, this.state.slideCount - 1)
-      );
+      let xMoveIndex = Math.max(0, Math.min(pMoveIndex, slideCount - 1));
       let xPercent = pPercent || 0;
-      let xClassName = this.slideWrapRef.current.className;
+      let xClassName = slideWrapRef.current.className;
 
       if (pAnimate) {
         if (xClassName.indexOf(Style.swapped) === -1) {
-          this.slideWrapRef.current.className += ` ${Style.swapped}`;
+          slideWrapRef.current.className += ` ${Style.swapped}`;
         }
       } else {
         if (xClassName.indexOf(Style.swapped) !== -1) {
-          this.slideWrapRef.current.className = xClassName
+          slideWrapRef.current.className = xClassName
             .replace(Style.swapped, "")
             .trim();
         }
@@ -178,14 +152,13 @@ export class SlideView extends Component {
 
       let xViewIndex, xPos, xTranslate;
 
-      for (xViewIndex = 0; xViewIndex < this.state.slideCount; xViewIndex++) {
-        if (this.props.fullWidth) {
+      for (xViewIndex = 0; xViewIndex < slideCount; xViewIndex++) {
+        if (props.fullWidth) {
           xPos =
-            (this.state.wrapWidth / 100) *
-            ((xViewIndex - xMoveIndex) * 100 + xPercent);
+            (wrapWidth / 100) * ((xViewIndex - xMoveIndex) * 100 + xPercent);
         } else {
           xPos =
-            (this.state.slideChildWidth / 100) *
+            (slideChildWidth / 100) *
             ((xViewIndex - xMoveIndex) * 100 + xPercent);
           xPos = xPos + 12;
         }
@@ -194,31 +167,26 @@ export class SlideView extends Component {
           xTranslate = "translate3d(" + xPos + "px, 0, 0)";
         }
 
-        this.views[xViewIndex].style.transform = xTranslate;
-        this.views[xViewIndex].style.mozTransform = xTranslate;
-        this.views[xViewIndex].style.webkitTransform = xTranslate;
+        views[xViewIndex].style.transform = xTranslate;
+        views[xViewIndex].style.mozTransform = xTranslate;
+        views[xViewIndex].style.webkitTransform = xTranslate;
       }
 
-      this.setState(
-        {
-          slideCurrent: xMoveIndex,
-          backButton: xMoveIndex > 0 ? true : false,
-          nextButton: xMoveIndex < this.state.slideCount - 1 ? true : false,
-        },
-        () => {
-          this.props.slideCallback && this.props.slideCallback(this.state);
-        }
-      );
+      setSlideCurrent(xMoveIndex);
+      setBackButton(xMoveIndex > 0 ? true : false);
+      setNextButton(xMoveIndex < slideCount - 1 ? true : false);
+
+      props.slideCallback && props.slideCallback(state);
     }
   };
 
-  swipeable() {
+  function swipeable() {
     /*
      * Resolve Bug no Chrome Mobile
      */
 
-    if (this.props.fullWidth) {
-      let views = this.slideWrapRef.current.querySelectorAll(
+    if (props.fullWidth) {
+      let views = slideWrapRef.current.querySelectorAll(
         `div[id^="slideview-"]`
       );
 
@@ -233,7 +201,7 @@ export class SlideView extends Component {
     }
 
     /* --- */
-    let hammer = new Hammer(this.slideWrapRef.current, {
+    let hammer = new Hammer(slideWrapRef.current, {
       inputClass:
         Hammer.TouchMouseInput /* Truque para permitir o pan horizontal e a rolagem */,
     });
@@ -245,165 +213,152 @@ export class SlideView extends Component {
       })
     );
 
-    hammer.on("panmove panend pancancel", Hammer.bindFn(this.onPan, this));
+    hammer.on("panmove panend pancancel", Hammer.bindFn(onPan, this));
   }
 
-  mount = () => {
-    this.views = Array.prototype.slice.call(
-      this.slideWrapRef.current.children,
-      0
-    );
+  const mount = () => {
+    views = Array.prototype.slice.call(slideWrapRef.current.children, 0);
 
-    this.setElementsSizes();
-    this.props.swipeable && this.swipeable();
+    setElementsSizes();
+    props.swipeable && swipeable();
   };
 
-  componentDidMount() {
-    this._isMounted = true;
-    this.mount();
+  useEffect(() => {
+    _isMounted.current = true;
+    mount();
     window.addEventListener("resize", () => {
-      this.setElementsSizes();
-      this.move(this.state.slideCurrent);
+      setElementsSizes();
+      move(slideCurrent);
     });
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-    window.removeEventListener("resize", () => {
-      this.setElementsSizes();
-      this.move(this.state.slideCurrent);
-    });
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.props.slideCallback &&
-      this.state.slideCurrent !== prevState.slideCurrent
-    ) {
-      this.props.slideCallback(this.state);
-    }
-
-    if (this.state.slideCount !== prevState.slideCount) {
-      this.move(this.state.slideCurrent);
-    }
-
-    if (this.props.step !== prevProps.step) {
-      this.move(this.props.step);
-    }
-
-    if (this.props.children !== prevProps.children) {
-      this.views = Array.prototype.slice.call(
-        this.slideWrapRef.current.children,
-        0
-      );
-      let xChildCount = React.Children.count(this.props.children);
-      this.setState({
-        slideCount: xChildCount,
+    return () => {
+      _isMounted.current = false;
+      window.removeEventListener("resize", () => {
+        setElementsSizes();
+        move(slideCurrent);
       });
-    }
+    };
+  }, []);
 
-    if (this.props.triggerNext !== prevProps.triggerNext) {
-      this.setState({
-        triggerNext: this.props.triggerNext,
-      });
-    }
+  // useEffect(() =>{
 
-    if (
-      this.state.triggerNext !== prevState.triggerNext &&
-      this.state.triggerNext === true
-    ) {
-      this.move(this.state.slideCurrent + 1);
-    }
-  }
+  // }, [slideCurrent])
 
-  render() {
-    const { area, nav, className } = this.props;
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (
+  //     props.slideCallback &&
+  //     slideCurrent !== prevState.slideCurrent
+  //   ) {
+  //     props.slideCallback(state);
+  //   }
 
-    const xRootClass = classNames(Style.root, className, {
-      [Style.container]: area === "container",
-    });
+  //   if (slideCount !== prevState.slideCount) {
+  //     move(slideCurrent);
+  //   }
 
-    const xNavClass = classNames(Style.nav, {
-      [Style.isNavDot]: nav === "dots",
-      [Style.isNavArrow]: nav === "arrows",
-    });
+  //   if (props.step !== prevProps.step) {
+  //     move(props.step);
+  //   }
 
-    return (
-      <div className={xRootClass} ref={this.slideRef}>
-        <div
-          className={Style.wrap}
-          ref={this.slideWrapRef}
-          style={{
-            transform: `translate(${this.state.wrapPosition}px)`,
-          }}
-        >
-          {this.mapChildrens()}
-        </div>
+  //   if (props.children !== prevProps.children) {
+  //     views = Array.prototype.slice.call(
+  //       slideWrapRef.current.children,
+  //       0
+  //     );
+  //     let xChildCount = React.Children.count(props.children);
+  //     setState({
+  //       slideCount: xChildCount,
+  //     });
+  //   }
 
-        {nav ? (
-          <nav className={xNavClass}>
-            {nav === "dots" ? (
-              <NavDots
-                size={this.props.children.length}
-                index={this.state.slideCurrent}
-                onClick={this.move}
-              />
-            ) : nav === "arrows" ? (
-              <Fragment>
-                {this.props.onSlideStart && !this.state.backButton ? (
-                  <IconButton
-                    aria-label="voltar"
-                    onClick={this.props.onSlideStart}
-                  >
-                    <Icon
-                      color={"primary"}
-                      iconName="arrow-previous"
-                      size={24}
-                    />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    aria-label="voltar"
-                    onClick={this.prevSlide}
-                    disabled={!this.props.nextButton || !this.state.backButton}
-                  >
-                    <Icon
-                      color={"primary"}
-                      iconName="arrow-previous"
-                      size={24}
-                    />
-                  </IconButton>
-                )}
+  //   if (props.triggerNext !== prevProps.triggerNext) {
+  //     setState({
+  //       triggerNext: props.triggerNext,
+  //     });
+  //   }
 
-                {this.props.onSlideFinish && !this.state.nextButton ? (
-                  <IconButton
-                    className={Style.arrowButton}
-                    aria-label="finalizar"
-                    onClick={this.props.onSlideFinish}
-                  >
-                    <Icon color={"primary"} iconName="ok" size={24} />
-                  </IconButton>
-                ) : (
-                  <IconButton
-                    className={Style.arrowButton}
-                    aria-label="avançar"
-                    onClick={this.nextSlide}
-                    disabled={!this.props.nextButton || !this.state.nextButton}
-                  >
-                    <Icon color={"primary"} iconName="arrow-next" size={24} />
-                  </IconButton>
-                )}
-              </Fragment>
-            ) : (
-              false
-            )}
-          </nav>
-        ) : (
-          false
-        )}
+  //   if (
+  //     triggerNext !== prevState.triggerNext &&
+  //     triggerNext === true
+  //   ) {
+  //     move(slideCurrent + 1);
+  //   }
+  // }
+
+  const { area, nav, className } = props;
+
+  const xRootClass = classNames(Style.root, className, {
+    [Style.container]: area === "container",
+  });
+
+  const xNavClass = classNames(Style.nav, {
+    [Style.isNavDot]: nav === "dots",
+    [Style.isNavArrow]: nav === "arrows",
+  });
+
+  return (
+    <div className={xRootClass} ref={slideRef}>
+      <div
+        className={Style.wrap}
+        ref={slideWrapRef}
+        style={{
+          transform: `translate(${wrapPosition}px)`,
+        }}
+      >
+        {mapChildrens()}
       </div>
-    );
-  }
+
+      {nav ? (
+        <nav className={xNavClass}>
+          {nav === "dots" ? (
+            <NavDots
+              size={props.children.length}
+              index={slideCurrent}
+              onClick={move}
+            />
+          ) : nav === "arrows" ? (
+            <Fragment>
+              {props.onSlideStart && !backButton ? (
+                <IconButton aria-label="voltar" onClick={props.onSlideStart}>
+                  <Icon color={"primary"} iconName="arrow-previous" size={24} />
+                </IconButton>
+              ) : (
+                <IconButton
+                  aria-label="voltar"
+                  onClick={prevSlide}
+                  disabled={!props.nextButton || !backButton}
+                >
+                  <Icon color={"primary"} iconName="arrow-previous" size={24} />
+                </IconButton>
+              )}
+
+              {props.onSlideFinish && !nextButton ? (
+                <IconButton
+                  className={Style.arrowButton}
+                  aria-label="finalizar"
+                  onClick={props.onSlideFinish}
+                >
+                  <Icon color={"primary"} iconName="ok" size={24} />
+                </IconButton>
+              ) : (
+                <IconButton
+                  className={Style.arrowButton}
+                  aria-label="avançar"
+                  onClick={nextSlide}
+                  disabled={!props.nextButton || !nextButton}
+                >
+                  <Icon color={"primary"} iconName="arrow-next" size={24} />
+                </IconButton>
+              )}
+            </Fragment>
+          ) : (
+            false
+          )}
+        </nav>
+      ) : (
+        false
+      )}
+    </div>
+  );
 }
 
 SlideView.propTypes = {

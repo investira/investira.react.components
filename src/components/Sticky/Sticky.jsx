@@ -1,39 +1,46 @@
-import React from 'react';
-import Style from './Sticky.module.scss';
+import React, { useRef, useState, useEffect } from "react";
+import { Box } from "../";
+import { styled } from "@mui/material/styles";
 
-import classNames from 'classnames';
-const { useRef, useState, useEffect } = React;
+const Root = styled(Box)(({ isSticky }) => ({
+  position: "relative",
+  top: "-1px",
+  transition: "0.2s ease-out",
+  zIndex: "99",
+  overflow: "auto",
+  background:
+    "linear-gradient(to bottom,rgba(25, 27, 42, 1) 0%,rgba(25, 27, 42, 1) 71%,rgba(25, 27, 42, 0.1) 100%)",
+  ...(isSticky && {
+    position: "-webkit-sticky !important",
+    position: "sticky !important",
+  }),
+}));
 
 function Sticky({ children, sticky = false, className, ...rest }) {
-    const [isSticky, setIsSticky] = useState(false);
-    const elemRef = useRef();
+  const [isSticky, setIsSticky] = useState(false);
+  const elemRef = useRef();
 
-    // mount
-    useEffect(() => {
-        const cachedRef = elemRef.current,
-            observer = new IntersectionObserver(
-                ([e]) => setIsSticky(e.intersectionRatio < 1),
-                { threshold: [1] }
-            );
+  // mount
+  useEffect(() => {
+    const cachedRef = elemRef.current,
+      observer = new IntersectionObserver(
+        ([e]) => setIsSticky(e.intersectionRatio < 1),
+        { threshold: [1] }
+      );
 
-        observer.observe(cachedRef);
+    observer.observe(cachedRef);
 
-        // unmount
-        return function() {
-            observer.unobserve(cachedRef);
-        };
-    }, []);
+    // unmount
+    return function () {
+      observer.unobserve(cachedRef);
+    };
+  }, []);
 
-    const xClass = classNames(className, {
-        [Style.root]: true,
-        [Style.isSticky]: isSticky
-    });
-
-    return (
-        <div className={xClass} ref={elemRef} {...rest}>
-            {children}
-        </div>
-    );
+  return (
+    <Root isSticky={isSticky} ref={elemRef} {...rest}>
+      {children}
+    </Root>
+  );
 }
 
 export default Sticky;

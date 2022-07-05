@@ -1,8 +1,13 @@
 import React, { memo } from "react";
+import { Box } from "../";
+import { styled } from "@mui/material/styles";
 import { validators } from "investira.sdk";
 import { displays } from "investira.react.lib";
 
-import Style from "./Highlight.module.scss";
+const Root = styled(Box)(({ theme }) => ({
+  fontWeight: "bold",
+  color: theme.palette.primary,
+}));
 
 const Highlight = memo((props) => {
   if (validators.isEmpty(props.query)) {
@@ -17,12 +22,12 @@ const Highlight = memo((props) => {
 
   return xResult.map((xPart, i) => {
     const xProps = {
-      ...(xPart.isPesquisa && { className: Style.highlight }),
+      ...xPart.isPesquisa,
     };
     return (
-      <span key={i} {...xProps}>
+      <Root component="span" key={i} {...xProps}>
         {xPart.text}
-      </span>
+      </Root>
     );
   });
 });
