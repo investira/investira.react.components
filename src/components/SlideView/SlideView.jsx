@@ -16,7 +16,7 @@ function SlideView(props) {
   const [slideCurrent, setSlideCurrent] = useState(0);
   const [backButton, setBackButton] = useState(false);
   const [nextButton, setNextButton] = useState(true);
-  const [swipeable, setSwipeable] = useState(props.swipeable);
+  const [swipeableState, setSwipeableState] = useState(props.swipeable);
   const [roadmap, setRoadmap] = useState([]);
   const [triggerNext, setTriggerNext] = useState(false);
 
@@ -53,18 +53,17 @@ function SlideView(props) {
 
   const nextSlide = () => {
     if (slideCurrent < slideCount - 1) {
-      setState(
-        {
-          slideCurrent: slideCurrent + 1,
-        },
-        () => move(slideCurrent)
-      );
+      const xNewSlideCurrent = slideCurrent + 1;
+      setSlideCurrent(xNewSlideCurrent);
+      move(xNewSlideCurrent);
     }
   };
 
   const prevSlide = () => {
     if (slideCurrent > 0) {
-      setState({ slideCurrent: slideCurrent - 1 }, () => move(slideCurrent));
+      const xNewSlideCurrent = slideCurrent - 1;
+      setSlideCurrent(xNewSlideCurrent);
+      move(xNewSlideCurrent);
     }
   };
 
@@ -99,7 +98,8 @@ function SlideView(props) {
 
       setWrapWidth(xWrapWidth);
       setSlideWidth(xSlideWidth);
-      setSlideChildWidth(xSlideChildWidth), setSlideCount(xChildCount);
+      setSlideChildWidth(xSlideChildWidth);
+      setSlideCount(xChildCount);
     }
   }
 
@@ -116,7 +116,7 @@ function SlideView(props) {
 
         setSlideCurrent((xSlideCurrent += xPercent < 0 ? 1 : -1));
 
-        if (swipeable && slideCount === slideCurrent && xPercent < -50) {
+        if (swipeableState && slideCount === slideCurrent && xPercent < -50) {
           props.onSlideFinish && props.onSlideFinish();
         }
       }
@@ -130,10 +130,7 @@ function SlideView(props) {
 
   const move = (pMoveIndex, pPercent, pAnimate) => {
     if (_isMounted.current) {
-      setState({
-        slideCurrent: pMoveIndex,
-      });
-
+      setSlideCurrent(pMoveIndex);
       let xMoveIndex = Math.max(0, Math.min(pMoveIndex, slideCount - 1));
       let xPercent = pPercent || 0;
       let xClassName = slideWrapRef.current.className;
@@ -217,7 +214,7 @@ function SlideView(props) {
   }
 
   const mount = () => {
-    views = Array.prototype.slice.call(slideWrapRef.current.children, 0);
+    const xViews = Array.prototype.slice.call(slideWrapRef.current.children, 0);
 
     setElementsSizes();
     props.swipeable && swipeable();

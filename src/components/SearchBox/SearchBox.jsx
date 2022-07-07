@@ -17,10 +17,9 @@ import {
 } from "../";
 import { styled } from "@mui/material/styles";
 import { validators } from "investira.sdk";
-import Style from "./SearchBox.module.scss";
 
 let timeout = null;
-const FindIcon = styled(Icon)(({}) => ({
+const FindIcon = styled(Icon)(() => ({
   margin: "12px",
 }));
 
@@ -184,13 +183,20 @@ const SearchBox = forwardRef((props, ref) => {
         )}
       </Stack>
       {!validators.isEmpty(querySplited) && (
-        <div className={Style.querys}>
+        <Stack
+          sx={{
+            padding: "12px 0 0 0",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            margin: "0 -4px",
+          }}
+        >
           {querySplited.map((xData, xIndex) => {
             if (validators.isEmpty(xData)) {
               return null;
             } else {
               return (
-                <div className={Style.chip} key={xIndex}>
+                <Box p={0.5} key={xIndex}>
                   <Chip
                     variant={"outlined"}
                     color={"primary"}
@@ -198,11 +204,11 @@ const SearchBox = forwardRef((props, ref) => {
                     size={"small"}
                     onDelete={() => handleDelete(xData)}
                   />
-                </div>
+                </Box>
               );
             }
           })}
-        </div>
+        </Stack>
       )}
     </Box>
   );

@@ -160,7 +160,7 @@ const Icon = memo((props) => {
 Icon.propTypes = {
   size: PropTypes.number,
   iconName: PropTypes.string,
-  className: PropTypes.string,
+  // className: PropTypes.string,
   classes: PropTypes.object,
   color: PropTypes.oneOf([
     "default",

@@ -1,63 +1,63 @@
-import React, { PureComponent } from 'react';
-import Style from './Scroller.module.scss';
-import { browsers } from 'investira.react.lib';
-//import classNames from 'classnames';
+import React, { useRef } from "react";
+import { Box } from "../";
+import { browsers } from "investira.react.lib";
 
-export class Scroller extends PureComponent {
-    constructor(props) {
-        super(props);
+function Scroller(props) {
+  let scrollTimer = null;
+  let lastScrollY = null;
+  let scrollRef = useRef();
 
-        this.scrollTimer = null;
-        this.lastScrollY = null;
-        this.scrollRef = React.createRef();
-    }
-
-    // Teste contra freezing scroll no ios
-    handleScroll = pEvent => {
-        if (browsers.isIOS()) {
-            const xScrolledElem = pEvent.target;
-            clearTimeout(this.scrollTimer);
-            this.scrollTimer = setTimeout(() => {
-                xScrolledElem.scrollTop = Math.max(
-                    1,
-                    Math.min(
-                        xScrolledElem.scrollTop,
-                        xScrolledElem.scrollHeight -
-                            xScrolledElem.clientHeight -
-                            1
-                    )
-                );
-                this.lastScrollY = xScrolledElem.scrollTop;
-            }, 300);
-        }
-    };
-
-    handleTouchStart = pEvent => {
-        this.forceScroll(pEvent, this.lastScrollY);
-    };
-
-    handleTouchEnd = pEvent => {};
-
-    forceScroll = (pEvent, pLastY) => {
-        if (browsers.isIOS()) {
-            const xCurrentTarget = pEvent.target;
-            xCurrentTarget.scrollTop = pLastY - 1;
-        }
-    };
-
-    render() {
-        return (
-            <section
-                id={this.props.id}
-                ref={this.scrollRef}
-                className={Style.root}
-                onScroll={this.handleScroll}
-                onTouchStart={this.handleTouchStart}
-                onTouchEnd={this.handleTouchEnd}>
-                {this.props.children}
-            </section>
+  // Teste contra freezing scroll no ios
+  const handleScroll = (pEvent) => {
+    if (browsers.isIOS()) {
+      const xScrolledElem = pEvent.target;
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        xScrolledElem.scrollTop = Math.max(
+          1,
+          Math.min(
+            xScrolledElem.scrollTop,
+            xScrolledElem.scrollHeight - xScrolledElem.clientHeight - 1
+          )
         );
+        lastScrollY = xScrolledElem.scrollTop;
+      }, 300);
     }
+  };
+
+  const handleTouchStart = (pEvent) => {
+    forceScroll(pEvent, lastScrollY);
+  };
+
+  const handleTouchEnd = (pEvent) => {};
+
+  const forceScroll = (pEvent, pLastY) => {
+    if (browsers.isIOS()) {
+      const xCurrentTarget = pEvent.target;
+      xCurrentTarget.scrollTop = pLastY - 1;
+    }
+  };
+
+  return (
+    <Box
+      component="section"
+      id={props.id}
+      ref={scrollRef}
+      sx={{
+        WebkitOverflowScrolling: "touch",
+        scrollBehavior: "smooth",
+        overflowY: "scroll",
+        overflowX: "hidden",
+        height: "100%",
+        width: "100%",
+      }}
+      onScroll={handleScroll}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
+      {props.children}
+    </Box>
+  );
 }
 
 export default Scroller;

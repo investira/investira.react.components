@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Typography, Icon } from "../";
-import Style from "./Rate.module.scss";
+import { Typography, Icon, Box } from "../";
 
 const Rate = (props) => {
   const elem = [
@@ -27,14 +26,16 @@ const Rate = (props) => {
   const xValue = props.value ? props.value.toFixed(2) : 0;
 
   return (
-    <span
-      className={Style.root}
+    <Box
+      display={"flex"}
+      alignItems={"center"}
+      justifyContent={"flex-start"}
       style={{
         color: props.contrastColor || attrs(props.value || 0).color,
       }}
     >
       <Typography variant={"caption"}>
-        <span className={Style.value}>{xValue}%</span>
+        <span>{xValue}%</span>
       </Typography>
 
       <Icon
@@ -42,7 +43,7 @@ const Rate = (props) => {
         iconName={attrs(props.value || 0).icon}
         color={"inherit"}
       />
-    </span>
+    </Box>
   );
 };
 
