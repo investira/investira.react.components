@@ -88,7 +88,7 @@ class ListVirtual extends PureComponent {
     // Realiza request se tiver mais páginas
     const xSize = this.props.list.length;
 
-    if (startIndex > xSize / 2 && stopIndex <= xSize - 1 && nextPage) {
+    if (startIndex > xSize / 2 && nextPage) {
       const xParams = strings.querystringToObject(nextPage);
       onNextPage && onNextPage(xParams);
     }
@@ -173,12 +173,13 @@ class ListVirtual extends PureComponent {
           isRowLoaded={this.isRowLoaded}
           loadMoreRows={this.loadMoreRows}
           rowCount={xRowCount}
+          minimumBatchSize={this.props.minimumBatchSize}
+          threshold={this.props.threshold}
         >
           {({ onRowsRendered, registerChild }) => (
             <AutoSizer>
               {({ width, height }) => (
                 <List
-                  //ref={registerChild}
                   ref={(element) => {
                     this._list = element;
                     registerChild(element);
@@ -214,12 +215,16 @@ ListVirtual.propTypes = {
   onEnter: PropTypes.func,
   onExited: PropTypes.func,
   overscanRowCount: PropTypes.number,
+  threshold: PropTypes.number,
+  minimumBatchSize: PropTypes.number,
 };
 
 ListVirtual.defaultProps = {
   itemProps: {},
   list: [],
-  overscanRowCount: 10,
+  overscanRowCount: 40,
+  threshold: 20,
+  minimumBatchSize: 40,
 };
 
 export default ListVirtual;
