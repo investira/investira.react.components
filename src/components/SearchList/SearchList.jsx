@@ -12,7 +12,9 @@ import {
 } from "../";
 
 const SearchList = (props) => {
-  const [data, setData] = useState([]);
+  const PAGE_SIZE = props.pageSize || 40;
+
+  const [data, setData] = useState({});
   const [message, setMessage] = useState("");
   const [isFetchingState, setIsFetching] = useState(false);
   const [pages, setPages] = useState({});
@@ -21,59 +23,65 @@ const SearchList = (props) => {
   const paramsRef = useRef({});
   const searchRef = useRef();
 
-  const {
-    params,
-    service,
-    success,
-    error,
-    onFetching,
-    preRequest,
-    refreshList,
-    onResetData,
-    placeholder,
-    onClear,
-  } = props;
+  function updateFetching(pValue) {
+    props.onFetching && props.onFetching(pValue);
+    setIsFetching(pValue);
+  }
+
+  function success(pData) {
+    return props.success ? props.success(pData) : pData;
+  }
 
   function requestList(pParams) {
-    const xService = service;
-    const xSuccess = success;
-    const xError = error;
-    const xOnFetching = onFetching;
-    const xPreRequest = preRequest;
+    const { service } = props;
+
     const xParams = { ...pParams };
-    const xIsSearch = !validators.isNull(pParams.pesquisa);
-    let xxPreRequest = null;
-    xPreRequest
-      ? (xxPreRequest = xPreRequest(xIsSearch, pParams.pesquisa))
-      : (xxPreRequest = null);
-    if (xxPreRequest === "cancel") {
-      return;
-    }
+
     setMessage("");
-    xOnFetching && xOnFetching(true);
-    setIsFetching(true);
-    xService(
+    updateFetching(true);
+
+    service(
       xParams,
       (rRes) => {
-        setIsFetching(false);
-        xOnFetching && xOnFetching(false);
-        setPages(rRes.pages);
-        if (xSuccess) {
-          setData(xSuccess(rRes.data, xIsSearch, data));
-        } else if (!xIsSearch && data.length > rRes.data.length) {
-          setData(Object.values({ ...data, ...rRes.data }));
+        updateFetching(false);
+
+        setPages(rRes?.pages || {});
+
+        if (validators.isEmpty(rRes.data)) {
+          setData({});
+          setMessage("Nenhum resultado encontrado");
         } else {
-          setData(Object.values(rRes.data));
+          setData((prevData) => {
+            return success({ ...prevData, ...rRes.data });
+          });
         }
       },
       (rErr) => {
-        xOnFetching && xOnFetching(false);
-        setIsFetching(false);
-        setMessage(rErr.message);
-        xError && xError(rErr);
-        props.responseErrorHandling && props.responseErrorHandling(rErr);
+        updateFetching(false);
+
+        const errorHandler = () => {
+          setIsFetching(false);
+          setMessage(rErr.message);
+        };
+
+        const xCallbacks = {
+          err500: errorHandler,
+          err404: errorHandler,
+          err400: errorHandler,
+        };
+
+        props.error && props.error(rErr);
+
+        if (props.responseErrorHandling) {
+          props.responseErrorHandling(rErr, xCallbacks);
+        }
       }
     );
+  }
+
+  function onResetData(pValue) {
+    setData(pValue);
+    console.log("ONRESTEDATA", pValue);
   }
 
   function onUpdateParams(pParams) {
@@ -82,33 +90,32 @@ const SearchList = (props) => {
   }
 
   useEffect(() => {
-    if (validators.isEmpty(data)) {
-      setMessage("Sem resultado para esta pesquisa");
+    if (props.refreshList && isMount.current) {
+      onUpdateParams(props.params);
+      requestList(props.params);
     }
-  }, [data]);
+  }, [props.refreshList]);
 
-  useEffect(() => {
-    if (refreshList && isMount.current) {
-      requestList(params);
-    }
-  }, [refreshList]);
-
-  useEffect(() => {
-    let xNewParams = onUpdateParams(params);
-    if (validators.isEmpty(params.status)) {
-      delete xNewParams.status;
-    }
-    isMount.current && requestList(xNewParams);
-  }, [params.status]);
+  // TODO: Analisar se ainda é necessario para Contatos ou buscar outra abordagem
+  // useEffect(() => {
+  //   let xNewParams = onUpdateParams(params);
+  //   if (validators.isEmpty(params.status)) {
+  //     delete xNewParams.status;
+  //   }
+  //   isMount.current && requestList(xNewParams);
+  // }, [params.status]);
 
   useEffect(() => {
     isMount.current = true;
-    onUpdateParams(params);
-    requestList(params);
+    onUpdateParams(props.params);
+    requestList(props.params);
+
     return () => {
       isMount.current = false;
     };
   }, []);
+
+  const xData = Object.values(data);
 
   return (
     <Container sx={{ height: "100%" }}>
@@ -123,27 +130,30 @@ const SearchList = (props) => {
               {...props}
               ref={searchRef}
               value={paramsRef.current.pesquisa}
-              placeholder={placeholder}
+              placeholder={props.placeholder}
               inputProps={{ autofocus: true }}
               onUpdateParams={onUpdateParams}
               onResetData={onResetData}
-              onClear={onClear}
+              onClear={props.onClear}
             />
           }
           filter={props.filterProps && <FilterBar {...props.filterProps} />}
         >
           <ListState
             padding={false}
-            listSize={data.length}
+            listSize={xData.length}
             isFetching={isFetchingState}
             message={message}
           >
             <ListVirtual
-              {...props}
+              key={"searchlist"}
               nextPage={pages?.next}
               onNextPage={requestList}
               totalItens={pages?.total_items}
-              list={data}
+              list={xData}
+              minimumBatchSize={PAGE_SIZE}
+              threshold={PAGE_SIZE / 2}
+              overscanRowCount={PAGE_SIZE}
               item={props.item}
               itemProps={{
                 ...props.itemProps,
@@ -158,20 +168,18 @@ const SearchList = (props) => {
 };
 
 SearchList.propTypes = {
-  // {...request}
-  request: PropTypes.shape({
-    service: PropTypes.func.isRequired,
-    success: PropTypes.func.isRequired,
-    error: PropTypes.func.isRequired,
-    params: PropTypes.object,
-    onFetching: PropTypes.func,
-  }),
+  service: PropTypes.func.isRequired,
+  success: PropTypes.func.isRequired,
+  error: PropTypes.func.isRequired,
+  params: PropTypes.object,
+  onFetching: PropTypes.func,
   refreshList: PropTypes.bool,
   virtual: PropTypes.bool,
   item: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
   itemProps: PropTypes.object,
   filterProps: PropTypes.object,
   placeholder: PropTypes.string,
+  pageSize: PropTypes.number,
 };
 
 export default SearchList;
