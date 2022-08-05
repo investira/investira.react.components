@@ -23,23 +23,26 @@ const SwipeList = memo((props) => {
   return (
     <Swiper
       pagination={props.pagination}
+      className={Style.container}
       modules={[Pagination]}
       centeredSlides={props.centeredSlides}
       centeredSlidesBounds={props.centeredSlidesBounds}
       slidesPerView={props.slidesPerView}
       spaceBetween={props.spaceBetween}
-      className={Style.container}
     >
       {!validators.isEmpty(props.data) &&
         Object.values(props.data).map((xItem, xIndex) => {
           const xElemKey = `${xId}-item-${xIndex}`;
           return (
             <SwiperSlide key={xElemKey} style={{ width: props.slideWidth }}>
-              <Component
-                {...props.childProps}
-                data={xItem}
-                onClick={(e) => handleClick(xItem, xIndex, e)}
-              />
+              {({ isActive }) => (
+                <Component
+                  {...props.childProps}
+                  data={xItem}
+                  onClick={(e) => handleClick(xItem, xIndex, e)}
+                  isActive={isActive}
+                />
+              )}
             </SwiperSlide>
           );
         })}
