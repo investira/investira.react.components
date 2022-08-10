@@ -169,8 +169,8 @@ const SearchList = (props) => {
 
 SearchList.propTypes = {
   service: PropTypes.func.isRequired,
-  success: PropTypes.func.isRequired,
-  error: PropTypes.func.isRequired,
+  success: PropTypes.func,
+  error: PropTypes.func,
   params: PropTypes.object,
   onFetching: PropTypes.func,
   refreshList: PropTypes.bool,
