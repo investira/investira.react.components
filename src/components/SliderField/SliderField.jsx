@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Typography from "@mui/material/Typography";
 import Slider from "@mui/material/Slider";
 import { formats } from "investira.sdk";
-import { useFormikContext } from "formik";
+// import { useFormikContext } from "formik";
 import { numbers } from "investira.sdk";
 
 const SliderField = memo((props) => {
@@ -15,7 +15,7 @@ const SliderField = memo((props) => {
   const scale = useRef({});
 
   // Formik
-  const context = useFormikContext();
+  //   const context = useFormikContext();
 
   // Handlers
   const valueIndex = useCallback((pValue) => {
