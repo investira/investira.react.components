@@ -1,0 +1,25 @@
+.container {
+    display: flex;
+    flex-direction: column-reverse;
+
+    :global {
+        .swiper-wrapper > div:first-child {
+           margin-left: 16px;
+        }
+        .swiper-wrapper > div:last-child {
+            margin-right: 16px;
+        }
+
+        .swiper-pagination {
+            position: relative;
+            bottom: 0;
+            padding: 4px 16px;
+            height: 28px;
+
+            &-bullet-active {
+                background: var(--color-primary);
+            }
+        }
+    }
+}
+

@@ -7,7 +7,7 @@ import { NavBar, IconButton, Icon, DeckContext } from "../";
 const DeckNavBar = memo((props) => {
   return (
     <DeckContext.Consumer>
-      {({ prevView, onPrevView, activeView }) => {
+      {({ prevView, handlePrevView, activeView }) => {
         const xBehaviors = {
           default: validators.isEmpty(prevView),
           inverted: !validators.isEmpty(prevView),
@@ -28,7 +28,7 @@ const DeckNavBar = memo((props) => {
               !validators.isEmpty(prevView) ? (
                 <IconButton
                   color={"primary"}
-                  onClick={() => onPrevView(props.onBack)}
+                  onClick={() => handlePrevView(props.onBack)}
                 >
                   <Icon size={21} iconName={"arrow-previous"} />
                 </IconButton>

@@ -1,102 +1,80 @@
-import React, { Component } from 'react';
-import { currency } from 'investira.react.lib';
-import { validators } from 'investira.sdk';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState, forwardRef } from "react";
+import { currency } from "investira.react.lib";
+import { validators } from "investira.sdk";
+import PropTypes from "prop-types";
 
-class InputCurrency extends Component {
-    constructor(props) {
-        super(props);
+const InputCurrency = forwardRef((props, ref) => {
+  const [value, setValue] = useState(props.value);
 
-        this.state = {
-            value: this.props.value || ''
-        };
+  function formatTextValue(pValue = "", pDecimal = 2, pCurrency = "BRL") {
+    const xValue = validators.isNumber(pValue)
+      ? pValue.toFixed(pDecimal)
+      : pValue;
+
+    return currency.toCurrency(
+      xValue.toString(),
+      ".",
+      pCurrency,
+      "pt-BR",
+      pDecimal
+    );
+  }
+
+  function handleChange(pEvent) {
+    pEvent.persist();
+    const xValueAsCurrency = formatTextValue(
+      pEvent.target.value,
+      props.decimal,
+      props.currency
+    );
+
+    setValue(xValueAsCurrency);
+
+    if (props.onChange) {
+      props.onChange(
+        pEvent,
+        currency.currencyToNumber(xValueAsCurrency, ".", props.decimal)
+      );
     }
+  }
 
-    formatTextValue = (pValue = '') => {
-        const xValue = validators.isNumber(pValue)
-            ? pValue.toFixed(this.props.decimal)
-            : pValue;
+  function getValue() {
+    return value || props.value;
+  }
 
-        return currency.toCurrency(
-            xValue.toString(),
-            '.',
-            this.props.currency,
-            'pt-BR',
-            this.props.decimal
-        );
-    };
-
-    handleChange = pEvent => {
-        const xValueAsCurrency = this.formatTextValue(pEvent.target.value);
-
-        this.setState({ value: xValueAsCurrency });
-
-        if (this.props.onChange) {
-            pEvent.persist();
-            this.props.onChange(
-                pEvent,
-                currency.currencyToNumber(
-                    xValueAsCurrency,
-                    '.',
-                    this.props.decimal
-                )
-            );
-        }
-    };
-
-    get value() {
-        return this.state.value || this.props.value;
+  useEffect(() => {
+    if (formatTextValue(props.value) !== value) {
+      setValue(formatTextValue(props.value));
     }
+  }, [props.value, value]);
 
-    componentDidMount() {
-        this.setState({
-            value: this.formatTextValue(this.props.value)
-        });
-    }
+  const { ...inputProps } = props;
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.formatTextValue(this.props.value) !== this.state.value) {
-            this.setState({
-                value: this.formatTextValue(this.props.value)
-            });
-        }
-    }
-
-    render() {
-        const {
-            handleChange,
-            props: { defaultValue, separator, inputRef, ...inputProps },
-            value
-        } = this;
-
-        return (
-            <div>
-                <input
-                    ref={inputRef}
-                    {...inputProps}
-                    type="text"
-                    pattern="\d*"
-                    value={value}
-                    data-numeric-input
-                    onChange={handleChange}
-                />
-            </div>
-        );
-    }
-}
+  return (
+    <input
+      ref={ref}
+      {...inputProps}
+      type="text"
+      pattern="\d*"
+      data-numeric-input
+      value={getValue()}
+      onChange={handleChange}
+    />
+  );
+});
 
 InputCurrency.propTypes = {
-    onChange: PropTypes.func,
-    defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    currency: PropTypes.string,
-    separator: PropTypes.oneOf(['.', ','])
+  onChange: PropTypes.func,
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  currency: PropTypes.string,
+  separator: PropTypes.oneOf([".", ","]),
 };
 
 InputCurrency.defaultProps = {
-    defaultValue: '0.00',
-    separator: ',',
-    currency: 'BRL'
+  defaultValue: "0.00",
+  separator: ",",
+  currency: "BRL",
 };
 
 export default InputCurrency;

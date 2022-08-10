@@ -5,7 +5,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Slide,
+  //Slide,
   Success,
   Error,
   Button,
@@ -121,20 +121,13 @@ const withDialog = (Component, pProps = initProps) => {
     );
   };
 
-  class wrapComponent extends React.Component {
-    initialState = {
-      isOpen: false,
-      status: null, //success | error
-      message: null,
-    };
+  function WrapComponent(props) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [status, setStatus] = useState(null); //success | error
+    const [message, setMessage] = useState(null);
 
-    body = {};
-
-    state = {
-      ...this.initialState,
-    };
-
-    formSubmit = null;
+    const body = useRef({});
+    const formSubmit = useRef(null);
 
     /**
      * Exibe o Dialog
@@ -165,13 +158,9 @@ const withDialog = (Component, pProps = initProps) => {
      *    retryAction: handleAction
      * }
      */
-
-    handleOpenDialog = (pProps) => {
-      this.body = { ...pProps };
-
-      this.setState({
-        isOpen: true,
-      });
+    const handleOpenDialog = (pProps) => {
+      body.current = { ...pProps };
+      setIsOpen(true);
     };
 
     // Fechar Dialog
@@ -190,31 +179,27 @@ const withDialog = (Component, pProps = initProps) => {
     };
 
     // Altera para Dialog de sucesso
-    handleSuccess = (pMessage = null) => {
-      this.setState({
-        ...this.state,
-        status: "success",
-        message: pMessage,
-      });
+    const handleSuccess = (pMessage = null) => {
+      setStatus("success");
+      setMessage(pMessage);
     };
 
     // Altera para Dialog de erro
-    handleError = (pMessage = null) => {
-      this.setState({
-        ...this.state,
-        status: "error",
-        message: pMessage,
-      });
+    const handleError = (pMessage = null) => {
+      setStatus("error");
+      setMessage(pMessage);
     };
 
     // Altera para Dialog de loading
-    handleFetching = () => {
-      this.setState({ ...this.state, status: "fetching" });
+    const handleFetching = () => {
+      setStatus("fetching");
+      setMessage(message);
     };
 
     // Reinicia para Dialog default
-    handleResetStatus = () => {
-      this.setState({ ...this.state, status: "null" });
+    const handleResetStatus = () => {
+      setStatus("null");
+      setMessage(message);
     };
 
     // Ação de nova tentativa do Dialog de erro
@@ -443,6 +428,31 @@ const withDialog = (Component, pProps = initProps) => {
         </>
       );
     }
+
+    return (
+      <>
+        <Component {...xProps} />
+        <Dialog
+          fullWidth
+          fullScreen={withProps.fullScreen}
+          open={isOpen}
+          onClose={handleCloseDialog}
+          //TransitionComponent={Transition}
+          //PaperProps={{ style: { pointerEvents: 'none' } }}
+        >
+          {!validators.isEmpty(title) && titleRender(status)}
+
+          {!validators.isNull(content) &&
+            (withProps.wrapContent ? (
+              <DialogContent>{contentRender(status)}</DialogContent>
+            ) : (
+              contentRender(status)
+            ))}
+
+          {!validators.isEmpty(actions) && actionRender(status)}
+        </Dialog>
+      </>
+    );
   }
 
   return wrapComponent;

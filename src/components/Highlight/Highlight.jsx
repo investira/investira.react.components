@@ -9,6 +9,10 @@ const Highlight = memo((props) => {
     return <span>{props.text}</span>;
   }
 
+  if (validators.isEmpty(props.text)) {
+    return null;
+  }
+
   const xResult = displays.highlightSearch(props.query, props.text);
 
   return xResult.map((xPart, i) => {

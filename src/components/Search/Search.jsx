@@ -8,9 +8,7 @@ import React, {
 } from "react";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
-import { SearchBox, CrudConsumer, CrudContext } from "../";
-
-import Style from "./Search.module.scss";
+import { SearchBox, CrudContext } from "../";
 
 const Search = forwardRef((props, ref) => {
   const [params, setParams] = useState({});
@@ -27,18 +25,21 @@ const Search = forwardRef((props, ref) => {
     setParams(xParams);
   };
 
-  const handleClear = (pValue) => {
-    //props.onResetData && props.onResetData({});
+  const handleClear = () => {
+    props.onResetData && props.onResetData({});
+    props.onClear && props.onClear();
     setParams({ pesquisa: null });
-    // props.onUpdateParams &&
-    //     props.onUpdateParams({ ...params, pesquisa: undefined });
+    props.onUpdateParams &&
+      props.onUpdateParams({ ...params, pesquisa: undefined });
   };
 
   useEffect(() => {
     if (mount.current) {
       props.onResetData && props.onResetData({});
-      onRead && onRead(params);
-      props.onUpdateParams && props.onUpdateParams(params);
+      const xParams = props.onUpdateParams
+        ? props.onUpdateParams(params)
+        : params;
+      onRead && onRead(xParams);
     }
   }, [params.pesquisa]);
 
@@ -47,19 +48,18 @@ const Search = forwardRef((props, ref) => {
   }, []);
 
   return (
-    <div className={Style.padding}>
-      <SearchBox
-        ref={ref}
-        value={props.value}
-        onChange={handleSearch}
-        placeholder={props.placeholder}
-        clearCallback={handleClear}
-      />
-    </div>
+    <SearchBox
+      ref={ref}
+      value={props.value}
+      onChange={handleSearch}
+      placeholder={props.placeholder}
+      clearCallback={handleClear}
+    />
   );
 });
 
 Search.propTypes = {
+  onClear: PropTypes.func,
   onResetData: PropTypes.func,
   forwardRef: PropTypes.func,
   onUpdateParams: PropTypes.func,
