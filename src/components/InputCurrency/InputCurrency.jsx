@@ -38,10 +38,6 @@ const InputCurrency = forwardRef((props, ref) => {
     }
   }
 
-  function getValue() {
-    return value || props.value;
-  }
-
   useEffect(() => {
     if (formatTextValue(props.value) !== value) {
       setValue(formatTextValue(props.value));
@@ -52,12 +48,12 @@ const InputCurrency = forwardRef((props, ref) => {
 
   return (
     <input
-      ref={ref}
+      //ref={ref}
       {...inputProps}
       type="text"
       pattern="\d*"
       data-numeric-input
-      value={getValue()}
+      value={value || props.value}
       onChange={handleChange}
     />
   );
@@ -65,16 +61,16 @@ const InputCurrency = forwardRef((props, ref) => {
 
 InputCurrency.propTypes = {
   onChange: PropTypes.func,
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   currency: PropTypes.string,
   separator: PropTypes.oneOf([".", ","]),
 };
 
 InputCurrency.defaultProps = {
-  defaultValue: "0.00",
   separator: ",",
   currency: "BRL",
 };
+
+InputCurrency.displayName = "InputCurrency";
 
 export default InputCurrency;
