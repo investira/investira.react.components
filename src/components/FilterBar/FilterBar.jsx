@@ -43,7 +43,7 @@ const FilterBar = (props) => {
   };
 
   const xData = props.data || [];
-  console.log(active);
+
   return (
     <Root margin={props.margin}>
       <Stack

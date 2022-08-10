@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
-import { styled } from "@mui/material/styles";
+import { styled, alpha } from "@mui/material/styles";
 
 const Svg = styled("svg")(({ color, theme }) => {
   return {
@@ -19,60 +19,60 @@ const Svg = styled("svg")(({ color, theme }) => {
       fill: theme.palette.primary.main,
     }),
     ...(color === "primaryLightness" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.primary.lightness,
+      fill: theme.palette.primary.lightness,
     }),
     ...(color === "secondary" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.secondary,
+      fill: theme.palette.secondary,
     }),
     ...(color === "secondaryLight" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.secondary.light,
+      fill: theme.palette.secondary.light,
     }),
     ...(color === "primaryDarkness" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.primary.darkness,
+      fill: theme.palette.primary.darkness,
     }),
     ...(color === "warn" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.warning,
+      fill: theme.palette.warning,
     }),
     ...(color === "danger" && {
-      stroke: theme.palette.error.main,
-      fill: theme.palette.error.main,
+      stroke: theme.palette.danger,
+      fill: theme.palette.danger,
     }),
     ...(color === "error" && {
-      stroke: theme.palette.error.main,
-      fill: theme.palette.error.main,
+      stroke: theme.palette.danger,
+      fill: theme.palette.danger,
     }),
     ...(color === "infoLight" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.info.light,
+      fill: theme.palette.info.light,
     }),
     ...(color === "info" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.info,
+      fill: theme.palette.info,
     }),
     ...(color === "infoDark" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.info.dark,
+      fill: theme.palette.info.dark,
     }),
     ...(color === "infoHighlight" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.info.highlight,
+      fill: theme.palette.info.highlight,
     }),
     ...(color === "textPrimary" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: alpha(theme.palette.white, 0.9),
+      fill: alpha(theme.palette.white, 0.9),
     }),
     ...(color === "textSecondary" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.secondary.lightness,
+      fill: theme.palette.secondary.lightness,
     }),
     ...(color === "black" && {
-      stroke: theme.palette.primary.main,
-      fill: theme.palette.primary.main,
+      stroke: theme.palette.black,
+      fill: theme.palette.black,
     }),
     ...(color === "greenLight" && {
       fill: 'url("#icon-component-gradient-greenLight")',

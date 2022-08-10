@@ -7,11 +7,29 @@ import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
 import "swiper/swiper.scss";
 import "swiper/modules/grid/grid.scss";
 import "swiper/modules/pagination/pagination.scss";
+import { styled } from "@mui/material/styles";
 
-import Style from "./SwipeGridList.module.scss";
+const GridContainer = styled(Swiper)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column-reverse",
+  width: "100%",
+  height: "100%",
+  mx: "auto",
+  ":global": {
+    ".swiper-pagination": {
+      position: "relative",
+      bottom: 0,
+      p: "4px 16px",
+      height: "28px",
 
+      "&-bullet-active": {
+        background: theme.palette.primary,
+      },
+    },
+  },
+}));
 const SwipeGridList = memo((props) => {
-  const [warpHeight, setWarpHeight] = useState(300);
+  const [wrapHeight, setWrapHeight] = useState(300);
   const slideRef = useRef(null);
   const PAGINATION_HEIGHT = 28;
 
@@ -32,7 +50,7 @@ const SwipeGridList = memo((props) => {
         slideHeight * props.rows +
         props.spaceBetween * (props.rows - 1) +
         PAGINATION_HEIGHT;
-      setWarpHeight(calcHeight);
+      setWrapHeight(calcHeight);
     }
   }, [props.data, props.rows, props.spaceBetween]);
 
@@ -60,7 +78,7 @@ const SwipeGridList = memo((props) => {
   );
 
   return (
-    <Swiper
+    <GridContainer
       slidesPerView={props.columns}
       grid={{
         fill: "row",
@@ -69,13 +87,12 @@ const SwipeGridList = memo((props) => {
       spaceBetween={props.spaceBetween}
       pagination={props.pagination}
       modules={[Grid, Pagination]}
-      className={Style.gridContainer}
     >
       {!validators.isEmpty(props.data) &&
         Object.values(props.data).map((xItem, xIndex) => {
           return renderItem(xItem, xIndex);
         })}
-    </Swiper>
+    </GridContainer>
   );
 });
 

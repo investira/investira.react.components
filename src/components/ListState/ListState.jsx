@@ -1,38 +1,50 @@
 import React, { memo } from "react";
-import { Typography, CenterInView, Loading } from "../";
-import classNames from "classnames";
+import { Typography, CenterInView, Loading, Box } from "../";
 import PropTypes from "prop-types";
 
-import Style from "./ListState.module.scss";
-
 const ListMessage = memo((props) => {
-  const xClass = classNames(Style.root, props.className, {
-    [Style.padding]: props.padding,
-  });
-
   if (props.isFetching && props.listSize <= 0) {
     return (
-      <div className={xClass}>
+      <Box
+        sx={[
+          { minHeight: "200px", width: "100%" },
+          ...(props.padding && { padding: "0 16px" }),
+        ]}
+      >
         <CenterInView>
           <Loading />
         </CenterInView>
-      </div>
+      </Box>
     );
   }
 
   if (props.message) {
     return (
-      <div className={xClass}>
+      <Box
+        sx={[
+          { minHeight: "200px", width: "100%" },
+          ...(props.padding && { padding: "0 16px" }),
+        ]}
+      >
         <CenterInView>
           <Typography color={"textSecondary"} align={"center"}>
             {props.message}
           </Typography>
         </CenterInView>
-      </div>
+      </Box>
     );
   }
 
-  return <div className={xClass}>{props.children}</div>;
+  return (
+    <Box
+      sx={[
+        { minHeight: "200px", width: "100%" },
+        ...(props.padding && { padding: "0 16px" }),
+      ]}
+    >
+      {props.children}
+    </Box>
+  );
 });
 
 ListMessage.defaultProps = {

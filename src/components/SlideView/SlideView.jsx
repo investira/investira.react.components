@@ -1,12 +1,23 @@
 import React, { useState, useRef, useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import Hammer from "hammerjs";
 import NavDots from "../NavDots";
-import Icon from "../Icon";
+import { Icon, Box } from "../";
 import { ButtonBase, IconButton } from "../wrappers";
+import { alpha, styled } from "@mui/material/styles";
 import Style from "./SlideView.module.scss";
 
+const DotButton = styled(ButtonBase)(({ theme }) => ({
+  display: "inline-block",
+  margin: "8px",
+  padding: "8px",
+  borderRadius: "50%",
+  color: alpha(theme.palette.white, 0.9),
+}));
+
+const StyledIconButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.primary,
+}));
 function SlideView(props) {
   const [wrapWidth, setWrapWidth] = useState(0);
   const [wrapPosition, setWrapPosition] = useState(0);
@@ -19,7 +30,7 @@ function SlideView(props) {
   const [swipeableState, setSwipeableState] = useState(props.swipeable);
   const [roadmap, setRoadmap] = useState([]);
   const [triggerNext, setTriggerNext] = useState(false);
-
+  let views = [];
   const slideRef = useRef();
   const slideWrapRef = useRef();
   const slideChildRef = useRef();
@@ -34,17 +45,26 @@ function SlideView(props) {
     xCurrent.slice(slideCurrent, slideCurrent + xMaxDots);
 
     const elements = xCurrent.map((_, i) => {
-      const isActive = slideCurrent === i ? Style.isActive : "";
-
       return (
-        <ButtonBase
-          key={i}
-          centerRipple={true}
-          className={Style.dotButton}
-          onClick={() => move(i)}
-        >
-          <span className={Style.dot + " " + isActive} />
-        </ButtonBase>
+        <DotButton key={i} centerRipple={true} onClick={() => move(i)}>
+          <Box
+            component="span"
+            sx={[
+              (theme) => (
+                {
+                  display: "block",
+                  width: "8px",
+                  height: "8px",
+                  borderRadius: "50%",
+                  backgroundColor: alpha(theme.palette.white, 0.9),
+                },
+                slideCurrent === i && {
+                  backgroundColor: theme.palette.primary,
+                }
+              ),
+            ]}
+          />
+        </DotButton>
       );
     });
 
@@ -68,21 +88,42 @@ function SlideView(props) {
   };
 
   const mapChildrens = () => {
-    let xClass = props.fullWidth ? Style.viewFull : Style.view;
-
     let elements = props.children.map((child, i) => {
       return (
-        <div
+        <Box
           key={`${props.id}-${i}`}
           ref={slideChildRef}
           id={`slideview-${i}`}
-          className={xClass}
+          sx={[
+            {
+              pointerEvents: "none",
+              width: "calc(100vw - 24px)",
+              padding: "0 4px",
+              height: "calc(100% - 34px)",
+              position: "absolute",
+              left: 0,
+              top: 0,
+              overflowY: "auto",
+              WebkitOverflowScrolling: "touch",
+              zIndex: 0,
+            },
+            props.fullWidth && {
+              width: "100vw",
+              height: "100%",
+              position: "absolute",
+              left: 0,
+              top: 0,
+              overflowY: "auto",
+              WebkitOverflowScrolling: "touch",
+              zIndex: 0,
+            },
+          ]}
           style={{
             zIndex: 100 - i,
           }}
         >
           {child}
-        </div>
+        </Box>
       );
     });
 
@@ -134,7 +175,7 @@ function SlideView(props) {
       let xMoveIndex = Math.max(0, Math.min(pMoveIndex, slideCount - 1));
       let xPercent = pPercent || 0;
       let xClassName = slideWrapRef.current.className;
-
+      console.log(slideWrapRef.current);
       if (pAnimate) {
         if (xClassName.indexOf(Style.swapped) === -1) {
           slideWrapRef.current.className += ` ${Style.swapped}`;
@@ -164,16 +205,29 @@ function SlideView(props) {
           xTranslate = "translate3d(" + xPos + "px, 0, 0)";
         }
 
-        views[xViewIndex].style.transform = xTranslate;
-        views[xViewIndex].style.mozTransform = xTranslate;
-        views[xViewIndex].style.webkitTransform = xTranslate;
+        // views[xViewIndex].style.transform = xTranslate;
+        // views[xViewIndex].style.mozTransform = xTranslate;
+        // views[xViewIndex].style.webkitTransform = xTranslate;
       }
 
       setSlideCurrent(xMoveIndex);
       setBackButton(xMoveIndex > 0 ? true : false);
       setNextButton(xMoveIndex < slideCount - 1 ? true : false);
 
-      props.slideCallback && props.slideCallback(state);
+      props.slideCallback &&
+        props.slideCallback({
+          wrapWidth,
+          wrapPosition,
+          slideWidth,
+          slideChildWidth,
+          slideCount,
+          slideCurrent,
+          backButton,
+          nextButton,
+          swipeableState,
+          roadmap,
+          triggerNext,
+        });
     }
   };
 
@@ -183,9 +237,7 @@ function SlideView(props) {
      */
 
     if (props.fullWidth) {
-      let views = slideWrapRef.current.querySelectorAll(
-        `div[id^="slideview-"]`
-      );
+      views = slideWrapRef.current.querySelectorAll(`div[id^="slideview-"]`);
 
       function logArrayElements(element) {
         let xHammer = Hammer(element);
@@ -236,76 +288,93 @@ function SlideView(props) {
     };
   }, []);
 
-  // useEffect(() =>{
+  useEffect(() => {
+    if (props.slideCallback) {
+      props.slideCallback({
+        wrapWidth,
+        wrapPosition,
+        slideWidth,
+        slideChildWidth,
+        slideCount,
+        slideCurrent,
+        backButton,
+        nextButton,
+        swipeableState,
+        roadmap,
+        triggerNext,
+      });
+    }
+  }, [slideCurrent]);
 
-  // }, [slideCurrent])
+  useEffect(() => {
+    move(slideCurrent);
+  }, [slideCount]);
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (
-  //     props.slideCallback &&
-  //     slideCurrent !== prevState.slideCurrent
-  //   ) {
-  //     props.slideCallback(state);
-  //   }
+  useEffect(() => {
+    move(props.step);
+  }, [props.step]);
 
-  //   if (slideCount !== prevState.slideCount) {
-  //     move(slideCurrent);
-  //   }
+  useEffect(() => {
+    views = Array.prototype.slice.call(slideWrapRef.current.children, 0);
+    let xChildCount = React.Children.count(props.children);
+    setSlideCount(xChildCount);
+  }, [props.children]);
 
-  //   if (props.step !== prevProps.step) {
-  //     move(props.step);
-  //   }
+  useEffect(() => {
+    setTriggerNext(props.triggerNext);
+  }, [props.triggerNext]);
+  useEffect(() => {
+    if (triggerNext) {
+      move(slideCurrent + 1);
+    }
+  }, [triggerNext]);
 
-  //   if (props.children !== prevProps.children) {
-  //     views = Array.prototype.slice.call(
-  //       slideWrapRef.current.children,
-  //       0
-  //     );
-  //     let xChildCount = React.Children.count(props.children);
-  //     setState({
-  //       slideCount: xChildCount,
-  //     });
-  //   }
-
-  //   if (props.triggerNext !== prevProps.triggerNext) {
-  //     setState({
-  //       triggerNext: props.triggerNext,
-  //     });
-  //   }
-
-  //   if (
-  //     triggerNext !== prevState.triggerNext &&
-  //     triggerNext === true
-  //   ) {
-  //     move(slideCurrent + 1);
-  //   }
-  // }
-
-  const { area, nav, className } = props;
-
-  const xRootClass = classNames(Style.root, className, {
-    [Style.container]: area === "container",
-  });
-
-  const xNavClass = classNames(Style.nav, {
-    [Style.isNavDot]: nav === "dots",
-    [Style.isNavArrow]: nav === "arrows",
-  });
+  const { area, nav } = props;
 
   return (
-    <div className={xRootClass} ref={slideRef}>
-      <div
-        className={Style.wrap}
-        ref={slideWrapRef}
-        style={{
+    <Box
+      sx={[
+        {
+          display: "grid",
+          position: "relative",
+          overflow: "hidden",
+          height: "100%",
+        },
+        area === "container" && {
+          width: "100%",
+          height: "100%",
+        },
+      ]}
+      ref={slideRef}
+    >
+      <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          maxHeight: "100%",
           transform: `translate(${wrapPosition}px)`,
         }}
+        ref={slideWrapRef}
       >
         {mapChildrens()}
-      </div>
+      </Box>
 
       {nav ? (
-        <nav className={xNavClass}>
+        <Box
+          component="nav"
+          sx={[
+            {
+              position: "absolute",
+              bottom: 0,
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              padding: "16px 4px 16px 4px",
+            },
+            nav === "dots" && { justifyContent: "center" },
+            nav === "arrows" && { justifyContent: "space-between" },
+          ]}
+        >
           {nav === "dots" ? (
             <NavDots
               size={props.children.length}
@@ -329,32 +398,30 @@ function SlideView(props) {
               )}
 
               {props.onSlideFinish && !nextButton ? (
-                <IconButton
-                  className={Style.arrowButton}
+                <StyledIconButton
                   aria-label="finalizar"
                   onClick={props.onSlideFinish}
                 >
                   <Icon color={"primary"} iconName="ok" size={24} />
-                </IconButton>
+                </StyledIconButton>
               ) : (
-                <IconButton
-                  className={Style.arrowButton}
+                <StyledIconButton
                   aria-label="avançar"
                   onClick={nextSlide}
                   disabled={!props.nextButton || !nextButton}
                 >
                   <Icon color={"primary"} iconName="arrow-next" size={24} />
-                </IconButton>
+                </StyledIconButton>
               )}
             </Fragment>
           ) : (
             false
           )}
-        </nav>
+        </Box>
       ) : (
         false
       )}
-    </div>
+    </Box>
   );
 }
 

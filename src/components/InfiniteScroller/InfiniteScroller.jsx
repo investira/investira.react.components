@@ -1,12 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import { validators } from "investira.sdk";
 
-import { Scroller } from "../";
+import { Scroller, Box } from "../";
 import { Loading, CenterInView } from "../template";
-
-import Style from "./InfiniteScroller.module.scss";
 
 function InfiniteScroller(props) {
   const scroller = useRef();
@@ -167,33 +164,42 @@ function InfiniteScroller(props) {
   const { children, nextPage, prevPage } = props;
   //const xChild = React.Children.only(children);
 
-  const xLoadingEndAreaClass = classNames(Style.loadingArea, {
-    [Style.loadingHidden]: validators.isEmpty(nextPage),
-  });
-  const xLoadingStartAreaClass = classNames(Style.loadingArea, {
-    [Style.loadingHidden]: validators.isEmpty(prevPage),
-  });
-
   return (
     <Scroller ref={scroller}>
-      <div
+      <Box
         id={"startList"}
         ref={startListRef}
-        className={xLoadingStartAreaClass}
+        sx={[
+          { position: "relative", height: "24px", p: 2 },
+          validators.isEmpty(prevPage) && {
+            display: "none",
+            visibility: "nome",
+          },
+        ]}
       >
         <CenterInView>
           <Loading />
         </CenterInView>
-      </div>
+      </Box>
 
       {/* {React.cloneElement(xChild, {}, xChild)} */}
       {children}
 
-      <div id={"endlist"} ref={endListRef} className={xLoadingEndAreaClass}>
+      <Box
+        id={"endlist"}
+        ref={endListRef}
+        sx={[
+          { position: "relative", height: "24px", p: 2 },
+          validators.isEmpty(nextPage) && {
+            display: "none",
+            visibility: "nome",
+          },
+        ]}
+      >
         <CenterInView>
           <Loading />
         </CenterInView>
-      </div>
+      </Box>
     </Scroller>
   );
 }

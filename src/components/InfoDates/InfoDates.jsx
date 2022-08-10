@@ -1,21 +1,26 @@
 import React from "react";
-import Typography from "../wrappers/Typography";
-import classNames from "classnames";
+import { Box, Typography } from "../";
 import { formats, validators } from "investira.sdk";
 import PropTypes from "prop-types";
-import Style from "./InfoDates.module.scss";
 
 formats.locale("pt-br");
+
 function InfoDates(props) {
-  const xClass = classNames(props.className, {
-    [Style.horizontal]: props.direction === "horizontal",
-  });
-  const xClassMargin = classNames({
-    [Style.margin]: props.direction === "horizontal",
-  });
   return (
-    <div className={xClass}>
-      <div className={xClassMargin}>
+    <Box
+      sx={[
+        props.direction === "horizontal" && {
+          display: "flex",
+        },
+      ]}
+    >
+      <Box
+        sx={[
+          props.direction === "horizontal" && {
+            mr: 1,
+          },
+        ]}
+      >
         <Typography
           variant={props.labelVariant}
           color={"textSecondary"}
@@ -25,7 +30,7 @@ function InfoDates(props) {
           {props.label}
           {(props.colon || props.direction === "horizontal") && ":"}
         </Typography>
-      </div>
+      </Box>
       {validators.isEmpty(props.time) ? (
         <Typography
           variant={props.timeVariant}
@@ -70,7 +75,7 @@ function InfoDates(props) {
           {props.variant === "fromnow" && formats.fromNow(props.time)}
         </Typography>
       )}
-    </div>
+    </Box>
   );
 }
 

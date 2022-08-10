@@ -6,7 +6,30 @@ import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
 import "swiper/swiper.scss";
 import "swiper/modules/navigation/navigation.scss";
 import "swiper/modules/pagination/pagination.scss";
-import Style from "./SwipeList.module.scss";
+import { styled } from "@mui/material/styles";
+
+const Container = styled(Swiper)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column-reverse",
+  ":global": {
+    ".swiper-wrapper > div:first-child": {
+      ml: 2,
+    },
+    ".swiper-wrapper > div:last-child": {
+      mr: 2,
+    },
+    ".swiper-pagination": {
+      position: "relative",
+      bottom: 0,
+      p: "4px 16px",
+      height: "28px",
+
+      "&-bullet-active": {
+        background: theme.palette.primary,
+      },
+    },
+  },
+}));
 
 const SwipeList = memo((props) => {
   // HANDLERS
@@ -21,14 +44,13 @@ const SwipeList = memo((props) => {
   const Component = props.child;
 
   return (
-    <Swiper
+    <Container
       pagination={props.pagination}
       modules={[Pagination]}
       centeredSlides={props.centeredSlides}
       centeredSlidesBounds={props.centeredSlidesBounds}
       slidesPerView={props.slidesPerView}
       spaceBetween={props.spaceBetween}
-      className={Style.container}
     >
       {!validators.isEmpty(props.data) &&
         Object.values(props.data).map((xItem, xIndex) => {
@@ -43,7 +65,7 @@ const SwipeList = memo((props) => {
             </SwiperSlide>
           );
         })}
-    </Swiper>
+    </Container>
   );
 });
 

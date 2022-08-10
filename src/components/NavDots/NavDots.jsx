@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-import { Box, Stack } from "../";
-import { styled, alpha } from "@mui/material/styles";
-import Style from "./NavDots.module.scss";
+import { Box } from "../";
+import { alpha } from "@mui/material/styles";
 import { ButtonBase } from "../wrappers";
 
 function NavDots(props) {
@@ -50,10 +48,6 @@ function NavDots(props) {
 
   const xChilds = [];
 
-  const xClassWrap = classNames(Style.wrap, props.className, {
-    [Style.wrapJustifyStart]: props.size > 5,
-  });
-
   for (let xI = 0; xI < props.size; xI++) {
     xChilds.push(
       <div ref={btnRef} key={xI}>
@@ -78,10 +72,23 @@ function NavDots(props) {
               ]}
             />
 
-            <span
-              className={`${Style.dot} ${
-                props.index === xI ? Style.actived : ""
-              }`}
+            <Box
+              component="span"
+              sx={[
+                ({ theme }) => (
+                  {
+                    display: "inline-block",
+                    p: 0.5,
+                    borderRadius: "50%",
+                    transition: "all 0.2s ease-in-out",
+                    backgroundColor: alpha(theme.palette.white, 0.9),
+                  },
+                  props.index === xI && {
+                    backgroundColor: theme.palette.primary,
+                    transform: "scale(1.5)",
+                  }
+                ),
+              ]}
             />
           </Box>
         </ButtonBase>
@@ -90,17 +97,34 @@ function NavDots(props) {
   }
 
   return (
-    <div className={Style.root}>
-      <div
-        className={xClassWrap}
+    <Box
+      sx={[
+        ({ theme }) => ({
+          position: "relative",
+          width: "170px",
+          overflow: "hidden",
+          color: alpha(theme.palette.white, 0.9),
+        }),
+      ]}
+    >
+      <Box
+        sx={[
+          {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            transition: "all 0.2s ease-in-out",
+          },
+          props.size > 5 && { justifyContent: "flex-start" },
+        ]}
         style={{
           width: wrapWidth,
           transform: `translate(${wrapPosition}px,0px)`,
         }}
       >
         {xChilds}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 
