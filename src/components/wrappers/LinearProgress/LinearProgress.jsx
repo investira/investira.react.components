@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as MuiLinearProgress } from '@material-ui/core/LinearProgress';
+import React from "react";
+import { default as MuiLinearProgress } from "@mui/material/LinearProgress";
 
 function LinearProgress(props) {
-    return <MuiLinearProgress {...props} />;
+  return <MuiLinearProgress {...props} />;
 }
 
 export default LinearProgress;

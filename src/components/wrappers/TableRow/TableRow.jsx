@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as WTableRow } from '@material-ui/core/TableRow';
+import React from "react";
+import { default as WTableRow } from "@mui/material/TableRow";
 
 function TableRow(props) {
-    return <WTableRow {...props} />;
+  return <WTableRow {...props} />;
 }
 
 export default TableRow;
