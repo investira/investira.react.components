@@ -68,7 +68,7 @@ function CopyToClipboard(props) {
 }
 
 CopyToClipboard.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
 };
 
 export default CopyToClipboard;
