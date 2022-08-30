@@ -28,7 +28,7 @@ const Button = styled("button")(({ active, theme }) => ({
   borderRadius: "calc(25px / 2)",
   transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
   ...(active && {
-    backgroundColor: theme.palette.primary,
+    backgroundColor: theme.palette.primary.main,
     color: alpha(theme.palette.common.black, 0.9),
   }),
 }));
