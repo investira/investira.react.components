@@ -85,7 +85,8 @@ const ResponsiveImage = (props) => {
         })}
 
         {imagesSrcSet[0] ? (
-          <img
+          <Box
+            component="img"
             id={props.id}
             sx={[
               {
