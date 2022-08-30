@@ -10,8 +10,8 @@ import { styled } from "@mui/material/styles";
 
 const Container = styled(Swiper)(({ theme }) => ({
   display: "flex",
-  // flexDirection: "column-reverse",
-  flexDirection: "column",
+  flexDirection: "column-reverse",
+  //flexDirection: "column",
   // "@global": {
   ".swiper-wrapper > div:first-of-type": {
     marginLeft: "16px",
