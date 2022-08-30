@@ -1,5 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
+import classNames from "classnames";
 import {
   List,
   AutoSizer,
@@ -8,37 +9,50 @@ import {
   InfiniteLoader,
 } from "react-virtualized";
 import { validators, strings } from "investira.sdk";
-import { Box } from "../";
+
+import Style from "./ListVirtual.module.scss";
 
 const STATUS_LOADING = 1;
 const STATUS_LOADED = 2;
 
-function ListVirtual(props) {
-  const _onMount = useRef(false);
-  const listRoot = useRef();
-  const cache = new CellMeasurerCache({
-    fixedWidth: true,
-    defaultHeight: 100,
-    //keyMapper: index => props.list[index]
-  });
+class ListVirtual extends PureComponent {
+  constructor() {
+    super();
 
-  const timeoutIdMap = {};
+    this._onMount = false;
 
-  const [loadedRowCount, setLoadedRowCount] = useState(0);
-  const [loadedRowsMap, setLoadedRowsMap] = useState({});
-  const [loadingRowCount, setLoadingRowCount] = useState(0);
+    this.renderRow = this.renderRow.bind(this);
 
-  const hasListData = (pList) => {
+    this.cache = new CellMeasurerCache({
+      fixedWidth: true,
+      defaultHeight: 100,
+      //keyMapper: index => this.props.list[index]
+    });
+
+    this.timeoutIdMap = {};
+
+    this.state = {
+      loadedRowCount: 0,
+      loadedRowsMap: {},
+      loadingRowCount: 0,
+    };
+
+    this.listRoot = React.createRef();
+  }
+
+  hasListData = (pList) => {
     return validators.isEmpty(pList);
   };
 
-  const isRowLoaded = ({ index }) => {
+  isRowLoaded = ({ index }) => {
+    const { loadedRowsMap } = this.state;
     return !!loadedRowsMap[index];
-    // return ({ index }) => index < props.list.length;
+    // return ({ index }) => index < this.props.list.length;
   };
 
-  const loadMoreRows = ({ startIndex, stopIndex }) => {
-    const { nextPage, onNextPage } = props;
+  loadMoreRows = ({ startIndex, stopIndex }) => {
+    const { nextPage, onNextPage } = this.props;
+    const { loadedRowsMap, loadingRowCount } = this.state;
 
     const xIncrement = stopIndex - startIndex + 1;
 
@@ -46,17 +60,25 @@ function ListVirtual(props) {
       loadedRowsMap[xI] = STATUS_LOADING;
     }
 
-    _onMount && setLoadingRowCount(loadingRowCount + xIncrement);
+    this._onMount &&
+      this.setState({
+        loadingRowCount: loadingRowCount + xIncrement,
+      });
 
     const timeoutId = setTimeout(() => {
-      delete timeoutIdMap[timeoutId];
+      const { loadedRowCount, loadingRowCount } = this.state;
+
+      delete this.timeoutIdMap[timeoutId];
 
       for (let xI = startIndex; xI <= stopIndex; xI++) {
         loadedRowsMap[xI] = STATUS_LOADED;
       }
 
-      _onMount && setLoadingRowCount(loadingRowCount - xIncrement);
-      setLoadedRowCount(loadedRowCount + xIncrement);
+      this._onMount &&
+        this.setState({
+          loadingRowCount: loadingRowCount - xIncrement,
+          loadedRowCount: loadedRowCount + xIncrement,
+        });
 
       promiseResolver();
     }, 1000);
@@ -64,7 +86,7 @@ function ListVirtual(props) {
     let promiseResolver;
 
     // Realiza request se tiver mais páginas
-    const xSize = props.list.length;
+    const xSize = this.props.list.length;
 
     if (startIndex > xSize / 2 && nextPage) {
       const xParams = strings.querystringToObject(nextPage);
@@ -76,17 +98,18 @@ function ListVirtual(props) {
     });
   };
 
-  function renderRow({ index, key, style, parent }) {
-    const Component = props.item;
-    const { keyName, ...othersItemProps } = props.itemProps;
+  renderRow({ index, key, style, parent }) {
+    const Component = this.props.item;
+    const { keyName, ...othersItemProps } = this.props.itemProps;
 
-    const { list } = props;
+    const { list } = this.props;
+    const { loadedRowsMap } = this.state;
     const isLoaded = loadedRowsMap[index] === STATUS_LOADED;
 
     return (
       <CellMeasurer
         key={key}
-        cache={cache}
+        cache={this.cache}
         parent={parent}
         columnIndex={0}
         rowIndex={index}
@@ -104,7 +127,7 @@ function ListVirtual(props) {
     );
   }
 
-  const removeTabIndex = (pListRootElem) => {
+  removeTabIndex = (pListRootElem) => {
     if (pListRootElem?.current) {
       const xReactVirtualizedElem = pListRootElem.current.querySelector(
         '[aria-readonly="true"]'
@@ -114,28 +137,23 @@ function ListVirtual(props) {
     }
   };
 
-  useEffect(() => {
-    _onMount.current = true;
-    removeTabIndex(listRoot);
-    return () => {
-      _onMount.current = false;
-    };
-  }, []);
+  componentDidMount() {
+    this._onMount = true;
+    this.removeTabIndex(this.listRoot);
+  }
 
-  // useEffect(() => {
-  //   const newRows = props.list.filter(
-  //     (value) => prevProps.list.indexOf(value) < 0
-  //   );
-  //   const newRowsIndex = newRows.map((value) => props.list.indexOf(value));
-  //   newRowsIndex.forEach((index) => {
-  //     cache.clear(index);
-  //   });
+  componentDidUpdate(prevProps, prevState) {
+    const newRows = this.props.list.filter(
+      (value) => prevProps.list.indexOf(value) < 0
+    );
+    const newRowsIndex = newRows.map((value) => this.props.list.indexOf(value));
+    newRowsIndex.forEach((index) => {
+      this.cache.clear(index);
+    });
 
-  //   newRowsIndex.length &&
-  //     _list.recomputeRowHeights(Math.min(...newRowsIndex));
-  // },[list])
-  //const xRowCount = props.list.length;
-  const xRowCount = props.totalItens || props.list.length;
+    newRowsIndex.length &&
+      this._list.recomputeRowHeights(Math.min(...newRowsIndex));
+  }
 
   componentWillUnmount() {
     this._onMount = false;
