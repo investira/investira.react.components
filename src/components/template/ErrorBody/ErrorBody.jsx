@@ -1,15 +1,38 @@
 import React from "react";
-import { Typography, Button } from "../../";
+import { Typography, Button, Box } from "../../";
 import { CenterInView } from "../";
-import Style from "./ErrorBody.module.scss";
+import { styled } from "@mui/material/styles";
+
+const StyledPath = styled("path")(({ theme }) => ({
+  fill: theme.palette.primary.main,
+}));
 
 function ErrorBody(props) {
   return (
-    <div className={Style.root}>
+    <Box
+      sx={{
+        height: "100%",
+        width: "100%",
+        position: "relative",
+        padding: "16px",
+        textAlign: "center",
+      }}
+    >
       <CenterInView>
-        <div className={Style.body}>
+        <Box
+          sx={{
+            width: "100%",
+            height: "100%",
+            margin: "0 auto",
+          }}
+        >
           {props.d !== "" && (
-            <div className={Style.img}>
+            <Box
+              sx={{
+                margin: "0 auto",
+                width: "calc(100% / 4)",
+              }}
+            >
               <svg
                 x="0px"
                 y="0px"
@@ -17,9 +40,9 @@ function ErrorBody(props) {
                 height="100%"
                 viewBox="0 0 24 24"
               >
-                <path className={Style.fill} d={props.d} />
+                <StyledPath d={props.d} />
               </svg>
-            </div>
+            </Box>
           )}
 
           <Typography variant={"body1"} color={"textPrimary"} gutterBottom>
@@ -36,9 +59,9 @@ function ErrorBody(props) {
           >
             Tentar Novamente
           </Button>
-        </div>
+        </Box>
       </CenterInView>
-    </div>
+    </Box>
   );
 }
 

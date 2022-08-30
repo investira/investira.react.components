@@ -1,13 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-
+import { Box } from "../../";
 import noImage from "./thumb_no_image.gif";
 import noImage2x from "./thumb_no_image@2x.gif";
 import noImage3x from "./thumb_no_image@3x.gif";
-
-import Style from "./ResponsiveImage.module.scss";
-import { useEffect } from "react";
 
 const ResponsiveImage = (props) => {
   const [imagesSource, setImagesSource] = useState([]);
@@ -57,13 +53,26 @@ const ResponsiveImage = (props) => {
     }
   }, [hasError, props.placeholder, props.source]);
 
-  const xClassImage = classNames(props.className, Style.img, {
-    [Style.show]: show,
-  });
-
   return (
-    <div className={Style.root}>
-      <picture className={Style.picture}>
+    <Box
+      sx={{
+        position: "relative",
+        width: "inherit",
+        height: "inherit",
+        borderRadius: "inherit",
+      }}
+    >
+      <Box
+        component="picture"
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          borderRadius: "inherit",
+        }}
+      >
         {imagesSource.map((image, index) => {
           return (
             <source
@@ -78,7 +87,18 @@ const ResponsiveImage = (props) => {
         {imagesSrcSet[0] ? (
           <img
             id={props.id}
-            className={xClassImage || Style.img}
+            sx={[
+              {
+                maxWidth: "100%",
+                width: "inherit",
+                height: "inherit",
+                borderRadius: "inherit",
+                opacity: 0,
+              },
+              show && {
+                opacity: 1,
+              },
+            ]}
             srcSet={imagesSrcSet[0].srcSet}
             src={imagesSrcSet[0].srcSet}
             alt={props.alt}
@@ -87,8 +107,8 @@ const ResponsiveImage = (props) => {
             onError={handleError}
           />
         ) : null}
-      </picture>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

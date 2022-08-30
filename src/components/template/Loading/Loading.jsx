@@ -1,24 +1,31 @@
-import React, { Component } from "react";
-import Style from "./Loading.module.scss";
-import { CircularProgress } from "../../";
+import React from "react";
+import { CircularProgress, Box } from "../../";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 
-export class Loading extends Component {
-  render() {
-    const xClass = classNames(Style.root, {
-      [Style.center]: this.props.align === "center",
-      [Style.top]: !this.props.align === "top",
-    });
-
-    return (
-      <div className={xClass}>
-        <div className={Style.wrap}>
-          <CircularProgress size={this.props.size} />
-        </div>
-      </div>
-    );
-  }
+function Loading(props) {
+  return (
+    <Box
+      sx={[
+        {
+          position: "relative",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        },
+        props.align === "center" && {
+          justifyContent: "center",
+        },
+        !props.align === "top" && {
+          justifyContent: "start",
+        },
+      ]}
+    >
+      <Box>
+        <CircularProgress size={props.size} />
+      </Box>
+    </Box>
+  );
 }
 
 Loading.propTypes = {
