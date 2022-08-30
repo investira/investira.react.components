@@ -16,7 +16,7 @@ const Search = forwardRef((props, ref) => {
   const { onRead } = useContext(CrudContext);
 
   const handleSearch = (pValues) => {
-    props.onResetData && props.onResetData({});
+    //props.onResetData && props.onResetData({});
 
     const xParams = {
       pesquisa: validators.isEmpty(pValues) ? null : pValues,

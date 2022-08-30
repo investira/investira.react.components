@@ -1,8 +1,8 @@
-import React from "react";
-import { default as WTooltip } from "@mui/material/Tooltip";
+import React, { forwardRef } from "react";
+import { default as MuiTooltip } from "@mui/material/Tooltip";
 
-function Tooltip(props) {
-  return <WTooltip {...props} />;
-}
+const Tooltip = forwardRef((props, ref) => {
+  return <MuiTooltip {...props} ref={ref} />;
+});
 
 export default Tooltip;
