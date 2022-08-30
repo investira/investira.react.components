@@ -47,7 +47,6 @@ const SwipeList = memo((props) => {
   return (
     <Container
       pagination={props.pagination}
-      className={Style.container}
       modules={[Pagination]}
       centeredSlides={props.centeredSlides}
       centeredSlidesBounds={props.centeredSlidesBounds}
