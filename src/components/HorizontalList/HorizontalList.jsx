@@ -116,7 +116,7 @@ const HorizontalList = (props) => {
     setElemFocusIndex(props.initialFocus);
     setChildFocused(props.id + props.initialFocus);
     setPositions([props.initialFocus]);
-  }, []);
+  }, [props.initialFocus]);
 
   useEffect(() => {
     window.clearTimeout(timeout);
