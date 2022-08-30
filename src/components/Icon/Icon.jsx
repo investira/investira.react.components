@@ -4,7 +4,6 @@ import { validators } from "investira.sdk";
 import { styled, alpha } from "@mui/material/styles";
 
 const Svg = styled("svg")(({ color, theme }) => {
-  console.log(theme.palette);
   return {
     userSelect: "none",
     display: "inline-block",
