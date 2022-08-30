@@ -1,14 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { validators } from "investira.sdk";
-
+import { styled } from "@mui/material/styles";
 import { CenterInView } from "../template";
-import Typography from "../wrappers/Typography";
+import { Typography, Box } from "../";
 
-import Style from "./ContentList.module.scss";
+const StyledTransitionGroup = styled(TransitionGroup)({
+  position: "relative",
+});
 
+const StyledCSSTransition = styled(CSSTransition)({
+  position: "relative",
+});
 function ContentList(props) {
   const hasListData = (pList) => {
     return validators.isEmpty(pList);
@@ -21,10 +25,6 @@ function ContentList(props) {
       return false;
     }
   };
-
-  const xClassRoot = classNames(Style.root, props.className, {
-    [Style.emptyList]: hasListData(props.list),
-  });
 
   if (validators.isNull(props.list)) {
     return (
@@ -52,7 +52,12 @@ function ContentList(props) {
   const { keyName, ...othersItemProps } = props.itemProps;
 
   return (
-    <div className={xClassRoot}>
+    <Box
+      sx={[
+        { position: "relative", minHeight: "100%" },
+        ...(hasListData(props.list) && { height: "100%" }),
+      ]}
+    >
       {hasListData(props.list) ? (
         <CenterInView>
           <Typography
@@ -74,19 +79,13 @@ function ContentList(props) {
           </Typography>
         </CenterInView>
       ) : (
-        <TransitionGroup
-          className={Style.list}
-          appear={true}
-          enter={true}
-          exit={true}
-        >
+        <StyledTransitionGroup appear={true} enter={true} exit={true}>
           {Object.values(props.list).map((xItem, xIndex) => {
             return (
-              <CSSTransition
+              <StyledCSSTransition
                 key={xItem[keyName] || xIndex}
                 in={true}
                 timeout={500}
-                classNames={Style}
                 unmountOnExit
                 appear
                 onEnter={props.onEnter}
@@ -97,12 +96,12 @@ function ContentList(props) {
                   data={xItem}
                   {...othersItemProps}
                 />
-              </CSSTransition>
+              </StyledCSSTransition>
             );
           })}
-        </TransitionGroup>
+        </StyledTransitionGroup>
       )}
-    </div>
+    </Box>
   );
 }
 

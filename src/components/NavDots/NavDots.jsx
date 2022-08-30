@@ -1,26 +1,19 @@
-import React, { Component } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-import Style from "./NavDots.module.scss";
+import { Box } from "../";
 import { ButtonBase } from "../wrappers";
 
-class NavDots extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      wrapWidth: window.screen.width,
-      wrapPosition: 0,
-      actived: 0,
-    };
+function NavDots(props) {
+  const [wrapWidth, setWrapWidth] = useState(window.screen.width);
+  const [wrapPosition, setWrapPosition] = useState(0);
 
-    this.btnRef = React.createRef();
-  }
+  const btnRef = useRef();
 
-  handleClick = (pIndex) => {
-    this.props.onClick && this.props.onClick(pIndex);
+  const handleClick = (pIndex) => {
+    props.onClick && props.onClick(pIndex);
   };
 
-  navigation = (pSize, pIndex, pDotWidth) => {
+  const navigation = (pSize, pIndex, pDotWidth) => {
     const xTotalDots = pSize;
     const xTotalVisible = 5;
     const xOffset = 3;
@@ -30,80 +23,85 @@ class NavDots extends Component {
 
     if (pIndex >= xTotalVisible - xOffset && pIndex <= xTotalDots - xOffset) {
       const xNewPos = pDotWidth * xMultiply;
-      this.setState({
-        wrapPosition: xNewPos,
-      });
+      setWrapPosition(xNewPos);
     } else if (pIndex < xTotalVisible - xOffset) {
       const xStartPos = 0;
-      this.setState({
-        wrapPosition: xStartPos,
-      });
+      setWrapPosition(xStartPos);
     } else if (pIndex > xTotalDots - xOffset) {
       const xEndPos = (xTotalDots - xTotalVisible) * pDotWidth;
-      this.setState({
-        wrapPosition: xEndPos * -1,
-      });
+      setWrapPosition(xEndPos * -1);
     }
   };
 
-  componentDidMount() {
-    this.setState({
-      wrapWidth:
-        this.props.size > 5
-          ? this.btnRef.current.offsetWidth * this.props.size
-          : "100%",
-    });
-  }
+  useEffect(() => {
+    setWrapWidth(
+      props.size > 5 ? btnRef.current.offsetWidth * props.size : "100%"
+    );
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.index !== this.props.index) {
-      if (this.props.size > 5) {
-        this.navigation(
-          this.props.size,
-          this.props.index,
-          this.btnRef.current.offsetWidth
-        );
-      }
+  useEffect(() => {
+    if (props.size > 5) {
+      navigation(props.size, props.index, btnRef.current.offsetWidth);
     }
-  }
+  }, [props.index]);
 
-  render() {
-    const xChilds = [];
+  const xChilds = [];
 
-    const xClassWrap = classNames(Style.wrap, this.props.className, {
-      [Style.wrapJustifyStart]: this.props.size > 5,
-    });
-
-    for (let xI = 0; xI < this.props.size; xI++) {
-      xChilds.push(
-        <div ref={this.btnRef} key={xI}>
-          <ButtonBase centerRipple={true} onClick={() => this.handleClick(xI)}>
-            <div className={Style.btn}>
-              <span
-                className={`${Style.dot} ${
-                  this.props.index === xI ? Style.actived : ""
-                }`}
-              />
-            </div>
-          </ButtonBase>
-        </div>
-      );
-    }
-
-    return (
-      <div className={Style.root}>
-        <div
-          className={xClassWrap}
-          style={{
-            width: this.state.wrapWidth,
-            transform: `translate(${this.state.wrapPosition}px,0px)`,
-          }}
-        >
-          {xChilds}
-        </div>
+  for (let xI = 0; xI < props.size; xI++) {
+    xChilds.push(
+      <div ref={btnRef} key={xI}>
+        <ButtonBase centerRipple={true} onClick={() => handleClick(xI)}>
+          <Box py={1} px={"13px"}>
+            <Box
+              component="span"
+              sx={[
+                {
+                  display: "inline-block",
+                  p: 0.5,
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  transition: "all 0.2s ease-in-out",
+                },
+                props.index === xI && {
+                  backgroundColor: "#00dfa8",
+                  transform: "scale(1.5)",
+                },
+              ]}
+            />
+          </Box>
+        </ButtonBase>
       </div>
     );
   }
+
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        width: "170px",
+        overflow: "hidden",
+        color: "rgba(255, 255, 255, 0.9)",
+      }}
+    >
+      <Box
+        sx={[
+          {
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            transition: "all 0.2s ease-in-out",
+          },
+          props.size > 5 && { justifyContent: "flex-start" },
+        ]}
+        style={{
+          width: wrapWidth,
+          transform: `translate(${wrapPosition}px,0px)`,
+        }}
+      >
+        {xChilds}
+      </Box>
+    </Box>
+  );
 }
 
 NavDots.propTypes = {

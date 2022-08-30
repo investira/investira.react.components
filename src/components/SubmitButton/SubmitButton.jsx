@@ -1,14 +1,13 @@
 import React, { memo } from "react";
 import PropTypes from "prop-types";
-import { Button, CircularProgress } from "../";
+import { Button, CircularProgress, Box, Stack } from "../";
 
-import Style from "./SubmitButton.module.scss";
-
+// Substituir pelo LoadingButton do MUI
 const SubmitButton = memo((props) => {
   const { children, isSubmitting, variant, disabled, fullWidth, ...restProps } =
     props;
   return (
-    <div className={Style.root}>
+    <Box position="relative">
       <Button
         fullWidth={fullWidth}
         {...restProps}
@@ -20,11 +19,22 @@ const SubmitButton = memo((props) => {
         {children}
       </Button>
       {isSubmitting && (
-        <div className={Style.submitting}>
+        <Stack
+          sx={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "row",
+          }}
+        >
           <CircularProgress size={24} />
-        </div>
+        </Stack>
       )}
-    </div>
+    </Box>
   );
 });
 

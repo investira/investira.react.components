@@ -1,33 +1,22 @@
-import React, { PureComponent } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Scroller, InfiniteScroller, Loading, Typography } from "../";
+import { Scroller, InfiniteScroller, Loading, Typography, Box } from "../";
 
 import { validators } from "investira.sdk";
 
-import Style from "./LogReader.module.scss";
+function LogReader(props) {
+  const log = useRef();
+  const scroller = useRef();
+  let timeout = null;
+  const [onMountScrolled, setOnMountScrolled] = useState(false);
 
-class LogReader extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.log = React.createRef();
-    this.scroller = React.createRef();
-    this.timeout = null;
-
-    this.state = {
-      OnMountScrolled: false,
-    };
-  }
-
-  onMountScroll = (pScrolled, pScrollOnMount) => {
+  const onMountScroll = (pScrolled, pScrollOnMount) => {
     if (!pScrolled && pScrollOnMount) {
-      this.setState({ OnMountScrolled: true }, () =>
-        window.setTimeout(this.autoScroller, 300)
-      );
+      setOnMountScrolled(true);
     }
   };
 
-  renderFormatedLog = (pElem, pData, pFormater) => {
+  const renderFormatedLog = (pElem, pData, pFormater) => {
     if (pFormater) {
       const xDataFormated = pFormater(pData);
       pElem.innerHTML = `<span>${xDataFormated}</span>`;
@@ -35,13 +24,12 @@ class LogReader extends PureComponent {
       pElem.innerHTML = pData;
     }
 
-    this.onMountScroll(this.state.OnMountScrolled, this.props.scrollOnMount);
+    onMountScroll(onMountScrolled, props.scrollOnMount);
 
-    this.timeout =
-      this.props.autoScroller && window.setTimeout(this.autoScroller, 300);
+    timeout = props.autoScroller && window.setTimeout(autoScroller, 300);
   };
 
-  readTextFile = (pUri, pElem) => {
+  const readTextFile = (pUri, pElem) => {
     const file = `${pUri}.txt`;
 
     fetch(file)
@@ -49,37 +37,33 @@ class LogReader extends PureComponent {
         return rRes.text();
       })
       .then((rData) => {
-        this.renderFormatedLog(pElem, rData, this.formatText);
+        renderFormatedLog(pElem, rData, formatText);
       })
       .catch((rErr) => {
         const xErrorMessage = `<span>Falha ao tentar carregar: ${file}</span>`;
-        this.renderFormatedLog(pElem, xErrorMessage);
+        renderFormatedLog(pElem, xErrorMessage);
       });
   };
 
-  readJsontFile = (pData, pElem) => {
-    this.renderFormatedLog(
-      pElem,
-      JSON.stringify(pData, null, 2),
-      this.formatJson
-    );
+  const readJsontFile = (pData, pElem) => {
+    renderFormatedLog(pElem, JSON.stringify(pData, null, 2), formatJson);
   };
 
-  readHtmlFile = (pUri, pElem) => {
+  const readHtmlFile = (pUri) => {
     return pUri;
   };
 
-  readString = (pData, pElem) => {
-    this.renderFormatedLog(pElem, pData, this.formatText);
+  const readString = (pData, pElem) => {
+    renderFormatedLog(pElem, pData, formatText);
   };
 
-  readData = (pType, pData, pRef, pAutoScroller) => {
+  const readData = (pType, pData, pRef, pAutoScroller) => {
     const pElem = pRef.current;
     const reader = {
-      txt: this.readTextFile,
-      json: this.readJsontFile,
-      html: this.readHtmlFile,
-      string: this.readString,
+      txt: readTextFile,
+      json: readJsontFile,
+      html: readHtmlFile,
+      string: readString,
     };
 
     // let xData = pData;
@@ -87,86 +71,106 @@ class LogReader extends PureComponent {
     reader[pType](pData, pElem);
   };
 
-  formatText = (pData) => {
+  const colors = {
+    warn: "#f1b40f",
+    error: "#ed442c",
+    debug: "#ffe650",
+    emerg: "#ff7957",
+    info: "#0ce4f1",
+    note: "#3ce1a3",
+    verbose: "#cfd8dc",
+  };
+
+  const formatText = (pData) => {
     const xDataFormated = pData.replace(/\[([a-z]*)\]/gm, (match, p1) => {
-      return `<span class='${Style[p1]}'>${match}</span>`;
+      return `<Box component="span" color='${colors[p1]}'>${match}</Box>`;
     });
 
     return xDataFormated;
   };
 
-  formatJson = (pData) => {
+  const formatJson = (pData) => {
     let xDataFormated = pData.replace(/"level":\s"(.*)",/gm, (match, p1) => {
-      return `"level": <span class='${Style[p1]}'>"${p1}"</span>`;
+      return `"level": <Box component="span" color='${colors[p1]}'>"${p1}"</Box>`;
     });
 
     xDataFormated = xDataFormated.replace(
       /"message":\s"(.*)",/gm,
       (match, p1) => {
-        return `"message": <span class='${Style.message}'>"${p1}"</span>`;
+        return `"message": <Box component="span" color={'#0ce4f1'}>"${p1}"</Box>`;
       }
     );
 
     return xDataFormated;
   };
 
-  autoScroller = () => {
-    if (this.scroller && this.scroller.current) {
-      const xCurrentScroller = this.scroller.current;
+  const autoScroller = () => {
+    if (scroller && scroller.current) {
+      const xCurrentScroller = scroller.current;
       const xScroller = xCurrentScroller.scroller
         ? xCurrentScroller.scroller.current.scrollRef.current
-        : this.scroller.current.scrollRef.current;
+        : scroller.current.scrollRef.current;
       xScroller.scrollTo(0, xScroller.scrollHeight);
     } else {
       console.info("Componente Scroller não encontrado");
     }
   };
 
-  componentDidUpdate(prevProps) {
-    if (
-      this.props.responseData &&
-      this.props.responseData !== prevProps.responseData
-    ) {
-      const { uri, data, responseData, type } = this.props;
-      this.readData(type, data || uri || responseData, this.log);
+  useEffect(() => {
+    if (onMountScrolled) {
+      window.setTimeout(autoScroller, 300);
     }
-  }
+  }, [onMountScrolled]);
 
-  componentDidMount() {
-    const { uri, data, responseData, type } = this.props;
+  useEffect(() => {
+    const { uri, data, responseData, type } = props;
+    readData(type, data || uri || responseData, log);
+  }, [props.responseData]);
+
+  useEffect(() => {
+    const { uri, data, responseData, type } = props;
     if (data || uri || responseData) {
-      this.readData(type, data || uri || responseData, this.log);
+      readData(type, data || uri || responseData, log);
     }
-  }
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout);
-  }
+  const Component = validators.isEmpty(props.scrollerProps)
+    ? Scroller
+    : InfiniteScroller;
 
-  render() {
-    const Component = validators.isEmpty(this.props.scrollerProps)
-      ? Scroller
-      : InfiniteScroller;
-
-    return (
-      <>
-        {this.props.label && (
-          <Typography variant={"body2"} color={"textSecondary"} gutterBottom>
-            {this.props.label}
-          </Typography>
-        )}
-        <div className={Style.root}>
-          <Component ref={this.scroller} {...this.props.scrollerProps}>
-            <pre className={Style.log}>
-              <code id={"log"} ref={this.log}>
-                <Loading />
-              </code>
-            </pre>
-          </Component>
-        </div>
-      </>
-    );
-  }
+  return (
+    <>
+      {props.label && (
+        <Typography variant={"body2"} color={"textSecondary"} gutterBottom>
+          {props.label}
+        </Typography>
+      )}
+      <Box position={"relative"} height={"calc(100% - 25px)"}>
+        <Component ref={scroller} {...props.scrollerProps}>
+          <Box
+            component="pre"
+            sx={{
+              fontFamily:
+                "Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace",
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              color: "white",
+              fontSize: "0.8125rem",
+              tabSize: "2",
+              lineHeight: "1.4",
+            }}
+          >
+            <code id={"log"} ref={log}>
+              <Loading />
+            </code>
+          </Box>
+        </Component>
+      </Box>
+    </>
+  );
 }
 
 LogReader.propTypes = {

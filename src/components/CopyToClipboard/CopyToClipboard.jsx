@@ -1,8 +1,24 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { styled } from "@mui/material/styles";
 import Icon from "../Icon";
 import Tooltip from "../wrappers/Tooltip";
-import Style from "./CopyToClipboard.module.scss";
+
+const Button = styled("button")(() => ({
+  display: "inline-block",
+  position: "relative",
+  pointerEvents: "all",
+  verticalAlign: "top",
+  border: 0,
+  height: "16px",
+  width: "16px",
+  margin: "0 4px",
+  "& > svg": {
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
+}));
 
 function CopyToClipboard(props) {
   const [iconName, setIconName] = useState("paper");
@@ -44,18 +60,15 @@ function CopyToClipboard(props) {
 
   return (
     <Tooltip title={tooltip} placement="top">
-      <button
-        className={Style.root}
-        onClick={(e) => copyToClipboard(props.value, e)}
-      >
+      <Button onClick={(e) => copyToClipboard(props.value, e)}>
         <Icon iconName={iconName} size={16} color={"primary"} />
-      </button>
+      </Button>
     </Tooltip>
   );
 }
 
 CopyToClipboard.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
 };
 
 export default CopyToClipboard;

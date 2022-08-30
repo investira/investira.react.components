@@ -5,44 +5,46 @@ import { Icon } from "../";
 import classNames from "classnames";
 import makeStyles from "@mui/styles/makeStyles";
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  info: {
-    margin: "0 auto",
-    width: "80%",
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  hspace: {
-    height: "16px",
-  },
-  backgroundFlat: {
-    backgroundColor: theme.palette.background.default,
-  },
-  action: {
-    position: "absolute",
-    bottom: "24px",
-  },
-  progress: {
-    paddingTop: "24px",
-    width: "100%",
-  },
-  icons: {
-    position: "relative",
-  },
-  header: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: "55px",
-    padding: "16px",
-  },
-}));
+const useStyles = makeStyles((theme) => {
+  return {
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+    },
+    info: {
+      margin: "0 auto",
+      width: "80%",
+      textAlign: "center",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+    hspace: {
+      height: "16px",
+    },
+    backgroundFlat: {
+      backgroundColor: theme.palette.background.default,
+    },
+    action: {
+      position: "absolute",
+      bottom: "24px",
+    },
+    progress: {
+      paddingTop: "24px",
+      width: "100%",
+    },
+    icons: {
+      position: "relative",
+    },
+    header: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      right: 0,
+      height: "55px",
+      padding: "16px",
+    },
+  };
+});
 
 function OverWaiting(props) {
   const classes = useStyles();

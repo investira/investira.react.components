@@ -1,12 +1,16 @@
 import React, { memo, useState, useEffect, useCallback } from "react";
-import classNames from "classnames";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
-
-import { Chip, Menu, MenuItem, Icon, ListItemIcon, ListItemText } from "../";
+import {
+  Chip,
+  Menu,
+  MenuItem,
+  Icon,
+  ListItemIcon,
+  ListItemText,
+  Box,
+} from "../";
 import CrudContext from "../CrudContext";
-
-import Style from "./ListFilter.module.scss";
 
 const SearchFilters = memo((props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -260,12 +264,6 @@ const SearchFilters = memo((props) => {
     [updateFilterValuesSelected]
   );
 
-  const xClassSelected = classNames(Style.selected, {
-    [Style.noFiltersSelected]: !verifyArray(filters),
-  });
-
-  const xClassRoot = classNames(Style.root, props.className, {});
-
   useEffect(() => {
     if (isFiltersEmpty(filters)) {
       initFilterDefaultSelected(props.filters, filters);
@@ -276,9 +274,28 @@ const SearchFilters = memo((props) => {
     <CrudContext.Consumer>
       {({ onRead }) => {
         return (
-          <div className={xClassRoot}>
-            <div className={Style.filtersWrap}>
-              <div className={Style.horizontalScrollable}>
+          <Box position={"relative"} mb={2}>
+            <Box height={"40px"} overflow={"hidden"} padding={"0 16px"}>
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "100%",
+                  overflowX: "scroll",
+                  overflowY: "hidden",
+                  whiteSpace: "nowrap",
+                  scrollBehavior: "smooth",
+                  transform: "translate3d(0, 0, 0)",
+                  MsOverflowStyle: "none", // IE 10+
+                  scrollbarWidth: "none", // Firefox
+                  "&::-webkit-scrollbar": {
+                    width: "0px",
+                    background: "transparent",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "transparent",
+                  },
+                }}
+              >
                 {props.filters &&
                   props.filters.map((xFilter, xIndex) => {
                     const xChipProps = {
@@ -290,7 +307,19 @@ const SearchFilters = memo((props) => {
                     const xChipId = `chip-${xIndex}`;
 
                     return (
-                      <div className={Style.item} key={xIndex}>
+                      <Box
+                        sx={{
+                          display: "inline-block",
+                          margin: "4px",
+                          "&:first-child": {
+                            marginLeft: 0,
+                          },
+                          "&:last-child": {
+                            marginRight: 0,
+                          },
+                        }}
+                        key={xIndex}
+                      >
                         <Chip
                           key={`chip-${xIndex}`}
                           id={xChipId}
@@ -348,19 +377,55 @@ const SearchFilters = memo((props) => {
                             );
                           })}
                         </Menu>
-                      </div>
+                      </Box>
                     );
                   })}
-              </div>
-            </div>
+              </Box>
+            </Box>
 
-            <div className={xClassSelected}>
-              <div className={Style.horizontalScrollable}>
+            <Box
+              sx={[
+                { height: "32px", overflow: "hidden", padding: "0 16px" },
+                ...(!verifyArray(filters) && { display: "none", height: 0 }),
+              ]}
+            >
+              <Box
+                sx={{
+                  position: "relative",
+                  width: "100%",
+                  overflowX: "scroll",
+                  overflowY: "hidden",
+                  whiteSpace: "nowrap",
+                  scrollBehavior: "smooth",
+                  transform: "translate3d(0, 0, 0)",
+                  MsOverflowStyle: "none", // IE 10+
+                  scrollbarWidth: "none", // Firefox
+                  "&::-webkit-scrollbar": {
+                    width: "0px",
+                    background: "transparent",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "transparent",
+                  },
+                }}
+              >
                 {filters &&
                   filters.map((xFilter, xIndex) => {
                     if (xFilter) {
                       return (
-                        <div className={Style.item} key={`filter-${xIndex}`}>
+                        <Box
+                          sx={{
+                            display: "inline-block",
+                            margin: "4px",
+                            "&:first-child": {
+                              marginLeft: 0,
+                            },
+                            "&:last-child": {
+                              marginRight: 0,
+                            },
+                          }}
+                          key={`filter-${xIndex}`}
+                        >
                           <Chip
                             color={"primary"}
                             label={`${xFilter.field}: ${xFilter.label}`}
@@ -375,15 +440,15 @@ const SearchFilters = memo((props) => {
                                 }),
                             })}
                           />
-                        </div>
+                        </Box>
                       );
                     } else {
                       return null;
                     }
                   })}
-              </div>
-            </div>
-          </div>
+              </Box>
+            </Box>
+          </Box>
         );
       }}
     </CrudContext.Consumer>

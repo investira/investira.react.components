@@ -1,34 +1,39 @@
 import React, { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
-import {
-  useParams,
-  useRouteMatch,
-  useLocation,
-  useHistory,
-} from "react-router-dom";
-import Style from "./Deck.module.scss";
+import { styled } from "@mui/material/styles";
+import { Box, Stack } from "../";
+
+const View = styled(Stack)(({ variant }) => ({
+  width: "100%",
+  height: "100%",
+  position: "absolute",
+  flexGrow: "1",
+  flexDirection: "initial",
+  top: "0",
+  transition: "all 300ms cubic-bezier(0.4, 0, 0.2, 1)",
+  "& > div": {
+    width: "100%",
+  },
+  ...(variant === "offset" && {
+    transform: "translate(100%)",
+    left: "100%",
+  }),
+  ...(variant === "prev" && {
+    transform: "translate(-8%)",
+    opacity: 0,
+    pointerEvents: "none",
+  }),
+  ...(variant === "active" && { opacity: 1 }),
+}));
 
 const Deck = memo((props) => {
-  const match = useRouteMatch();
-  const location = useLocation();
-  const params = useParams();
-  const history = useHistory();
-
-  // console.log("match", match);
-  // console.log("location", location);
-  // console.log("params", params);
-  // console.log("history", history);
-
-  const isActive = useCallback(
-    (pActiveView, pId) => {
-      if (pActiveView === pId) {
-        return true;
-      }
-      return false;
-    },
-    [match.url]
-  );
+  const isActive = useCallback((pActiveView, pId) => {
+    if (pActiveView === pId) {
+      return true;
+    }
+    return false;
+  }, []);
 
   const isPrev = useCallback((pPrevView, id) => {
     if (pPrevView.includes(id)) {
@@ -37,25 +42,24 @@ const Deck = memo((props) => {
     return false;
   }, []);
 
-  const viewState = useCallback(
-    (pId) => {
-      let classname = Style.view;
-
-      if (isPrev(props.prevView, pId)) {
-        classname += ` ${Style.viewPrev} `;
+  const viewVariant = useCallback(
+    (pId, pActiveView, pPrevView) => {
+      let xVariant = "";
+      if (isPrev(pPrevView, pId)) {
+        xVariant = "prev";
       }
 
-      if (isActive(props.activeView, pId)) {
-        classname += ` ${Style.viewActive} `;
+      if (isActive(pActiveView, pId)) {
+        xVariant = "active";
       }
 
-      if (!isActive(props.activeView, pId) && !isPrev(props.prevView, pId)) {
-        classname += ` ${Style.viewOffset} `;
+      if (!isActive(pActiveView, pId) && !isPrev(pPrevView, pId)) {
+        xVariant = "offset";
       }
 
-      return classname;
+      return xVariant;
     },
-    [isActive, isPrev, props.activeView, props.prevView]
+    [isActive, isPrev]
   );
 
   const spreadChildren = useCallback((pChildren) => {
@@ -83,14 +87,18 @@ const Deck = memo((props) => {
       const xElements = xChildrens.map((xChild, xIndex) => {
         if (xChild !== false) {
           return (
-            <div
-              key={xIndex}
+            <View
               id={`${xChild.props.id}`}
-              className={viewState(xChild.props.id)}
+              key={xIndex}
               style={styleView(props.activeView, xChild.props.id, xIndex)}
+              variant={viewVariant(
+                xChild.props.id,
+                props.activeView,
+                props.prevView
+              )}
             >
               {xChild}
-            </div>
+            </View>
           );
         }
         return false;
@@ -98,19 +106,25 @@ const Deck = memo((props) => {
 
       return xElements;
     },
-    [props.activeView, viewState]
+    [props.activeView, viewVariant]
   );
 
   const { children, id } = props;
 
   return (
-    <div id={`deck-${id}`} className={Style.deck}>
-      <div id={`deck-${id}__wrap`} className={Style.wrap}>
+    <Box
+      id={`deck-${id}`}
+      display="block"
+      height="100%"
+      width="inherit"
+      position="relative"
+    >
+      <Box id={`deck-${id}__wrap`} height="100%" position="relative">
         {children.constructor === Array
           ? mapChildrens(children)
           : props.children}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 });
 
@@ -123,5 +137,7 @@ Deck.propTypes = {
 Deck.defaultProps = {
   prevView: [],
 };
+
+Deck.displayName = "Deck";
 
 export default Deck;

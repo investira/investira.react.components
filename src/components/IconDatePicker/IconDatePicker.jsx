@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Icon, IconButton, DatePicker } from "../";
-
-import Style from "./IconDatePicker.module.scss";
+import { Icon, IconButton, DatePicker, Box } from "../";
 import PropTypes from "prop-types";
 
 function IconDatePicker(props) {
@@ -20,7 +18,7 @@ function IconDatePicker(props) {
       <IconButton onClick={() => setIsOpen(true)} color={"primary"}>
         <Icon color={"primary"} iconName={"calendar"} />
       </IconButton>
-      <div className={Style.picker}>
+      <Box sx={{ display: "none" }}>
         <DatePicker
           id={`datepicker_${id}`}
           format={"DD/MMM/YYYY"}
@@ -34,7 +32,7 @@ function IconDatePicker(props) {
           onOpen={() => setIsOpen(true)}
           onClose={() => setIsOpen(false)}
         />
-      </div>
+      </Box>
     </>
   );
 }

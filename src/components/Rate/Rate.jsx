@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Typography, Icon } from "../";
-import Style from "./Rate.module.scss";
+import { Typography, Icon, Box } from "../";
 
 const Rate = (props) => {
   const elem = [
-    { icon: "arrow_negative", color: "var(--color-danger)" },
-    { icon: "arrow_positive", color: "var(--color-primary)" },
-    { icon: "none", color: "var(--color-warning)" },
+    { icon: "arrow_negative", color: "error" },
+    { icon: "arrow_positive", color: "primary" },
+    { icon: "none", color: "warn" },
   ];
 
   const attrs = (pValue) => {
@@ -27,14 +26,18 @@ const Rate = (props) => {
   const xValue = props.value ? props.value.toFixed(2) : 0;
 
   return (
-    <span
-      className={Style.root}
-      style={{
-        color: props.contrastColor || attrs(props.value || 0).color,
-      }}
+    <Box
+      sx={(theme) => ({
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        color:
+          theme.palette[props.contrastColor || attrs(props.value || 0).color]
+            .main,
+      })}
     >
       <Typography variant={"caption"}>
-        <span className={Style.value}>{xValue}%</span>
+        <span>{xValue}%</span>
       </Typography>
 
       <Icon
@@ -42,7 +45,7 @@ const Rate = (props) => {
         iconName={attrs(props.value || 0).icon}
         color={"inherit"}
       />
-    </span>
+    </Box>
   );
 };
 

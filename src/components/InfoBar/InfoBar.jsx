@@ -3,9 +3,6 @@ import PropTypes from "prop-types";
 
 import { Typography, Stack, ProgressBar, Box } from "../";
 import { validators } from "investira.sdk";
-
-import Style from "./InfoBar.module.scss";
-
 function InfoBar(props) {
   return (
     <Stack
@@ -23,7 +20,7 @@ function InfoBar(props) {
         {props.label}
       </Typography>
 
-      <Box className={Style.progressBar}>
+      <Box sx={{ position: "relative", margin: "4px 0 2px 0" }}>
         <ProgressBar
           animate={props.animate}
           value={props.value}
@@ -67,7 +64,7 @@ InfoBar.propTypes = {
     "primary",
     "secondary",
     "info",
-    "danger",
+    "error",
     "warning",
   ]),
   labelColor: PropTypes.oneOf(["textPrimary", "textSecondary"]),

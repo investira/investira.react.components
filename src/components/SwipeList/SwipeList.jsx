@@ -6,7 +6,31 @@ import { Swiper, SwiperSlide } from "swiper/react/swiper-react";
 import "swiper/swiper.scss";
 import "swiper/modules/navigation/navigation.scss";
 import "swiper/modules/pagination/pagination.scss";
-import Style from "./SwipeList.module.scss";
+import { styled } from "@mui/material/styles";
+
+const Container = styled(Swiper)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column-reverse",
+  //flexDirection: "column",
+  // "@global": {
+  ".swiper-wrapper > div:first-of-type": {
+    marginLeft: "16px",
+  },
+  ".swiper-wrapper > div:last-of-type": {
+    marginRight: "16px",
+  },
+  ".swiper-pagination": {
+    position: "relative",
+    bottom: 0,
+    padding: "4px 16px",
+    height: "28px",
+
+    "&-bullet-active": {
+      background: theme.palette.primary.main,
+    },
+  },
+  // },
+}));
 
 const SwipeList = memo((props) => {
   // HANDLERS
@@ -21,9 +45,8 @@ const SwipeList = memo((props) => {
   const Component = props.child;
 
   return (
-    <Swiper
+    <Container
       pagination={props.pagination}
-      className={Style.container}
       modules={[Pagination]}
       centeredSlides={props.centeredSlides}
       centeredSlidesBounds={props.centeredSlidesBounds}
@@ -46,7 +69,7 @@ const SwipeList = memo((props) => {
             </SwiperSlide>
           );
         })}
-    </Swiper>
+    </Container>
   );
 });
 

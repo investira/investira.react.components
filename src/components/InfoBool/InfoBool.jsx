@@ -1,18 +1,24 @@
 import React from "react";
-import { Typography, Icon } from "../";
-import classNames from "classnames";
+import { Typography, Icon, Box, Stack } from "../";
+import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import Style from "./InfoBool.module.scss";
 
+const Root = styled(Box)(({ gutter }) => ({
+  ...(gutter && {
+    margin: "0px 16px",
+  }),
+}));
+
+const DivIcon = styled(Stack)(({ value }) => ({
+  ...(!value && {
+    height: "28px",
+    alignItems: "center",
+    flexDirection: "row",
+  }),
+}));
 function InfoBool(props) {
-  const xClass = classNames(props.className, {
-    [Style.gutter]: props.gutter,
-  });
-  const xClassIcon = classNames({
-    [Style.cancel]: !props.value,
-  });
   return (
-    <div className={xClass}>
+    <Root gutter={props.gutter}>
       <Typography
         variant={props.variant}
         color={props.labelColor}
@@ -20,14 +26,14 @@ function InfoBool(props) {
       >
         {props.label}
       </Typography>
-      <div className={xClassIcon}>
+      <DivIcon value={props.value}>
         <Icon
-          color={props.value ? "greenLight" : "danger"}
+          color={props.value ? "greenLight" : "error"}
           iconName={props.value ? "ok" : "cancel"}
           size={props.value ? 24 : 16}
         />
-      </div>
-    </div>
+      </DivIcon>
+    </Root>
   );
 }
 

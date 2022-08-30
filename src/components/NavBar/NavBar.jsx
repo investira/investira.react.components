@@ -1,80 +1,145 @@
-import React, { memo } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import React, { memo } from "react";
+import PropTypes from "prop-types";
+import { Box } from "../";
 
-import Style from './NavBar.module.scss';
+const NavBar = memo((props) => {
+  return (
+    <>
+      <Box
+        sx={[
+          {
+            position: "relative",
+            width: "100%",
+            display: "flex",
+            zIndex: "1100",
+            boxShadow: "none",
+            boxSizing: "border-box",
+            flexShrink: 0,
+            flexDirection: "column",
+            backgroundColor: "transparent",
+            alignContent: "stretch",
+            padding: "0 4px",
+          },
+          props.variant === "dense" && {
+            height: "48px",
+          },
+          props.variant === "regular" && {
+            height: "56px",
+          },
+          props.variant === "large" && {
+            height: "64px",
+          },
+          props.gutters && {
+            padding: "0 16px",
+          },
+        ]}
+      >
+        <Box
+          sx={[
+            {
+              display: "flex",
+              position: "relative",
+              alignItems: "center",
+              alignContent: "center",
+              height: "100%",
+              justifyContent: "space-between",
+            },
+            props.left &&
+              !props.right && {
+                justifyContent: "center",
+              },
+          ]}
+        >
+          {props.left && (
+            <Box
+              sx={[
+                { display: "flex", height: "100%", alignItems: "center" },
+                props.variant === "dense" && {
+                  minWidth: "48px",
+                  width: "48px",
+                  flexGrow: 0,
+                  flexShrink: 0,
+                },
+                props.variant === "regular" && {
+                  minWidth: "48px",
+                  flexGrow: 0,
+                  flexShrink: 0,
+                },
+                props.variant === "large" && {
+                  minWidth: "48px",
+                  width: "64px",
+                  flexGrow: 0,
+                  flexShrink: 0,
+                },
+              ]}
+            >
+              {props.left}
+            </Box>
+          )}
 
-const NavBar = memo(props => {
-    const xClass = classNames(Style.root, {
-        [Style.dense]: props.variant === 'dense',
-        [Style.regular]: props.variant === 'regular',
-        [Style.large]: props.variant === 'large',
-        [Style.gutters]: props.gutters
-    });
+          {props.center && (
+            <Box
+              sx={[
+                { display: "flex", height: "100%", alignItems: "center" },
+                props.left &&
+                  props.center &&
+                  !props.right && { paddingRight: "12px", flexGrow: 1 },
+                props.right &&
+                  props.center &&
+                  !props.left && { paddingLeft: "12px", flexGrow: 1 },
+                props.variant === "dense" && { flexGrow: 1 },
+                props.variant === "regular" && {
+                  flexGrow: 1,
+                },
+                props.variant === "large" && { flexGrow: 1 },
+              ]}
+            >
+              {props.center}
+            </Box>
+          )}
 
-    const xClassToolbar = classNames(Style.toolbar, {
-        // [Style.toolbarTitleAndRight]:
-        //     !props.left && !props.center && props.title && props.right,
-        //[Style.toolbarRightOnly]: !props.left && !props.center && !props.title,
-        [Style.toolbarCenterOnly]: !props.left && !props.right,
-
-        [Style.toolbarRight]: props.right && props.center && !props.left,
-        [Style.toolbarLeft]: props.left && props.center && !props.right
-    });
-
-    const xClassCentertArea = classNames(
-        Style.centerArea,
-        Style.centerGutters,
-        {
-            [Style.centerDense]: props.variant === 'dense',
-            [Style.centerRegular]: props.variant === 'regular',
-            [Style.centerLarge]: props.variant === 'large'
-        }
-    );
-
-    const xClassLeft = classNames(Style.leftArea, {
-        [Style.leftAreaDense]: props.variant === 'dense',
-        [Style.leftAreaRegular]: props.variant === 'regular',
-        [Style.leftAreaLarge]: props.variant === 'large'
-    });
-
-    const xClassRight = classNames(Style.rightArea, {
-        [Style.rightAreaDense]: props.variant === 'dense',
-        [Style.rightAreaRegular]: props.variant === 'regular',
-        [Style.rightAreaLarge]: props.variant === 'large'
-    });
-
-    return (
-        <>
-            <div className={xClass}>
-                <div className={xClassToolbar}>
-                    {props.left && (
-                        <div className={xClassLeft}>{props.left}</div>
-                    )}
-
-                    {props.center && (
-                        <div className={xClassCentertArea}>{props.center}</div>
-                    )}
-
-                    {props.right && (
-                        <div className={xClassRight}>{props.right}</div>
-                    )}
-                </div>
-            </div>
-        </>
-    );
+          {props.right && (
+            <Box
+              sx={[
+                { display: "flex", height: "100%", alignItems: "center" },
+                props.variant === "dense" && {
+                  minWidth: "48px",
+                  width: "48px",
+                  flexGrow: 0,
+                  flexShrink: 0,
+                },
+                props.variant === "regular" && {
+                  minWidth: "48px",
+                  flexGrow: 0,
+                  flexShrink: 0,
+                },
+                props.variant === "large" && {
+                  minWidth: "48px",
+                  width: "64px",
+                  flexGrow: 0,
+                  flexShrink: 0,
+                },
+              ]}
+            >
+              {props.right}
+            </Box>
+          )}
+        </Box>
+      </Box>
+    </>
+  );
 });
 
 NavBar.propTypes = {
-    type: PropTypes.string,
-    iconName: PropTypes.string,
-    title: PropTypes.string,
-    onClose: PropTypes.func,
-    variant: PropTypes.oneOf(['dense', 'regular', 'large'])
+  type: PropTypes.string,
+  iconName: PropTypes.string,
+  title: PropTypes.string,
+  onClose: PropTypes.func,
+  variant: PropTypes.oneOf(["dense", "regular", "large"]),
 };
 
 NavBar.defaultProps = {
-    variant: 'dense'
+  variant: "dense",
 };
 
 export default NavBar;

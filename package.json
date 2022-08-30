@@ -35,6 +35,7 @@
     "react-scripts": "4.0.3",
     "react-virtualized": "9.21.2",
     "redux": "4.1.2",
+    "sass": "^1.53.0",
     "swiper": "^8.1.0",
     "typed.js": "2.0.11",
     "web-vitals": "^1.0.1"

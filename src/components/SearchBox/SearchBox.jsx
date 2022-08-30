@@ -6,12 +6,23 @@ import React, {
   useImperativeHandle,
 } from "react";
 import PropTypes from "prop-types";
-import { InputBase, IconButton, FormControl, Chip, Icon } from "../";
-
+import {
+  InputBase,
+  IconButton,
+  FormControl,
+  Chip,
+  Icon,
+  Box,
+  Stack,
+  InputAdornment,
+} from "../";
+import { styled } from "@mui/material/styles";
 import { validators } from "investira.sdk";
-import Style from "./SearchBox.module.scss";
 
 let timeout = null;
+const StyledInputAdornment = styled(InputAdornment)(() => ({
+  margin: "12px",
+}));
 
 const SearchBox = forwardRef((props, ref) => {
   const [clearBtn, setClearBtn] = useState(!validators.isNull(props.value));
@@ -116,9 +127,17 @@ const SearchBox = forwardRef((props, ref) => {
   }, []);
 
   return (
-    <div className={Style.root}>
-      <div className={Style.searchWrap}>
-        <div className={Style.inputWrap}>
+    <Box mb={2} width={"100%"}>
+      <Stack
+        sx={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          backgroundColor: "rgba(39, 45, 63, 0.5)",
+          borderRadius: "8px",
+        }}
+      >
+        <Box flexGrow={1}>
           <FormControl fullWidth>
             <InputBase
               inputRef={searchRef}
@@ -132,17 +151,18 @@ const SearchBox = forwardRef((props, ref) => {
               inputProps={props.inputProps}
               startAdornment={
                 !props.onClick ? (
-                  <Icon
-                    iconName={"find"}
-                    className={Style.adornement}
-                    color={"secondaryLight"}
-                    size={18}
-                  />
+                  <StyledInputAdornment position={"start"}>
+                    <Icon
+                      iconName={"find"}
+                      color={"secondaryLight"}
+                      size={18}
+                    />
+                  </StyledInputAdornment>
                 ) : null
               }
             />
           </FormControl>
-        </div>
+        </Box>
         {clearBtn && (
           <IconButton aria-label="busca" onClick={handleClear}>
             <Icon iconName={"cancel"} size={16} />
@@ -164,15 +184,22 @@ const SearchBox = forwardRef((props, ref) => {
             <Icon iconName={"filter"} />
           </IconButton>
         )}
-      </div>
+      </Stack>
       {!validators.isEmpty(querySplited) && (
-        <div className={Style.querys}>
+        <Stack
+          sx={{
+            padding: "12px 0 0 0",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            margin: "0 -4px",
+          }}
+        >
           {querySplited.map((xData, xIndex) => {
             if (validators.isEmpty(xData)) {
               return null;
             } else {
               return (
-                <div className={Style.chip} key={xIndex}>
+                <Box p={0.5} key={xIndex}>
                   <Chip
                     variant={"outlined"}
                     color={"primary"}
@@ -180,13 +207,13 @@ const SearchBox = forwardRef((props, ref) => {
                     size={"small"}
                     onDelete={() => handleDelete(xData)}
                   />
-                </div>
+                </Box>
               );
             }
           })}
-        </div>
+        </Stack>
       )}
-    </div>
+    </Box>
   );
 });
 

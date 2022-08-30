@@ -9,93 +9,35 @@ export const componentsTheme = {
             xl: '1920'
         }
     },
-    colors: {
-        common: { black: '#000', white: '#fff', transparent: 'transparent' },
-        primary: {
-            light: '#64ffda',
-            main: '#00dfa8',
-            dark: '#00ac79',
-            contrastText: 'rgba(0, 0, 0, .87)'
-        },
-        secondary: {
-            light: '#7a81ab',
-            main: '#2e2e46',
-            dark: '#26263b',
-            darkness: '#191b2a',
-            contrastText: 'rgba(255, 255, 255, .87)'
-        },
-        error: {
-            light: '#ff7957',
-            main: '#ed442c',
-            dark: '#b30000',
-            contrastText: 'rgba(255, 255, 255, .87)'
-        },
-        info: {
-            light: '#64eeff',
-            main: '#0bbbd0',
-            dark: '#008b9f',
-            contrastText: 'rgba(255, 255, 255, .87)'
-        },
-        warn: {
-            light: '#ffe650',
-            main: '#f1b40f',
-            dark: '#b98500',
-            contrastText: 'rgba(0, 0, 0, .87)'
-        },
-        text: {
-            primary: 'rgba(255, 255, 255, .87)',
-            secondary: 'rgba(148, 158, 216, 1)',
-            disabled: 'rgba(122, 129, 171, 1)',
-            disabledInvert: 'rgba(255, 255, 255, 0.48)',
-            hint: 'rgba(155, 155, 155, 1)'
-        },
-        divider: {},
-        background: {
-            light: '#7a81ab',
-            main: '#2e2e46',
-            dark: '#191b2a',
-            contrastText: '#fff',
-            paper: 'rgba(38, 38, 59, 1)',
-            default: 'rgba(38, 38, 59, 1)'
-        },
-        background_theme_secondary: {
-            light: '#7a81ab',
-            main: '#2e2e46',
-            dark: '#020610',
-            contrastText: '#fff',
-            paper: 'rgba(38, 38, 59, 1)',
-            default: 'rgba(38, 38, 59, 1)'
-        }
+  },
+  colors: {
+    common: { black: "#000", white: "#fff", transparent: "transparent" },
+    primary: {
+      lightness: "#64ffda",
+      light: "#58daca",
+      main: "#00dfa8",
+      dark: "#00ac79",
+      darkness: "#04a899",
+      contrastText: "rgba(0, 0, 0, .87)",
     },
-    typo: {
-        fontFamily: ['Montserrat', 'sans-serif'].join(','),
-        fontSize: 14,
-        fontWeightLight: 300,
-        fontWeightRegular: 400,
-        fontWeightMedium: 500,
-        fontWeightSemiBold: 600,
-        fontWeightBold: 700
+    secondary: {
+      lightness: "#7a81ab",
+      light: "#2c2d44",
+      main: "#2e2e46",
+      dark: "#26263b",
+      darkness: "#191b2a",
+      contrastText: "rgba(255, 255, 255, .87)",
     },
     shape: {},
     spacing: {
         unit: 8
     },
-    transitions: {
-        easing: {
-            easeInOut: 'cubic-bezier(0.4, 0, 0.2, 1)',
-            easeOut: 'cubic-bezier(0.0, 0, 0.2, 1)',
-            easeIn: 'cubic-bezier(0.4, 0, 1, 1)',
-            sharp: 'cubic-bezier(0.4, 0, 0.6, 1)'
-        },
-        duration: {
-            shortest: 150,
-            shorter: 200,
-            short: 250,
-            standard: 300,
-            complex: 375,
-            enteringScreen: 225,
-            leavingScreen: 195
-        }
+    info: {
+      light: "#64eeff",
+      main: "#0bbbd0",
+      dark: "#008b9f",
+      highlight: "#1e90ff",
+      contrastText: "rgba(255, 255, 255, .87)",
     },
     shadows: [
         'none',
