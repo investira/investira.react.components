@@ -6,13 +6,13 @@ import Tooltip from "../wrappers/Tooltip";
 
 const Button = styled("button")(() => ({
   display: "inline-block",
-  position: "absolute",
-  pointerEvents: "none",
+  position: "relative",
+  pointerEvents: "all",
   verticalAlign: "top",
   border: 0,
   height: "16px",
   width: "16px",
-  mx: 1.5,
+  margin: "0 4px",
   "& > svg": {
     position: "absolute",
     top: 0,

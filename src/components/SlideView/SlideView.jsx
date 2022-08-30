@@ -205,9 +205,9 @@ function SlideView(props) {
           xTranslate = "translate3d(" + xPos + "px, 0, 0)";
         }
 
-        // views[xViewIndex].style.transform = xTranslate;
-        // views[xViewIndex].style.mozTransform = xTranslate;
-        // views[xViewIndex].style.webkitTransform = xTranslate;
+        views[xViewIndex].style.transform = xTranslate;
+        views[xViewIndex].style.mozTransform = xTranslate;
+        views[xViewIndex].style.webkitTransform = xTranslate;
       }
 
       setSlideCurrent(xMoveIndex);

@@ -4,6 +4,7 @@ import { validators } from "investira.sdk";
 import { styled, alpha } from "@mui/material/styles";
 
 const Svg = styled("svg")(({ color, theme }) => {
+  console.log(theme.palette);
   return {
     userSelect: "none",
     display: "inline-block",
@@ -18,57 +19,53 @@ const Svg = styled("svg")(({ color, theme }) => {
       stroke: theme.palette.primary.main,
       fill: theme.palette.primary.main,
     }),
-    ...(color === "primaryLightness" && {
-      stroke: theme.palette.primary.lightness,
-      fill: theme.palette.primary.lightness,
+    ...(color === "primaryLight" && {
+      stroke: theme.palette.primary.light,
+      fill: theme.palette.primary.light,
+    }),
+    ...(color === "primaryDark" && {
+      stroke: theme.palette.primary.dark,
+      fill: theme.palette.primary.dark,
     }),
     ...(color === "secondary" && {
-      stroke: theme.palette.secondary,
-      fill: theme.palette.secondary,
+      stroke: theme.palette.secondary.main,
+      fill: theme.palette.secondary.main,
     }),
     ...(color === "secondaryLight" && {
       stroke: theme.palette.secondary.light,
       fill: theme.palette.secondary.light,
     }),
-    ...(color === "primaryDarkness" && {
-      stroke: theme.palette.primary.darkness,
-      fill: theme.palette.primary.darkness,
+    ...(color === "secondaryDark" && {
+      stroke: theme.palette.secondary.dark,
+      fill: theme.palette.secondary.dark,
     }),
     ...(color === "warn" && {
-      stroke: theme.palette.warning,
-      fill: theme.palette.warning,
-    }),
-    ...(color === "danger" && {
-      stroke: theme.palette.danger,
-      fill: theme.palette.danger,
+      stroke: theme.palette.warn.main,
+      fill: theme.palette.warn.main,
     }),
     ...(color === "error" && {
-      stroke: theme.palette.danger,
-      fill: theme.palette.danger,
+      stroke: theme.palette.error.main,
+      fill: theme.palette.error.main,
     }),
     ...(color === "infoLight" && {
       stroke: theme.palette.info.light,
       fill: theme.palette.info.light,
     }),
     ...(color === "info" && {
-      stroke: theme.palette.info,
-      fill: theme.palette.info,
+      stroke: theme.palette.info.main,
+      fill: theme.palette.info.main,
     }),
     ...(color === "infoDark" && {
       stroke: theme.palette.info.dark,
       fill: theme.palette.info.dark,
     }),
-    ...(color === "infoHighlight" && {
-      stroke: theme.palette.info.highlight,
-      fill: theme.palette.info.highlight,
-    }),
     ...(color === "textPrimary" && {
-      stroke: alpha(theme.palette.white, 0.9),
-      fill: alpha(theme.palette.white, 0.9),
+      stroke: theme.palette.text.primary,
+      fill: theme.palette.text.primary,
     }),
     ...(color === "textSecondary" && {
-      stroke: theme.palette.secondary.lightness,
-      fill: theme.palette.secondary.lightness,
+      stroke: theme.palette.text.secondary,
+      fill: theme.palette.text.secondary,
     }),
     ...(color === "black" && {
       stroke: theme.palette.black,
@@ -166,17 +163,14 @@ Icon.propTypes = {
     "default",
     "inherit",
     "primary",
-    "primaryLightness",
+    "primaryLight",
     "secondary",
     "secondaryLight",
-    "primaryDarkness",
     "warn",
-    "danger",
     "error",
     "infoLight",
     "info",
     "infoDark",
-    "infoHighlight",
     "textPrimary",
     "textSecondary",
     "black",

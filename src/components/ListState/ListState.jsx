@@ -8,7 +8,7 @@ const ListMessage = memo((props) => {
       <Box
         sx={[
           { minHeight: "200px", width: "100%" },
-          ...(props.padding && { padding: "0 16px" }),
+          props.padding && { padding: "0 16px" },
         ]}
       >
         <CenterInView>
@@ -23,7 +23,7 @@ const ListMessage = memo((props) => {
       <Box
         sx={[
           { minHeight: "200px", width: "100%" },
-          ...(props.padding && { padding: "0 16px" }),
+          props.padding && { padding: "0 16px" },
         ]}
       >
         <CenterInView>
@@ -39,7 +39,7 @@ const ListMessage = memo((props) => {
     <Box
       sx={[
         { minHeight: "200px", width: "100%" },
-        ...(props.padding && { padding: "0 16px" }),
+        props.padding && { padding: "0 16px" },
       ]}
     >
       {props.children}

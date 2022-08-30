@@ -1,34 +1,36 @@
 import React from "react";
 import { Typography, Box } from "../";
 import { validators } from "investira.sdk";
-import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 
-const Root = styled(Box)(({ gutter, direction }) => ({
-  ...(gutter === "full" && {
-    margin: "0px 16px",
-  }),
-  ...(gutter === "left" && {
-    marginLeft: "16px",
-  }),
-  ...(gutter === "right" && {
-    marginRight: "16px",
-  }),
-  ...(direction === "horizontal" && {
-    display: "flex",
-    alignItems: "center",
-  }),
-}));
-
-const Margin = styled(Box)(({ direction }) => ({
-  ...(direction === "horizontal" && {
-    marginRight: "8px",
-  }),
-}));
 function Info(props) {
   return (
-    <Root id={props.label} onClick={props.onClick}>
-      <Margin>
+    <Box
+      sx={[
+        props.gutter === "full" && {
+          mx: 2,
+        },
+        props.gutter === "left" && {
+          ml: 2,
+        },
+        props.gutter === "right" && {
+          mr: 2,
+        },
+        props.direction === "horizontal" && {
+          display: "flex",
+          alignItems: "center",
+        },
+      ]}
+      id={props.label}
+      onClick={props.onClick}
+    >
+      <Box
+        sx={{
+          ...(props.direction === "horizontal" && {
+            mr: 1,
+          }),
+        }}
+      >
         <Typography
           variant={props.variant}
           color={props.labelColor}
@@ -38,7 +40,7 @@ function Info(props) {
           {props.label}
           {(props.colon || props.direction === "horizontal") && ":"}
         </Typography>
-      </Margin>
+      </Box>
       {validators.isEmpty(props.value) ? (
         <Typography
           variant={props.variantValue}
@@ -67,7 +69,7 @@ function Info(props) {
           {props.value}
         </Typography>
       )}
-    </Root>
+    </Box>
   );
 }
 

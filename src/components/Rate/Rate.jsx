@@ -4,9 +4,9 @@ import { Typography, Icon, Box } from "../";
 
 const Rate = (props) => {
   const elem = [
-    { icon: "arrow_negative", color: "var(--color-danger)" },
-    { icon: "arrow_positive", color: "var(--color-primary)" },
-    { icon: "none", color: "var(--color-warning)" },
+    { icon: "arrow_negative", color: "error" },
+    { icon: "arrow_positive", color: "primary" },
+    { icon: "none", color: "warn" },
   ];
 
   const attrs = (pValue) => {
@@ -27,12 +27,14 @@ const Rate = (props) => {
 
   return (
     <Box
-      display={"flex"}
-      alignItems={"center"}
-      justifyContent={"flex-start"}
-      style={{
-        color: props.contrastColor || attrs(props.value || 0).color,
-      }}
+      sx={(theme) => ({
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        color:
+          theme.palette[props.contrastColor || attrs(props.value || 0).color]
+            .main,
+      })}
     >
       <Typography variant={"caption"}>
         <span>{xValue}%</span>

@@ -11,11 +11,11 @@ const Root = styled(Box)(({ isSticky }) => ({
   background:
     "linear-gradient(to bottom,rgba(25, 27, 42, 1) 0%,rgba(25, 27, 42, 1) 71%,rgba(25, 27, 42, 0.1) 100%)",
   ...(isSticky && {
-    position: "-webkit-sticky !important",
-    position: "sticky !important",
+    position: "sticky",
   }),
 }));
 
+// Verificar o comportamento do isSticky na PosicaoDistribuicao. Está piscando loucamente.
 function Sticky({ children, sticky = false, className, ...rest }) {
   const [isSticky, setIsSticky] = useState(false);
   const elemRef = useRef();

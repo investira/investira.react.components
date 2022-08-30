@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress, Box, Stack } from "../";
 
+// Substituir pelo LoadingButton do MUI
 const SubmitButton = memo((props) => {
   const { children, isSubmitting, variant, disabled, fullWidth, ...restProps } =
     props;

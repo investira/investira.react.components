@@ -14,19 +14,20 @@ const GridContainer = styled(Swiper)(({ theme }) => ({
   flexDirection: "column-reverse",
   width: "100%",
   height: "100%",
-  mx: "auto",
-  ":global": {
-    ".swiper-pagination": {
-      position: "relative",
-      bottom: 0,
-      p: "4px 16px",
-      height: "28px",
+  marginLeft: "auto",
+  marginRight: "auto",
+  // ":global": {
+  ".swiper-pagination": {
+    position: "relative",
+    bottom: 0,
+    padding: "4px 16px",
+    height: "28px",
 
-      "&-bullet-active": {
-        background: theme.palette.primary,
-      },
+    "&-bullet-active": {
+      background: theme.palette.primary.main,
     },
   },
+  // },
 }));
 const SwipeGridList = memo((props) => {
   const [wrapHeight, setWrapHeight] = useState(300);

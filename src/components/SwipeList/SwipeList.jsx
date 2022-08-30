@@ -10,25 +10,26 @@ import { styled } from "@mui/material/styles";
 
 const Container = styled(Swiper)(({ theme }) => ({
   display: "flex",
-  flexDirection: "column-reverse",
-  ":global": {
-    ".swiper-wrapper > div:first-child": {
-      ml: 2,
-    },
-    ".swiper-wrapper > div:last-child": {
-      mr: 2,
-    },
-    ".swiper-pagination": {
-      position: "relative",
-      bottom: 0,
-      p: "4px 16px",
-      height: "28px",
+  // flexDirection: "column-reverse",
+  flexDirection: "column",
+  // "@global": {
+  ".swiper-wrapper > div:first-of-type": {
+    marginLeft: "16px",
+  },
+  ".swiper-wrapper > div:last-of-type": {
+    marginRight: "16px",
+  },
+  ".swiper-pagination": {
+    position: "relative",
+    bottom: 0,
+    padding: "4px 16px",
+    height: "28px",
 
-      "&-bullet-active": {
-        background: theme.palette.primary,
-      },
+    "&-bullet-active": {
+      background: theme.palette.primary.main,
     },
   },
+  // },
 }));
 
 const SwipeList = memo((props) => {

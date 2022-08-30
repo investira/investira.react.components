@@ -2,7 +2,6 @@ import React, { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { validators } from "investira.sdk";
 import { styled } from "@mui/material/styles";
-import { useRouteMatch } from "react-router-dom";
 import { Box, Stack } from "../";
 
 const View = styled(Stack)(({ variant }) => ({
@@ -29,17 +28,12 @@ const View = styled(Stack)(({ variant }) => ({
 }));
 
 const Deck = memo((props) => {
-  const match = useRouteMatch();
-
-  const isActive = useCallback(
-    (pActiveView, pId) => {
-      if (pActiveView === pId) {
-        return true;
-      }
-      return false;
-    },
-    [match.url]
-  );
+  const isActive = useCallback((pActiveView, pId) => {
+    if (pActiveView === pId) {
+      return true;
+    }
+    return false;
+  }, []);
 
   const isPrev = useCallback((pPrevView, id) => {
     if (pPrevView.includes(id)) {

@@ -26,9 +26,6 @@ const Root = styled("div")(({ color, close, theme }) => {
     ...(color === "secondaryDark" && {
       backgroundColor: theme.palette.secondary.dark,
     }),
-    ...(color === "secondaryDarkness" && {
-      backgroundColor: theme.palette.secondary.darkness,
-    }),
     ...(color === "warn" && {
       backgroundColor: theme.palette.warning.main,
     }),
@@ -97,7 +94,6 @@ Alerts.propTypes = {
     "secondary",
     "secondaryLight",
     "secondaryDark",
-    "secondaryDarkness",
     "warn",
     "error",
     "info",

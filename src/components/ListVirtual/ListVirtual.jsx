@@ -142,7 +142,7 @@ function ListVirtual(props) {
       ref={listRoot}
       sx={[
         { position: "relative", minHeight: "100%" },
-        ...(hasListData(props.list) && { height: "100%" }),
+        hasListData(props.list) && { height: "100%" },
       ]}
     >
       <InfiniteLoader

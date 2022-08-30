@@ -64,7 +64,7 @@ InfoBar.propTypes = {
     "primary",
     "secondary",
     "info",
-    "danger",
+    "error",
     "warning",
   ]),
   labelColor: PropTypes.oneOf(["textPrimary", "textSecondary"]),

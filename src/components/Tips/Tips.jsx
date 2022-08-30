@@ -5,7 +5,7 @@ import { Icon, IconButton, JsonTextFormated, Stack, Box } from "../";
 
 const Desc = styled(Box)(({ show }) => ({
   height: 0,
-  overflow: "hidden,",
+  overflow: "hidden",
   opacity: "0.5",
   transition: "all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1)",
   ...(show && {
@@ -39,7 +39,7 @@ const Tips = memo((props) => {
         <Icon iconName={props.iconName} size={props.size} color={props.color} />
       </IconButton>
       <Desc show={show} ref={descRef}>
-        <Box ref={bodyRef} sx={{ padding: "12px 8px" }}>
+        <Box ref={bodyRef} sx={{ p: "12px 8px" }}>
           <JsonTextFormated
             text={props.desc}
             color={"textSecondary"}

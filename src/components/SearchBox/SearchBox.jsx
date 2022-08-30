@@ -14,12 +14,13 @@ import {
   Icon,
   Box,
   Stack,
+  InputAdornment,
 } from "../";
 import { styled } from "@mui/material/styles";
 import { validators } from "investira.sdk";
 
 let timeout = null;
-const FindIcon = styled(Icon)(() => ({
+const StyledInputAdornment = styled(InputAdornment)(() => ({
   margin: "12px",
 }));
 
@@ -132,7 +133,7 @@ const SearchBox = forwardRef((props, ref) => {
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
-          backgroundColor: "rgba($color: #272D3F, $alpha: 0.5)",
+          backgroundColor: "rgba(39, 45, 63, 0.5)",
           borderRadius: "8px",
         }}
       >
@@ -150,11 +151,13 @@ const SearchBox = forwardRef((props, ref) => {
               inputProps={props.inputProps}
               startAdornment={
                 !props.onClick ? (
-                  <FindIcon
-                    iconName={"find"}
-                    color={"secondaryLight"}
-                    size={18}
-                  />
+                  <StyledInputAdornment position={"start"}>
+                    <Icon
+                      iconName={"find"}
+                      color={"secondaryLight"}
+                      size={18}
+                    />
+                  </StyledInputAdornment>
                 ) : null
               }
             />

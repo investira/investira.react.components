@@ -83,7 +83,7 @@ function LogReader(props) {
 
   const formatText = (pData) => {
     const xDataFormated = pData.replace(/\[([a-z]*)\]/gm, (match, p1) => {
-      return `<Box component="span" color='${colors[p1]}'>${match}</span>`;
+      return `<Box component="span" color='${colors[p1]}'>${match}</Box>`;
     });
 
     return xDataFormated;
@@ -91,7 +91,7 @@ function LogReader(props) {
 
   const formatJson = (pData) => {
     let xDataFormated = pData.replace(/"level":\s"(.*)",/gm, (match, p1) => {
-      return `"level": <Box component="span" color='${colors[p1]}'>"${p1}"</span>`;
+      return `"level": <Box component="span" color='${colors[p1]}'>"${p1}"</Box>`;
     });
 
     xDataFormated = xDataFormated.replace(

@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     height: 14,
     fontSize: theme.typography.pxToRem(11),
   },
-  danger: {
+  error: {
     color: theme.palette.getContrastText(red[500]),
     border: "1px solid #f44336",
     backgroundColor: red[500],
@@ -42,9 +42,9 @@ function Chip(props) {
   const classes = useStyles();
   const xClassNames = {
     [classes.tiny]: props.size === "tiny",
-    [classes.danger]: props.color === "danger" && props.variant !== "outlined",
+    [classes.error]: props.color === "error" && props.variant !== "outlined",
     [classes.dangerOutlined]:
-      props.color === "danger" && props.variant === "outlined",
+      props.color === "error" && props.variant === "outlined",
     [classes.infoOutlined]:
       props.color === "info" && props.variant === "outlined",
     [classes.info]: props.color === "info" && props.variant !== "outlined",

@@ -3,42 +3,46 @@ import { Box } from "../";
 import { styled } from "@mui/material/styles";
 import PropTypes from "prop-types";
 
-const Span = styled(Box)(({ animate }) => ({
-  position: "absolute",
-  display: "block",
-  height: "100%",
-  borderRadius: "3px",
-  transition: "width 500ms ease-in-out",
-  ...(animate === "indeterminate" && {
-    "@keyframes increase": {
-      from: {
-        left: "-5%",
-        width: "5%",
+const Span = styled(Box)(({ theme, animate, color, value }) => {
+  return {
+    position: "absolute",
+    display: "block",
+    height: "100%",
+    borderRadius: "3px",
+    transition: "width 500ms ease-in-out",
+    backgroundColor: theme.palette[color].main,
+    width: `${String(value)}%`,
+    ...(animate === "indeterminate" && {
+      "@keyframes increase": {
+        from: {
+          left: "-5%",
+          width: "5%",
+        },
+        to: {
+          left: "130%",
+          width: "100%",
+        },
       },
-      to: {
-        left: "130%",
-        width: "100%",
+      "@keyframes decrease": {
+        from: {
+          left: "-80%",
+          width: "80%",
+        },
+        to: {
+          left: "110%",
+          width: "10%",
+        },
       },
-    },
-    "@keyframes decrease": {
-      from: {
-        left: "-80%",
-        width: "80%",
+      "&:first-of-type": {
+        animation: "increase 2s infinite",
       },
-      to: {
-        left: "110%",
-        width: "10%",
-      },
-    },
-    "&:first-child": {
-      animation: "increase 2s infinite",
-    },
 
-    "&:last-child": {
-      animation: "decrease 2s 0.5s infinite",
-    },
-  }),
-}));
+      "&:last-of-type": {
+        animation: "decrease 2s 0.5s infinite",
+      },
+    }),
+  };
+});
 function ProgressBar(props) {
   return (
     <Box
@@ -55,17 +59,12 @@ function ProgressBar(props) {
       ]}
     >
       <Span
+        animate={props.animate}
+        color={props.color}
+        value={props.value}
         component="span"
-        style={{
-          width: `${String(props.value)}%`,
-          backgroundColor: `var(--color-${props.color})`,
-        }}
       ></Span>
-      <Span
-        style={{
-          backgroundColor: `var(--color-${props.color})`,
-        }}
-      ></Span>
+      <Span color={props.color} animate={props.animate}></Span>
     </Box>
   );
 }

@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Box } from "../";
-import { alpha } from "@mui/material/styles";
 import { ButtonBase } from "../wrappers";
 
 function NavDots(props) {
@@ -56,38 +55,17 @@ function NavDots(props) {
             <Box
               component="span"
               sx={[
-                (theme) => (
-                  {
-                    display: "inline-block",
-                    p: 0.5,
-                    borderRadius: "50%",
-                    backgroundColor: alpha(theme.palette.common.white, 0.9),
-                    transition: "all 0.2s ease-in-out",
-                  },
-                  props.index === xI && {
-                    backgroundColor: theme.palette.primary,
-                    transform: "scale(1.5)",
-                  }
-                ),
-              ]}
-            />
-
-            <Box
-              component="span"
-              sx={[
-                ({ theme }) => (
-                  {
-                    display: "inline-block",
-                    p: 0.5,
-                    borderRadius: "50%",
-                    transition: "all 0.2s ease-in-out",
-                    backgroundColor: alpha(theme.palette.white, 0.9),
-                  },
-                  props.index === xI && {
-                    backgroundColor: theme.palette.primary,
-                    transform: "scale(1.5)",
-                  }
-                ),
+                {
+                  display: "inline-block",
+                  p: 0.5,
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(255, 255, 255, 0.9)",
+                  transition: "all 0.2s ease-in-out",
+                },
+                props.index === xI && {
+                  backgroundColor: "#00dfa8",
+                  transform: "scale(1.5)",
+                },
               ]}
             />
           </Box>
@@ -98,14 +76,12 @@ function NavDots(props) {
 
   return (
     <Box
-      sx={[
-        ({ theme }) => ({
-          position: "relative",
-          width: "170px",
-          overflow: "hidden",
-          color: alpha(theme.palette.white, 0.9),
-        }),
-      ]}
+      sx={{
+        position: "relative",
+        width: "170px",
+        overflow: "hidden",
+        color: "rgba(255, 255, 255, 0.9)",
+      }}
     >
       <Box
         sx={[

@@ -6,7 +6,7 @@ import { displays } from "investira.react.lib";
 
 const Root = styled(Box)(({ theme }) => ({
   fontWeight: "bold",
-  color: theme.palette.primary,
+  color: theme.palette.primary.main,
 }));
 
 const Highlight = memo((props) => {

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const Root = styled(Stack)(({ selected, theme }) => ({
   color: "rgba(255, 255, 255, 0.87)",
   transition: "all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-  backgroundColor: theme.palette.secondary,
+  backgroundColor: theme.palette.secondary.main,
   alignItems: "center",
   flexDirection: "row",
   height: "100%",

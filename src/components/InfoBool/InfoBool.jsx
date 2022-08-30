@@ -28,7 +28,7 @@ function InfoBool(props) {
       </Typography>
       <DivIcon value={props.value}>
         <Icon
-          color={props.value ? "greenLight" : "danger"}
+          color={props.value ? "greenLight" : "error"}
           iconName={props.value ? "ok" : "cancel"}
           size={props.value ? 24 : 16}
         />
