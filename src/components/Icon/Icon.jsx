@@ -23,9 +23,17 @@ const Svg = styled("svg")(({ color, theme }) => {
       stroke: theme.palette.primary.light,
       fill: theme.palette.primary.light,
     }),
+    ...(color === "primaryLightness" && {
+      stroke: theme.palette.primary.lightness,
+      fill: theme.palette.primary.lightness,
+    }),
     ...(color === "primaryDark" && {
       stroke: theme.palette.primary.dark,
       fill: theme.palette.primary.dark,
+    }),
+    ...(color === "primaryDarkness" && {
+      stroke: theme.palette.primary.darkness,
+      fill: theme.palette.primary.darkness,
     }),
     ...(color === "secondary" && {
       stroke: theme.palette.secondary.main,
@@ -35,21 +43,49 @@ const Svg = styled("svg")(({ color, theme }) => {
       stroke: theme.palette.secondary.light,
       fill: theme.palette.secondary.light,
     }),
+    ...(color === "secondaryLightness" && {
+      stroke: theme.palette.secondary.lightness,
+      fill: theme.palette.secondary.lightness,
+    }),
     ...(color === "secondaryDark" && {
       stroke: theme.palette.secondary.dark,
       fill: theme.palette.secondary.dark,
+    }),
+    ...(color === "secondaryDarkness" && {
+      stroke: theme.palette.secondary.darkness,
+      fill: theme.palette.secondary.darkness,
+    }),
+    ...(color === "warnLight" && {
+      stroke: theme.palette.warn.light,
+      fill: theme.palette.warn.light,
     }),
     ...(color === "warn" && {
       stroke: theme.palette.warn.main,
       fill: theme.palette.warn.main,
     }),
+    ...(color === "warnDark" && {
+      stroke: theme.palette.warn.dark,
+      fill: theme.palette.warn.dark,
+    }),
+    ...(color === "errorLight" && {
+      stroke: theme.palette.error.light,
+      fill: theme.palette.error.light,
+    }),
     ...(color === "error" && {
       stroke: theme.palette.error.main,
       fill: theme.palette.error.main,
     }),
+    ...(color === "errorDark" && {
+      stroke: theme.palette.error.dark,
+      fill: theme.palette.error.dark,
+    }),
     ...(color === "infoLight" && {
       stroke: theme.palette.info.light,
       fill: theme.palette.info.light,
+    }),
+    ...(color === "infoHighlight" && {
+      stroke: theme.palette.info.highlight,
+      fill: theme.palette.info.highlight,
     }),
     ...(color === "info" && {
       stroke: theme.palette.info.main,
@@ -164,12 +200,23 @@ Icon.propTypes = {
     "inherit",
     "primary",
     "primaryLight",
+    "primaryLightness",
+    "primaryDark",
+    "primaryDarkness",
     "secondary",
     "secondaryLight",
+    "secondaryLightness",
+    "secondaryDark",
+    "secondaryDarkness",
     "warn",
+    "warnLight",
+    "warnDark",
     "error",
+    "errorLight",
+    "errorDark",
     "infoLight",
     "info",
+    "infoHighlight",
     "infoDark",
     "textPrimary",
     "textSecondary",
