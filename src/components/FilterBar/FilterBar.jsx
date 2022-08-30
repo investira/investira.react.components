@@ -19,7 +19,7 @@ const Button = styled("button")(({ active, theme }) => ({
   justifyContent: "center",
   flexGrow: 1,
   flexBasis: 0,
-  color: theme.palette.primary,
+  color: theme.palette.primary.main,
   fontSize: "0.75em",
   fontWeight: 600,
   textTransform: "uppercase",
