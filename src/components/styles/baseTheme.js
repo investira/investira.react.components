@@ -12,13 +12,16 @@ export const componentsTheme = {
   colors: {
     common: { black: "#000", white: "#fff", transparent: "transparent" },
     primary: {
-      light: "#64ffda",
+      lightness: "#64ffda",
+      light: "#58daca",
       main: "#00dfa8",
       dark: "#00ac79",
+      darkness: "#04a899",
       contrastText: "rgba(0, 0, 0, .87)",
     },
     secondary: {
-      light: "#7a81ab",
+      lightness: "#7a81ab",
+      light: "#2c2d44",
       main: "#2e2e46",
       dark: "#26263b",
       darkness: "#191b2a",
@@ -34,6 +37,7 @@ export const componentsTheme = {
       light: "#64eeff",
       main: "#0bbbd0",
       dark: "#008b9f",
+      highlight: "#1e90ff",
       contrastText: "rgba(255, 255, 255, .87)",
     },
     warn: {
