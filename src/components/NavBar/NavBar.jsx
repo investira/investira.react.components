@@ -44,7 +44,7 @@ const NavBar = memo((props) => {
               height: "100%",
               justifyContent: "space-between",
             },
-            props.left &&
+            !props.left &&
               !props.right && {
                 justifyContent: "center",
               },
@@ -53,7 +53,12 @@ const NavBar = memo((props) => {
           {props.left && (
             <Box
               sx={[
-                { display: "flex", height: "100%", alignItems: "center" },
+                {
+                  display: "flex",
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                },
                 props.variant === "dense" && {
                   minWidth: "48px",
                   width: "48px",
@@ -101,7 +106,12 @@ const NavBar = memo((props) => {
           {props.right && (
             <Box
               sx={[
-                { display: "flex", height: "100%", alignItems: "center" },
+                {
+                  display: "flex",
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                },
                 props.variant === "dense" && {
                   minWidth: "48px",
                   width: "48px",
