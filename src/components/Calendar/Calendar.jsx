@@ -18,7 +18,7 @@ const CalendarPicker = styled(MuiCalendarPicker)(({ theme }) => ({
       "& > div:last-of-type div": {
         justifyContent: "space-evenly",
         "& > div": {
-          margin: "4px 0",
+          //margin: "4px 0",
         },
       },
     },
