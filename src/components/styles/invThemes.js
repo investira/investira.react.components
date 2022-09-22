@@ -170,6 +170,7 @@ export const themePrimary = createTheme({
     MuiPickersDay: {
       styleOverrides: {
         root: {
+          backgroundColor: "transparent",
           "&:hover": {
             backgroundColor: base.colors.primary.main,
             color: base.colors.primary.contrastText,
