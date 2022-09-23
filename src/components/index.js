@@ -63,6 +63,7 @@ export { default as SSE } from "./SSE";
 export { default as SliderField } from "./SliderField";
 export { default as Sticky } from "./Sticky";
 export { default as TabContainer } from "./TabContainer";
+export { default as TextOverflow } from "./TextOverflow";
 export { default as Tips } from "./Tips";
 export { default as Transition } from "./Transition";
 export { default as Typedy } from "./Typedy";
