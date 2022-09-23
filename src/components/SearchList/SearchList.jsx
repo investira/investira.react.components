@@ -8,7 +8,7 @@ import {
   ListState,
   ListVirtual,
   FilterBar,
-  Container,
+  Box,
 } from "../";
 
 const SearchList = (props) => {
@@ -118,7 +118,7 @@ const SearchList = (props) => {
   const xData = Object.values(data);
 
   return (
-    <Container sx={{ height: "100%" }}>
+    <Box sx={{ height: "100%" }}>
       <CrudProvider
         actions={{
           onRead: requestList,
@@ -163,7 +163,7 @@ const SearchList = (props) => {
           </ListState>
         </ContainerList>
       </CrudProvider>
-    </Container>
+    </Box>
   );
 };
 
