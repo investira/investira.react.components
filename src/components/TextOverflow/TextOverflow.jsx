@@ -28,8 +28,8 @@ const TextOverflow = memo((props) => {
             display: "-webkit-box",
             lineClamp: "1",
             boxOrient: "vertical",
-            "-webkit-line-clamp": "1",
-            "-webkit-box-orient": "vertical",
+            WebkitLineClamp: "1",
+            WebkitBoxOrient: "vertical",
             ...props.sx,
           }}
         >
