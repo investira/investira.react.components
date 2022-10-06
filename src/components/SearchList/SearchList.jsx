@@ -20,7 +20,7 @@ const SearchList = (props) => {
   const [pages, setPages] = useState({});
 
   const isMount = useRef(false);
-  const paramsRef = useRef({});
+  const paramsRef = useRef({ pesquisa: null });
   const searchRef = useRef();
 
   function updateFetching(pValue) {
@@ -96,15 +96,6 @@ const SearchList = (props) => {
     }
   }, [props.refreshList]);
 
-  // TODO: Analisar se ainda é necessario para Contatos ou buscar outra abordagem
-  // useEffect(() => {
-  //   let xNewParams = onUpdateParams(params);
-  //   if (validators.isEmpty(params.status)) {
-  //     delete xNewParams.status;
-  //   }
-  //   isMount.current && requestList(xNewParams);
-  // }, [params.status]);
-
   useEffect(() => {
     isMount.current = true;
     onUpdateParams(props.params);
@@ -116,6 +107,11 @@ const SearchList = (props) => {
   }, []);
 
   const xData = Object.values(data);
+  const xDefaultData = validators.isNull(props.defaultData)
+    ? []
+    : Object.values(props.defaultData);
+
+  const { pesquisa } = paramsRef.current;
 
   return (
     <Box sx={{ height: "100%" }}>
@@ -145,21 +141,34 @@ const SearchList = (props) => {
             isFetching={isFetchingState}
             message={message}
           >
-            <ListVirtual
-              key={"searchlist"}
-              nextPage={pages?.next}
-              onNextPage={requestList}
-              totalItens={pages?.total_items}
-              list={xData}
-              minimumBatchSize={PAGE_SIZE}
-              threshold={PAGE_SIZE / 2}
-              overscanRowCount={PAGE_SIZE}
-              item={props.item}
-              itemProps={{
-                ...props.itemProps,
-                pesquisa: paramsRef.current.pesquisa,
-              }}
-            />
+            {validators.isNull(pesquisa) &&
+            !validators.isEmpty(props.defaultData) ? (
+              <ListVirtual
+                key={"default"}
+                totalItens={xDefaultData.length}
+                list={xDefaultData}
+                item={props.item}
+                itemProps={{
+                  ...props.itemProps,
+                }}
+              />
+            ) : (
+              <ListVirtual
+                key={"searchlist"}
+                nextPage={pages?.next}
+                onNextPage={requestList}
+                totalItens={pages?.total_items}
+                list={xData}
+                minimumBatchSize={PAGE_SIZE}
+                threshold={PAGE_SIZE / 2}
+                overscanRowCount={PAGE_SIZE}
+                item={props.item}
+                itemProps={{
+                  ...props.itemProps,
+                  pesquisa: paramsRef.current.pesquisa,
+                }}
+              />
+            )}
           </ListState>
         </ContainerList>
       </CrudProvider>
