@@ -9,6 +9,7 @@ import {
   ListVirtual,
   FilterBar,
   Box,
+  Stack,
 } from "../";
 
 const SearchList = (props) => {
@@ -114,65 +115,67 @@ const SearchList = (props) => {
   const { pesquisa } = paramsRef.current;
 
   return (
-    <Box sx={{ height: "100%" }}>
-      <CrudProvider
-        actions={{
-          onRead: requestList,
-        }}
-      >
-        <ContainerList
-          search={
-            <Search
-              {...props}
-              ref={searchRef}
-              value={paramsRef.current.pesquisa}
-              placeholder={props.placeholder}
-              inputProps={{ autofocus: true }}
-              onUpdateParams={onUpdateParams}
-              onResetData={onResetData}
-              onClear={props.onClear}
-            />
-          }
-          filter={props.filterProps && <FilterBar {...props.filterProps} />}
+    <Stack flexGrow={1}>
+      <Box sx={{ height: "100%" }}>
+        <CrudProvider
+          actions={{
+            onRead: requestList,
+          }}
         >
-          <ListState
-            padding={false}
-            listSize={xData.length}
-            isFetching={isFetchingState}
-            message={message}
+          <ContainerList
+            search={
+              <Search
+                {...props}
+                ref={searchRef}
+                value={paramsRef.current.pesquisa}
+                placeholder={props.placeholder}
+                inputProps={{ autofocus: true }}
+                onUpdateParams={onUpdateParams}
+                onResetData={onResetData}
+                onClear={props.onClear}
+              />
+            }
+            filter={props.filterProps && <FilterBar {...props.filterProps} />}
           >
-            {validators.isNull(pesquisa) &&
-            !validators.isEmpty(props.defaultData) ? (
-              <ListVirtual
-                key={"default"}
-                totalItens={xDefaultData.length}
-                list={xDefaultData}
-                item={props.item}
-                itemProps={{
-                  ...props.itemProps,
-                }}
-              />
-            ) : (
-              <ListVirtual
-                key={"searchlist"}
-                nextPage={pages?.next}
-                onNextPage={requestList}
-                totalItens={pages?.total_items}
-                list={xData}
-                minimumBatchSize={PAGE_SIZE}
-                threshold={PAGE_SIZE / 2}
-                overscanRowCount={PAGE_SIZE}
-                item={props.item}
-                itemProps={{
-                  ...props.itemProps,
-                  pesquisa: paramsRef.current.pesquisa,
-                }}
-              />
-            )}
-          </ListState>
-        </ContainerList>
-      </CrudProvider>
-    </Box>
+            <ListState
+              padding={false}
+              listSize={xData.length}
+              isFetching={isFetchingState}
+              message={message}
+            >
+              {validators.isNull(pesquisa) &&
+              !validators.isEmpty(props.defaultData) ? (
+                <ListVirtual
+                  key={"default"}
+                  totalItens={xDefaultData.length}
+                  list={xDefaultData}
+                  item={props.item}
+                  itemProps={{
+                    ...props.itemProps,
+                  }}
+                />
+              ) : (
+                <ListVirtual
+                  key={"searchlist"}
+                  nextPage={pages?.next}
+                  onNextPage={requestList}
+                  totalItens={pages?.total_items}
+                  list={xData}
+                  minimumBatchSize={PAGE_SIZE}
+                  threshold={PAGE_SIZE / 2}
+                  overscanRowCount={PAGE_SIZE}
+                  item={props.item}
+                  itemProps={{
+                    ...props.itemProps,
+                    pesquisa: paramsRef.current.pesquisa,
+                  }}
+                />
+              )}
+            </ListState>
+          </ContainerList>
+        </CrudProvider>
+      </Box>
+    </Stack>
   );
 };
 
