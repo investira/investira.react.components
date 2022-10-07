@@ -127,7 +127,7 @@ const SearchBox = forwardRef((props, ref) => {
   }, []);
 
   return (
-    <Box mb={2} width={"100%"}>
+    <Box mb={2} width="100%" overflow="hidden">
       <Stack
         sx={{
           flexDirection: "row",
