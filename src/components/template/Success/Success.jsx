@@ -13,8 +13,8 @@ function Success(props) {
     >
       <Box
         sx={{
-          fill: "none",
-          stroke: "#00dfa8",
+          fill: props.fill,
+          stroke: props.arcStroke || props.stroke,
           strokeWidth: 40,
           strokeMiterlimit: 10,
         }}
@@ -66,7 +66,7 @@ function Success(props) {
             sx={[
               {
                 fill: "none",
-                stroke: "#00dfa8",
+                stroke: props.iconStroke || props.stroke,
                 strokeWidth: 40,
                 strokeLinecap: "round",
                 strokeLinejoin: "round",
@@ -109,6 +109,18 @@ Success.propTypes = {
   height: PropTypes.number,
   width: PropTypes.number,
   startAnimation: PropTypes.bool,
+  stroke: PropTypes.string,
+  arcStroke: PropTypes.string,
+  iconStroke: PropTypes.string,
+  fill: PropTypes.string,
+};
+
+Success.defaultProps = {
+  height: 200,
+  width: 200,
+  startAnimation: true,
+  stroke: "00dfa8",
+  fill: "none",
 };
 
 export default Success;
