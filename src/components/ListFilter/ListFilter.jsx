@@ -384,10 +384,12 @@ const SearchFilters = memo((props) => {
             </Box>
 
             <Box
-              sx={[
-                { height: "32px", overflow: "hidden", padding: "0 16px" },
+              sx={{
+                height: "32px",
+                overflow: "hidden",
+                padding: "0 16px",
                 ...(!verifyArray(filters) && { display: "none", height: 0 }),
-              ]}
+              }}
             >
               <Box
                 sx={{
