@@ -89,7 +89,7 @@ export const themePrimary = createTheme({
       styleOverrides: {
         tooltip: {
           backgroundColor: base.colors.secondary.dark,
-          color: base.colors.secondary.light,
+          color: base.colors.text.primary,
           borderRadius: "8px",
           boxShadow: base.shadows[3],
         },
@@ -482,7 +482,7 @@ export const themeSecondary = createTheme({
       styleOverrides: {
         tooltip: {
           backgroundColor: base.colors.secondary.light,
-          color: base.colors.secondary.dark,
+          color: base.colors.text.secondary,
           borderRadius: "8px",
           boxShadow: base.shadows[2],
         },
