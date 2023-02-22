@@ -1,8 +1,8 @@
 import React from "react";
-import { default as WBackdrop } from "@mui/material/Backdrop";
+import { default as MuiBackdrop } from "@mui/material/Backdrop";
 
-function Button(props) {
-  return <WBackdrop {...props} />;
+function Backdrop(props) {
+  return <MuiBackdrop {...props} />;
 }
 
-export default Button;
+export default Backdrop;
