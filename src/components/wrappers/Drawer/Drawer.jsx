@@ -1,6 +1,6 @@
 import React from "react";
 import makeStyles from "@mui/styles/makeStyles";
-import { default as WDrawer } from "@mui/material/Drawer";
+import { default as MuiDrawer } from "@mui/material/Drawer";
 import { classList } from "../../utils/helpers";
 
 const useStyles = makeStyles(
@@ -23,9 +23,9 @@ function Drawer(props) {
   };
 
   return (
-    <WDrawer {...otherProps} className={classList(xClassNames)}>
+    <MuiDrawer {...otherProps} className={classList(xClassNames)}>
       {props.children}
-    </WDrawer>
+    </MuiDrawer>
   );
 }
 
