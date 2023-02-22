@@ -224,7 +224,7 @@ const SearchFilters = memo((props) => {
   };
 
   const initFilterDefaultSelected = useCallback(
-    (pPropFilters, pStateFilters) => {
+    (pPropFilters) => {
       const defaultSelectedValues = pPropFilters.map((xFilter) => {
         if (!validators.isEmpty(xFilter.defaultValue)) {
           const xIndex = findWithAttr(
@@ -253,7 +253,7 @@ const SearchFilters = memo((props) => {
               label: xOption.label,
               param: xFilter.param,
               value: xOption.value,
-              default: true,
+              default: xFilter.defaultSelected,
             };
           })[0];
         }
@@ -265,10 +265,8 @@ const SearchFilters = memo((props) => {
   );
 
   useEffect(() => {
-    if (isFiltersEmpty(filters)) {
-      initFilterDefaultSelected(props.filters, filters);
-    }
-  }, [filters, props.filters, isFiltersEmpty, initFilterDefaultSelected]);
+    initFilterDefaultSelected(props.filters);
+  }, [props.filters, isFiltersEmpty, initFilterDefaultSelected]);
 
   return (
     <CrudContext.Consumer>
