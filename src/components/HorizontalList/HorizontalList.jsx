@@ -8,6 +8,7 @@ const Container = styled(Stack)(() => ({
   overflowY: "auto",
   overflowX: "scroll",
   flexDirection: "row",
+  justifyContent: "start",
   boxSizing: "content-box",
   paddingBottom: "17px",
   scrollBehavior: "smooth",
@@ -35,6 +36,7 @@ const Child = styled(Box)(() => ({
 const HorizontalList = (props) => {
   const isMount = useRef(false);
   const elementsRef = [];
+
   let timeout = null;
   let isScrolling = false;
   let isClicked = false;
