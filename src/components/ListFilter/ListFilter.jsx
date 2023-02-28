@@ -273,7 +273,7 @@ const SearchFilters = memo((props) => {
       {({ onRead }) => {
         return (
           <Box position={"relative"} mb={2}>
-            <Box height={"40px"} overflow={"hidden"} padding={"0 16px"}>
+            <Box height={"40px"} overflow={"hidden"}>
               <Box
                 sx={{
                   position: "relative",
@@ -292,6 +292,7 @@ const SearchFilters = memo((props) => {
                   "&::-webkit-scrollbar-thumb": {
                     background: "transparent",
                   },
+                  padding: "0 16px",
                 }}
               >
                 {props.filters &&
@@ -385,7 +386,6 @@ const SearchFilters = memo((props) => {
               sx={{
                 height: "32px",
                 overflow: "hidden",
-                padding: "0 16px",
                 ...(!verifyArray(filters) && { display: "none", height: 0 }),
               }}
             >
@@ -407,6 +407,7 @@ const SearchFilters = memo((props) => {
                   "&::-webkit-scrollbar-thumb": {
                     background: "transparent",
                   },
+                  padding: "0 16px",
                 }}
               >
                 {filters &&
