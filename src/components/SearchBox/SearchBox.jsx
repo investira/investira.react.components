@@ -154,7 +154,7 @@ const SearchBox = forwardRef((props, ref) => {
                   <StyledInputAdornment position={"start"}>
                     <Icon
                       iconName={"find"}
-                      color={"secondaryLight"}
+                      color={"secondaryLightness"}
                       size={18}
                     />
                   </StyledInputAdornment>
