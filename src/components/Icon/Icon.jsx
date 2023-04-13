@@ -106,6 +106,10 @@ const Svg = styled("svg")(({ color, theme }) => {
       stroke: theme.palette.black,
       fill: theme.palette.black,
     }),
+    ...(color === "light" && {
+      stroke: theme.palette.light,
+      fill: theme.palette.light,
+    }),
     ...(color === "greenLight" && {
       fill: 'url("#icon-component-gradient-greenLight")',
     }),
