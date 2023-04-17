@@ -119,7 +119,7 @@ Success.defaultProps = {
   height: 200,
   width: 200,
   startAnimation: true,
-  stroke: "00dfa8",
+  stroke: "#00dfa8",
   fill: "none",
 };
 
