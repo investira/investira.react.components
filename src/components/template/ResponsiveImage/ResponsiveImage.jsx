@@ -117,7 +117,7 @@ const ResponsiveImage = (props) => {
 
 ResponsiveImage.propTypes = {
   source: PropTypes.array.isRequired,
-  alt: PropTypes.string.isRequired,
+  alt: PropTypes.string,
   type: PropTypes.string,
   onLoad: PropTypes.func,
 };
