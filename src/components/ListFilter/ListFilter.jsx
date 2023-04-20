@@ -310,10 +310,10 @@ const SearchFilters = memo((props) => {
                         sx={{
                           display: "inline-block",
                           margin: "4px",
-                          "&:first-child": {
+                          "&:first-of-type": {
                             marginLeft: 0,
                           },
-                          "&:last-child": {
+                          "&:last-of-type": {
                             marginRight: 0,
                           },
                         }}
