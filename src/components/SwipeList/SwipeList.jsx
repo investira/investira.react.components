@@ -52,6 +52,7 @@ const SwipeList = memo((props) => {
       centeredSlidesBounds={props.centeredSlidesBounds}
       slidesPerView={props.slidesPerView}
       spaceBetween={props.spaceBetween}
+      shortSwipes={props.shortSwipes}
     >
       {!validators.isEmpty(props.data) &&
         Object.values(props.data).map((xItem, xIndex) => {
@@ -85,6 +86,7 @@ SwipeList.propTypes = {
   centeredSlides: PropTypes.bool,
   centeredSlidesBounds: PropTypes.bool,
   slidesPerView: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  shortSwipes: PropTypes.bool,
 };
 
 SwipeList.defaultProps = {
@@ -97,6 +99,7 @@ SwipeList.defaultProps = {
   centeredSlides: true,
   centeredSlidesBounds: true,
   slidesPerView: "auto",
+  shortSwipes: true,
 };
 
 export default SwipeList;
