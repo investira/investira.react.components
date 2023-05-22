@@ -44,16 +44,19 @@ const SwipeList = memo((props) => {
   const xId = `swipe-list-${props.id}`;
   const Component = props.child;
 
+  const containerProps = {
+    pagination: props.pagination,
+    modules: [Pagination],
+    centeredSlides: props.centeredSlides,
+    centeredSlidesBounds: props.centeredSlidesBounds,
+    slidesPerView: props.slidesPerView,
+    slidesPerGroupAuto: props.slidesPerGroupAuto,
+    spaceBetween: props.spaceBetween,
+    shortSwipes: props.shortSwipes,
+  };
+
   return (
-    <Container
-      pagination={props.pagination}
-      modules={[Pagination]}
-      centeredSlides={props.centeredSlides}
-      centeredSlidesBounds={props.centeredSlidesBounds}
-      slidesPerView={props.slidesPerView}
-      spaceBetween={props.spaceBetween}
-      shortSwipes={props.shortSwipes}
-    >
+    <Container {...containerProps}>
       {!validators.isEmpty(props.data) &&
         Object.values(props.data).map((xItem, xIndex) => {
           const xElemKey = `${xId}-item-${xIndex}`;
@@ -83,6 +86,7 @@ SwipeList.propTypes = {
   pagination: PropTypes.bool,
   slideWidth: PropTypes.number,
   spaceBetween: PropTypes.number,
+  slidesPerGroupAuto: PropTypes.bool,
   centeredSlides: PropTypes.bool,
   centeredSlidesBounds: PropTypes.bool,
   slidesPerView: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -99,6 +103,7 @@ SwipeList.defaultProps = {
   centeredSlides: true,
   centeredSlidesBounds: true,
   slidesPerView: "auto",
+  slidesPerGroupAuto: false,
   shortSwipes: true,
 };
 
