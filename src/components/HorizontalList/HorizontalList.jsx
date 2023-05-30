@@ -42,17 +42,18 @@ const HorizontalList = (props) => {
   let isClicked = false;
 
   const scrollableRef = React.useRef();
-  const [elemFocusIndex, setElemFocusIndex] = useState(0);
+  const [elemFocusIndex, setElemFocusIndex] = useState(props.initialFocus);
   const [childFocused, setChildFocused] = useState(props.id + "0");
   const [initElementsRef, setInitElementsRef] = useState([]);
   const [positions, setPositions] = useState([0]);
 
   // Centraliza o elemento selecionado
-  const centerInScroll = (pIndex) => {
+  const centerInScroll = (pIndex, pInitElementsRef, pPositions) => {
     window.clearTimeout(timeout);
+
     const xSelected = pIndex || 0;
 
-    const xFocusElemRect = initElementsRef[xSelected].getBoundingClientRect();
+    const xFocusElemRect = pInitElementsRef[xSelected].getBoundingClientRect();
 
     const xScrollElem = scrollableRef.current;
 
@@ -60,7 +61,7 @@ const HorizontalList = (props) => {
       const xScrollElemRect = xScrollElem.getBoundingClientRect();
       const xSpacer = (xScrollElemRect.width - xFocusElemRect.width) / 2;
 
-      xScrollElem.scrollLeft = positions[xSelected] - xSpacer;
+      xScrollElem.scrollLeft = pPositions[xSelected] - xSpacer;
     }
 
     isClicked = false;
@@ -82,23 +83,23 @@ const HorizontalList = (props) => {
   };
 
   // Armazena a posição inicial de cada elemento da lista
-  const saveElemsInitPosition = (pElemList) => {
+  const elemsInitPosition = (pElemList) => {
     const xInitElemsRect = pElemList.map((elem) => {
       return elem.getBoundingClientRect();
     });
 
     const xPositions = calcPosition(xInitElemsRect);
 
-    setPositions(xPositions);
+    return xPositions;
+    //setPositions(xPositions);
   };
 
   const handleClick = (pData, pIndex) => () => {
     window.clearTimeout(timeout);
     isClicked = true;
     setElemFocusIndex(pIndex);
-    //xPersistElemFocusIndex.current = pIndex;
     setChildFocused(props.id + pIndex);
-    centerInScroll(pIndex);
+    centerInScroll(pIndex, initElementsRef, positions);
     props.childProps.onClick && props.childProps.onClick(pData, pIndex);
   };
 
@@ -108,7 +109,7 @@ const HorizontalList = (props) => {
     if (isScrolling || !isClicked) {
       timeout = setTimeout(() => {
         isScrolling = false;
-        centerInScroll(elemFocusIndex);
+        centerInScroll(elemFocusIndex, initElementsRef, positions);
       }, 2000);
     }
     isScrolling = true;
@@ -117,25 +118,25 @@ const HorizontalList = (props) => {
   useEffect(() => {
     setElemFocusIndex(props.initialFocus);
     setChildFocused(props.id + props.initialFocus);
-    setPositions([props.initialFocus]);
   }, [props.initialFocus]);
 
+  // TODO: Observar se esse trecho ainda é necessário
   useEffect(() => {
     window.clearTimeout(timeout);
 
     if (isMount.current && validators.isNull(initElementsRef[elemFocusIndex])) {
-      setElemFocusIndex(0);
-      setChildFocused(props.id + 0);
-      centerInScroll(0);
+      setChildFocused(props.id + elemFocusIndex);
+      centerInScroll(elemFocusIndex, initElementsRef, positions);
     }
   }, [initElementsRef]);
 
   useEffect(() => {
     isMount.current = true;
-
     if (!validators.isEmpty(elementsRef)) {
-      saveElemsInitPosition(elementsRef);
+      const xPositions = elemsInitPosition(elementsRef);
+      setPositions(xPositions);
       setInitElementsRef([...elementsRef]);
+      centerInScroll(props.initialFocus, [...elementsRef], xPositions);
     }
     //Unmount
     return () => {
@@ -149,7 +150,7 @@ const HorizontalList = (props) => {
     window.clearTimeout(timeout);
 
     if (!validators.isEmpty(elementsRef)) {
-      saveElemsInitPosition(elementsRef);
+      setPositions(elemsInitPosition(elementsRef));
       setInitElementsRef([...elementsRef]);
     }
   }, [props.data]);
@@ -182,6 +183,7 @@ const HorizontalList = (props) => {
                   id={props.id + xIndex}
                   focused={childFocused}
                   data={xData}
+                  index={xIndex}
                   onClick={handleClick(xData, xIndex)}
                 />
               </Child>
