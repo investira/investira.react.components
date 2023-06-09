@@ -4,6 +4,13 @@ import { createTheme } from "@mui/material/styles";
 // Tema principal
 export const themePrimary = createTheme({
   components: {
+    MuiListItem: {
+      styleOverrides: {
+        root: {
+          borderColor: base.colors.secondary.main,
+        },
+      },
+    },
     MuiMobileDatePicker: {
       defaultProps: {
         cancelText: "Cancelar",
@@ -27,6 +34,12 @@ export const themePrimary = createTheme({
       styleOverrides: {
         root: {
           borderColor: base.colors.secondary.main,
+          "&:after": {
+            borderColor: base.colors.secondary.main,
+          },
+          "&:before": {
+            borderColor: base.colors.secondary.main,
+          },
         },
       },
     },
