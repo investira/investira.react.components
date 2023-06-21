@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { Chip } from "../wrappers";
 
 const ChipsItem = memo((props) => {
-  const { id, data, onClick, onDelete } = props;
+  const { id, data, onClick, onDelete, size } = props;
   const { value, label, avatar, icon, disabled } = data;
   const xVariant = props.focused === props.id ? "default" : "outlined";
 
@@ -19,6 +19,8 @@ const ChipsItem = memo((props) => {
       clickable={false}
       variant={xVariant}
       disabled={disabled || false}
+      size={size}
+      sx={props.sx}
     />
   );
 });

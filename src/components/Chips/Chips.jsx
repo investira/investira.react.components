@@ -31,6 +31,7 @@ function Chips(props) {
       childProps={{
         onClick: handleClick,
         ...(props.onDelete && { onDelete: handleDelete }),
+        ...props.chipProps,
       }}
       initialFocus={Number(props.initialFocus)}
     />
@@ -46,6 +47,7 @@ Chips.propTypes = {
   variant: PropTypes.oneOf(["default", "outlined"]),
   deleteIcon: PropTypes.element,
   icon: PropTypes.element,
+  chipProps: PropTypes.object,
 };
 
 Chips.defaultProps = {
