@@ -10,7 +10,7 @@ import { styled } from "@mui/material/styles";
 
 const Container = styled(Swiper)(({ theme }) => ({
   display: "flex",
-  flexDirection: "column-reverse",
+  //flexDirection: "column-reverse",
   //flexDirection: "column",
   // "@global": {
   ".swiper-wrapper > div:first-of-type": {
@@ -97,7 +97,7 @@ SwipeList.defaultProps = {
   id: "default",
   data: [],
   keyValue: "id",
-  pagination: true,
+  pagination: false,
   slideWidth: 343,
   spaceBetween: 8,
   centeredSlides: true,
