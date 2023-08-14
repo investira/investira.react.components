@@ -70,6 +70,7 @@ export const themePrimary = createTheme({
           "-webkit-transform": "translate3d(0, 0, 0)",
           "-moz-transform": "translate3d(0, 0, 0)",
           willChange: "transform",
+          backgroundColor: base.colors.secondary.main,
         },
         bar: {
           borderRadius: "4px",
