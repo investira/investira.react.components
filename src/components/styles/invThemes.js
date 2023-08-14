@@ -114,6 +114,9 @@ export const themePrimary = createTheme({
           backgroundColor: base.colors.secondary.light,
           color: base.colors.secondary.contrastText,
         },
+        root: {
+          border: `2px solid ${base.colors.primary.main}`,
+        },
       },
     },
     MuiTooltip: {
@@ -130,7 +133,12 @@ export const themePrimary = createTheme({
     MuiTableCell: {
       styleOverrides: {
         head: {
-          fontWeight: 600,
+          fontWeight: 500,
+          fontSize: "12px",
+          color: base.colors.text.secondary,
+        },
+        root: {
+          borderBottom: `1px solid ${base.colors.secondary.main}`,
         },
       },
     },
