@@ -8,6 +8,23 @@ export const themePrimary = createTheme({
       styleOverrides: {
         root: {
           borderColor: base.colors.secondary.main,
+          "&.Mui-selected": {
+            backgroundColor: base.colors.primary.main,
+            color: base.colors.primary.contrastText,
+            svg: {
+              fill: base.colors.primary.contrastText,
+            },
+          },
+          "&:hover": {
+            backgroundColor: base.colors.primary.dark,
+            color: base.colors.primary.contrastText,
+            svg: {
+              fill: base.colors.primary.contrastText,
+            },
+          },
+          svg: {
+            fill: base.colors.primary.main,
+          },
         },
       },
     },
