@@ -309,7 +309,7 @@ export const themePrimary = createTheme({
         root: {
           "&.Mui-disabled": {
             color: base.colors.text.disabled,
-            border: `1px solid ${base.colors.text.disabled}`,
+            border: `1px solid ${base.colors.secondary.light}`,
           },
         },
         contained: {
@@ -487,6 +487,10 @@ export const themePrimary = createTheme({
     },
     text: {
       ...base.colors.text,
+    },
+    action: {
+      disabledBackground: base.colors.secondary.light,
+      disabled: base.colors.text.disabled,
     },
   },
   typography: {
@@ -688,6 +692,11 @@ export const themeSecondary = createTheme({
         containedPrimary: {
           color: base.colors.primary.contrastText,
         },
+        // "&.Mui-disabled": {
+        //   color: base.colors.text.disabled,
+        //   border: 0,
+        //   backgroundColor: "red",
+        // },
       },
     },
     MuiSnackbarContent: {
@@ -864,6 +873,10 @@ export const themeSecondary = createTheme({
       disabled: "rgba(122, 129, 171, 1)",
       disabledInvert: "rgba(255, 255, 255, 0.48)",
       hint: "rgba(155, 155, 155, 1)",
+    },
+    action: {
+      disabledBackground: "red",
+      disabled: "white",
     },
   },
   typography: {
