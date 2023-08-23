@@ -1,8 +1,8 @@
 import React from "react";
-import { default as MuiCircularProgress } from "@mui/material/CircularProgress";
+import { default as MuiCssBaseline } from "@mui/material/CssBaseline";
 
-function CircularProgress(props) {
-  return <MuiCircularProgress {...props} />;
+function CssBaseline(props) {
+  return <MuiCssBaseline />;
 }
 
-export default CircularProgress;
+export default CssBaseline;
