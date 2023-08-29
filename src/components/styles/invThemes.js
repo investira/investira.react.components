@@ -16,10 +16,10 @@ export const themePrimary = createTheme({
             },
           },
           "&:hover": {
-            backgroundColor: base.colors.primary.dark,
-            color: base.colors.primary.contrastText,
+            backgroundColor: base.colors.background.default,
+            color: base.colors.primary.main,
             svg: {
-              fill: base.colors.primary.contrastText,
+              fill: base.colors.primary.main,
             },
           },
           svg: {
@@ -65,19 +65,11 @@ export const themePrimary = createTheme({
         root: {
           height: "8px",
           borderRadius: "4px",
-          "-webkit-backface-visibility": "hidden",
-          "-moz-backface-visibility": "hidden",
-          "-webkit-transform": "translate3d(0, 0, 0)",
-          "-moz-transform": "translate3d(0, 0, 0)",
           willChange: "transform",
           backgroundColor: base.colors.secondary.main,
         },
         bar: {
           borderRadius: "4px",
-          "-webkit-backface-visibility": "hidden",
-          "-moz-backface-visibility": "hidden",
-          "-webkit-transform": "translate3d(0, 0, 0)",
-          "-moz-transform": "translate3d(0, 0, 0)",
           willChange: "transform",
         },
       },
@@ -286,6 +278,7 @@ export const themePrimary = createTheme({
       styleOverrides: {
         paper: {
           background: base.colors.background.dark,
+          borderRightColor: base.colors.background.main,
         },
       },
     },
