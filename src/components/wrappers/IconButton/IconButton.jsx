@@ -1,21 +1,8 @@
-import React from "react";
-import makeStyles from "@mui/styles/makeStyles";
-import { default as WIconButton } from "@mui/material/IconButton";
-import { classList } from "../../utils/helpers";
+import React, { forwardRef } from "react";
+import { default as MuiIconButton } from "@mui/material/IconButton";
 
-const useStyles = makeStyles((theme) => ({
-  noPadding: {
-    padding: "0px",
-  },
-}));
-
-function IconButton(props) {
-  const classes = useStyles();
-  const xClassNames = {
-    [classes.noPadding]: props.nopadding,
-  };
-
-  return <WIconButton className={classList(xClassNames)} {...props} />;
-}
+const IconButton = forwardRef((props, ref) => {
+  return <MuiIconButton {...props} ref={ref} />;
+});
 
 export default IconButton;
