@@ -31,6 +31,7 @@ export { default as GridVirtualized } from "./GridVirtualized";
 export { default as Highlight } from "./Highlight";
 export { default as HorizontalList } from "./HorizontalList";
 export { default as Icon } from "./Icon";
+export { default as IconSprite } from "./IconSprite";
 export { default as IconDatePicker } from "./IconDatePicker";
 export { default as InfiniteScroller } from "./InfiniteScroller";
 export { default as Info } from "./Info";
