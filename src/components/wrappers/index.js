@@ -56,6 +56,7 @@ export { default as ListSubheader } from "./ListSubheader";
 export { default as ListItemSecondaryAction } from "./ListItemSecondaryAction";
 export { default as LoadingButton } from "./LoadingButton";
 export { default as KeyboardDatePicker } from "./KeyboardDatePicker";
+export { default as MaterialReactTable } from "./MaterialReactTable";
 export { default as Menu } from "./Menu";
 export { default as MenuItem } from "./MenuItem";
 export { default as MobileDatePicker } from "./MobileDatePicker";
