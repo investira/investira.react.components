@@ -60,7 +60,7 @@ export const componentsTheme = {
       dark: "#191b2a",
       contrastText: "#FFFFFF",
       paper: "#26253B",
-      default: "#26253B",
+      default: "#2e2e46",
     },
     background_theme_secondary: {
       light: "#7a81ab",
