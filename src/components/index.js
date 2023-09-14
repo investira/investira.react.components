@@ -53,6 +53,7 @@ export { default as OverLoading } from "./OverLoading";
 export { default as OverWaiting } from "./OverWaiting";
 export { default as PasswordField } from "./PasswordField";
 export { default as PersistGate } from "./PersistGate";
+export { default as Persona } from "./Persona";
 export { default as ProgressBar } from "./ProgressBar";
 export { default as Rate } from "./Rate";
 export { default as Scroller } from "./Scroller";
