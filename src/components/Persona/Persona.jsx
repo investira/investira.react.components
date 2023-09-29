@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { displays } from "investira.react.lib";
-import { Avatar } from "../wrappers";
+import { Avatar } from "@mui/material";
 
 const Persona = memo((props) => {
   const { alt, sx, ...restProps } = props;
@@ -12,7 +12,7 @@ const Persona = memo((props) => {
 
     return {
       sx: {
-        sx,
+        ...sx,
         bgcolor: displays.stringToColor(pName),
       },
       children: displays.initialsLetters(pName),
