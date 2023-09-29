@@ -154,4 +154,8 @@ Error.propTypes = {
   startAnimation: PropTypes.bool,
 };
 
+Error.defaultProps = {
+  startAnimation: true,
+};
+
 export default Error;
