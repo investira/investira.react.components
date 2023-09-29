@@ -102,13 +102,13 @@ export const themePrimary = createTheme({
     },
     MuiAvatar: {
       styleOverrides: {
-        colorDefault: {
-          backgroundColor: base.colors.secondary.light,
-          color: base.colors.secondary.contrastText,
-        },
-        root: {
-          border: `2px solid ${base.colors.primary.main}`,
-        },
+        // colorDefault: {
+        //   backgroundColor: base.colors.secondary.light,
+        //   color: base.colors.secondary.contrastText,
+        // },
+        // root: {
+        //   border: `2px solid ${base.colors.primary.main}`,
+        // },
       },
     },
     MuiTooltip: {
