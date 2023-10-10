@@ -3,30 +3,33 @@ import { currency } from "investira.react.lib";
 import { validators } from "investira.sdk";
 import PropTypes from "prop-types";
 
-const InputCurrency = forwardRef((props, ref) => {
-  console.log(props);
+const InputDecimal = forwardRef((props, ref) => {
   const [value, setValue] = useState(props.value);
 
-  function formatTextValue(pValue = "", pDecimal = 2, pCurrency = "BRL") {
+  function formatTextValue(
+    pValue = "",
+    pDecimal = 4,
+    pLocale = "pt-BR",
+    pSeparator = ","
+  ) {
     const xValue = validators.isNumber(pValue)
       ? pValue.toFixed(pDecimal)
       : pValue;
 
-    return currency.toCurrency(
+    const xResult = currency.toDecimal(
       xValue.toString(),
-      ".",
-      pCurrency,
-      "pt-BR",
-      pDecimal
+      pDecimal,
+      pLocale,
+      pSeparator
     );
+    return xResult;
   }
 
   function handleChange(pEvent) {
     pEvent.persist();
     const xValueAsCurrency = formatTextValue(
       pEvent.target.value,
-      props.decimal,
-      props.currency
+      props.decimal
     );
 
     setValue(xValueAsCurrency);
@@ -60,18 +63,18 @@ const InputCurrency = forwardRef((props, ref) => {
   );
 });
 
-InputCurrency.propTypes = {
+InputDecimal.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   currency: PropTypes.string,
   separator: PropTypes.oneOf([".", ","]),
 };
 
-InputCurrency.defaultProps = {
+InputDecimal.defaultProps = {
   separator: ",",
-  currency: "BRL",
+  decimal: 4,
 };
 
-InputCurrency.displayName = "InputCurrency";
+InputDecimal.displayName = "InputDecimal";
 
-export default InputCurrency;
+export default InputDecimal;
