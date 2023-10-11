@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as WFormControlLabel } from '@material-ui/core/FormControlLabel';
+import React, { forwardRef } from "react";
+import { default as MuiFormControlLabel } from "@mui/material/FormControlLabel";
 
-function FormControlLabel(props) {
-    return <WFormControlLabel {...props} />;
-}
+const FormControlLabel = forwardRef((props, ref) => {
+  return <MuiFormControlLabel {...props} ref={ref} />;
+});
 
 export default FormControlLabel;

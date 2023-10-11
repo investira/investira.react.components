@@ -1,21 +1,29 @@
-import React from 'react';
-import classNames from 'classnames';
-
-import Style from './Divisor.module.scss';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Box } from "../";
+import PropTypes from "prop-types";
 
 function Divisor(props) {
-    const xClass = classNames(Style.root, props.className, {
-        [Style.vertical]: props.direction === 'vertical',
-        [Style.horizontal]: props.direction === 'horizontal'
-    });
+  const xSx = {
+    vertical: {
+      display: "flex",
+      alignSelf: "stretch",
+      my: 1,
+      borderLeft: "1px solid #030305",
+      borderRight: "1px solid #24273a",
+      height: "100%",
+    },
+    horizontal: {
+      borderTop: "1px solid #030305",
+      borderBottom: "1px solid #24273a",
+      width: "100%",
+    },
+  };
 
-    return <div className={xClass}></div>;
+  return <Box sx={xSx[props.direction]}></Box>;
 }
 
 Divisor.propTypes = {
-    direction: PropTypes.oneOf(['vertical', 'horizontal']).isRequired,
-    className: PropTypes.string
+  direction: PropTypes.oneOf(["vertical", "horizontal"]).isRequired,
 };
 
 export default Divisor;

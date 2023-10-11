@@ -1,48 +1,54 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Typography, ProgressBar } from "../";
+import { Typography, Stack, ProgressBar, Box } from "../";
 import { validators } from "investira.sdk";
-
-import Style from "./InfoBar.module.scss";
-
 function InfoBar(props) {
   return (
-    <div className={props.className}>
+    <Stack
+      justifyContent="flex-start"
+      alignItems="stretch"
+      direction="column"
+      spacing={0}
+      flexGrow={1}
+    >
       <Typography
         variant={props.variant}
         color={props.labelColor}
-        component="p"
+        component={props.labelComponent}
       >
         {props.label}
       </Typography>
 
-      <div className={Style.progressBar}>
+      <Box sx={{ position: "relative", margin: "4px 0 2px 0" }}>
         <ProgressBar
           animate={props.animate}
           value={props.value}
           color={props.valueColor}
         />
-      </div>
+      </Box>
 
-      {!validators.isEmpty(props.caption) && (
+      {(!validators.isEmpty(props.caption) ||
+        !validators.isEmpty(props.children)) && (
         <Typography
           variant={props.captionVariant}
           color={props.captionColor}
-          component="p"
+          component={props.captionComponent}
         >
-          {props.caption}
+          {props.children || props.caption}
         </Typography>
       )}
-    </div>
+    </Stack>
   );
 }
 
 InfoBar.defaultProps = {
   variant: "caption",
   labelColor: "textSecondary",
+  labelComponent: "span",
   captionVariant: "caption",
   captionColor: "textPrimary",
+  captionComponent: "span",
   valueColor: "primary",
   animate: "progress",
 };
@@ -58,11 +64,13 @@ InfoBar.propTypes = {
     "primary",
     "secondary",
     "info",
-    "danger",
+    "error",
     "warning",
   ]),
   labelColor: PropTypes.oneOf(["textPrimary", "textSecondary"]),
+  labelComponent: PropTypes.string,
   captionColor: PropTypes.oneOf(["textPrimary", "textSecondary"]),
+  captionComponent: PropTypes.string,
   animate: PropTypes.oneOf(["indeterminate", "progress"]),
 };
 

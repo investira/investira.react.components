@@ -6,23 +6,29 @@ import { Typography, Rate } from "../";
 function Format(props) {
   const formatValue = (pType, pValue, pDecimais) => {
     const xValue = {
-      currency:
-        typeof pValue === "string"
-          ? pValue
-          : formats.friendlyNumber(pValue, pDecimais || 2, true),
-      currency_abs:
-        typeof pValue === "string"
-          ? pValue
-          : formats.formatNumber(pValue, 2, true, true),
-      number:
-        typeof pValue === "string"
-          ? pValue
-          : formats.formatNumber(pValue, pDecimais || 0, true, false),
-      date: formats.formatDate(pValue),
-      hour:
-        typeof pValue === "string"
-          ? pValue
-          : formats.formatDateCustom(pValue, "HH:mm"),
+      ...(["currency", "currency_abs", "number", "percentual"].includes(
+        props.format
+      ) && {
+        currency:
+          typeof pValue === "string"
+            ? pValue
+            : formats.friendlyNumber(pValue, pDecimais || 2, true),
+        currency_abs:
+          typeof pValue === "string"
+            ? pValue
+            : formats.formatNumber(pValue, 2, true, true),
+        number:
+          typeof pValue === "string"
+            ? pValue
+            : formats.formatNumber(pValue, pDecimais || 0, true, false),
+      }),
+      ...(["date", "hour"].includes(props.format) && {
+        date: formats.formatDate(pValue),
+        hour:
+          typeof pValue === "string"
+            ? pValue
+            : formats.formatDateCustom(pValue, "HH:mm"),
+      }),
       rate: <Rate value={pValue} status={props.status} size={props.size} />,
       text: pValue,
       percentual: `${pValue}%`,

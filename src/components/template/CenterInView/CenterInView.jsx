@@ -1,11 +1,30 @@
 import React from "react";
-import Style from "./CenterInView.module.scss";
+import { Box } from "../../";
 
 const CenterInView = (props) => {
   return (
-    <div className={Style.root} {...props}>
-      <div className={Style.child}>{props.children}</div>
-    </div>
+    <Box
+      sx={{
+        position: "relative",
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexGrow: "1",
+      }}
+      {...props}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          width: "100%",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        {props.children}
+      </Box>
+    </Box>
   );
 };
 

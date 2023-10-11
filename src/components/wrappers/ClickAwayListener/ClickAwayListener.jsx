@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as WClickAwayListener } from '@material-ui/core/ClickAwayListener';
+import React from "react";
+import { default as WClickAwayListener } from "@mui/material/ClickAwayListener";
 
 function ClickAwayListener(props) {
-    return <WClickAwayListener {...props} />;
+  return <WClickAwayListener {...props} />;
 }
 
 export default ClickAwayListener;

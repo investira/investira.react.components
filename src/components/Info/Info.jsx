@@ -1,25 +1,36 @@
 import React from "react";
-import { Typography } from "../";
-import classNames from "classnames";
+import { Typography, Box } from "../";
 import { validators } from "investira.sdk";
 import PropTypes from "prop-types";
-import Style from "./Info.module.scss";
 
 function Info(props) {
-  const xClass = classNames(props.className, {
-    [Style.gutter]: props.gutter === "full",
-    [Style.gutterLeft]: props.gutter === "left",
-    [Style.gutterRight]: props.gutter === "right",
-    [Style.horizontal]: props.direction === "horizontal",
-  });
-
-  const xClassMargin = classNames({
-    [Style.margin]: props.direction === "horizontal",
-  });
-
   return (
-    <div id={props.label} onClick={props.onClick} className={xClass}>
-      <div className={xClassMargin}>
+    <Box
+      sx={[
+        props.gutter === "full" && {
+          mx: 2,
+        },
+        props.gutter === "left" && {
+          ml: 2,
+        },
+        props.gutter === "right" && {
+          mr: 2,
+        },
+        props.direction === "horizontal" && {
+          display: "flex",
+          alignItems: "center",
+        },
+      ]}
+      id={props.label}
+      onClick={props.onClick}
+    >
+      <Box
+        sx={{
+          ...(props.direction === "horizontal" && {
+            mr: 1,
+          }),
+        }}
+      >
         <Typography
           variant={props.variant}
           color={props.labelColor}
@@ -29,7 +40,7 @@ function Info(props) {
           {props.label}
           {(props.colon || props.direction === "horizontal") && ":"}
         </Typography>
-      </div>
+      </Box>
       {validators.isEmpty(props.value) ? (
         <Typography
           variant={props.variantValue}
@@ -58,7 +69,7 @@ function Info(props) {
           {props.value}
         </Typography>
       )}
-    </div>
+    </Box>
   );
 }
 

@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as WTableHead } from '@material-ui/core/TableHead';
+import React from "react";
+import { default as WTableHead } from "@mui/material/TableHead";
 
 function TableHead(props) {
-    return <WTableHead {...props} />;
+  return <WTableHead {...props} />;
 }
 
 export default TableHead;

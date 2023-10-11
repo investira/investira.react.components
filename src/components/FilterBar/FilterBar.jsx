@@ -1,8 +1,37 @@
 import React, { useState } from "react";
-import { Icon } from "../";
-import classNames from "classnames";
+import { Icon, Box, Stack } from "../";
+import { styled, alpha } from "@mui/material/styles";
 import PropTypes from "prop-types";
-import Style from "./FilterBar.module.scss";
+
+const Root = styled(Box)(({ margin, theme }) => ({
+  position: "relative",
+  height: "25px",
+  backgroundColor: theme.palette.secondary.light,
+  borderRadius: "calc(25px / 2)",
+  ...(margin && {
+    margin: "8px 0",
+  }),
+}));
+
+const Button = styled("button")(({ active, theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexGrow: 1,
+  flexBasis: 0,
+  color: theme.palette.primary.main,
+  fontSize: "0.75em",
+  fontWeight: 600,
+  textTransform: "uppercase",
+  height: "25px",
+  border: "none",
+  borderRadius: "calc(25px / 2)",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  ...(active && {
+    backgroundColor: theme.palette.primary.main,
+    color: alpha(theme.palette.common.black, 0.9),
+  }),
+}));
 
 const FilterBar = (props) => {
   const [active, setActive] = useState(props.initialValue);
@@ -15,36 +44,40 @@ const FilterBar = (props) => {
 
   const xData = props.data || [];
 
-  const xClass = classNames(Style.root, {
-    [Style.margin]: props.margin,
-  });
-
   return (
-    <div className={xClass}>
-      <nav className={Style.nav}>
+    <Root margin={props.margin}>
+      <Stack
+        sx={{
+          flexWrap: "nowrap",
+          justifyContent: "space-around",
+          alignItems: "stretch",
+          alignContent: "stretch",
+          textAlign: "center",
+          flexDirection: "row",
+        }}
+        component="nav"
+      >
         {xData.map((xItem, xIndex) => {
           return (
-            <button
+            <Button
               id={`btn-filter-${xItem.value}`}
               data-value={xItem.value}
               data-index={xIndex}
               key={xIndex}
-              className={`${Style.button} ${
-                active === xIndex ? Style.active : null
-              }`}
+              active={active === xIndex}
               onClick={handleClick}
             >
               <Icon
-                className={Style.icon}
+                sx={{ paddingRight: "8px" }}
                 iconName={xItem.iconName}
                 color={active === xIndex ? xItem.default : xItem.color}
               />
               {xItem.label}
-            </button>
+            </Button>
           );
         })}
-      </nav>
-    </div>
+      </Stack>
+    </Root>
   );
 };
 

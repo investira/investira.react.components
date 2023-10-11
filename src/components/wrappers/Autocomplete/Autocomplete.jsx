@@ -1,27 +1,27 @@
-import React from 'react';
+import React from "react";
 import {
-    default as MuiAutocomplete,
-    createFilterOptions
-} from '@material-ui/lab/Autocomplete';
+  default as MuiAutocomplete,
+  createFilterOptions,
+} from "@mui/material/Autocomplete";
 
 function Autocomplete(props) {
-    const filter = createFilterOptions();
+  const filter = createFilterOptions();
 
-    const filterOptions = (pOptions, pParams) => {
-        const filtered = filter(pOptions, pParams);
+  const filterOptions = (pOptions, pParams) => {
+    const filtered = filter(pOptions, pParams);
 
-        // Sugere a criacão de um novo valor
-        if (pParams.inputValue !== '') {
-            filtered.push({
-                inputValue: pParams.inputValue,
-                label: `Add "${pParams.inputValue}"`
-            });
-        }
+    // Sugere a criacão de um novo valor
+    if (pParams.inputValue !== "") {
+      filtered.push({
+        inputValue: pParams.inputValue,
+        label: `Add "${pParams.inputValue}"`,
+      });
+    }
 
-        return filtered;
-    };
+    return filtered;
+  };
 
-    return <MuiAutocomplete {...props} filterOptions={filterOptions} />;
+  return <MuiAutocomplete {...props} filterOptions={filterOptions} />;
 }
 
 export default Autocomplete;

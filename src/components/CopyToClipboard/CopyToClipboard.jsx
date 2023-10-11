@@ -1,73 +1,74 @@
-import React, { PureComponent } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import { styled } from "@mui/material/styles";
 import Icon from "../Icon";
 import Tooltip from "../wrappers/Tooltip";
-import Style from "./CopyToClipboard.module.scss";
 
-class CopyToClipboard extends PureComponent {
-  constructor(props) {
-    super(props);
+const Button = styled("button")(() => ({
+  display: "inline-block",
+  position: "relative",
+  pointerEvents: "all",
+  verticalAlign: "top",
+  border: 0,
+  height: "16px",
+  width: "16px",
+  margin: "0 4px",
+  "& > svg": {
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
+}));
 
-    this.state = {
-      iconName: "paper",
-      tooltip: "Copiar",
-    };
+function CopyToClipboard(props) {
+  const [iconName, setIconName] = useState("paper");
+  const [tooltip, setTooltip] = useState("Copiar");
 
-    this.body = document.getElementsByTagName("body")[0];
+  let body = document.getElementsByTagName("body")[0];
 
-    this.timeout = null;
-  }
+  let timeout = null;
 
-  copyToClipboard = (pValue, pEvent) => {
+  const copyToClipboard = (pValue, pEvent) => {
     pEvent.stopPropagation();
     const tempInput = document.createElement("input");
-    this.body.appendChild(tempInput);
+    body.appendChild(tempInput);
     tempInput.setAttribute("value", pValue.toString());
     tempInput.select();
     document.execCommand("copy");
-    this.body.removeChild(tempInput);
+    body.removeChild(tempInput);
 
-    this.setState({
-      iconName: "ok",
-      tooltip: "COPIADO!",
-    });
+    setIconName("ok");
+    setTooltip("COPIADO!");
   };
 
-  resetState = () => {
-    this.timeout = setTimeout(() => {
-      this.setState({
-        iconName: "paper",
-        tooltip: "Copiar",
-      });
+  const resetState = () => {
+    timeout = setTimeout(() => {
+      setIconName("paper");
+      setTooltip("Copiar");
     }, 1000);
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.iconName !== this.state.iconName) {
-      this.resetState();
-    }
-  }
+  useEffect(() => {
+    resetState();
+  }, [iconName]);
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout);
-  }
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, []);
 
-  render() {
-    return (
-      <Tooltip title={this.state.tooltip} placement="top">
-        <button
-          className={Style.root}
-          onClick={(e) => this.copyToClipboard(this.props.value, e)}
-        >
-          <Icon iconName={this.state.iconName} size={16} color={"primary"} />
-        </button>
-      </Tooltip>
-    );
-  }
+  return (
+    <Tooltip title={tooltip} placement="top">
+      <Button onClick={(e) => copyToClipboard(props.value, e)}>
+        <Icon iconName={iconName} size={16} color={"primary"} />
+      </Button>
+    </Tooltip>
+  );
 }
 
 CopyToClipboard.propTypes = {
-  value: PropTypes.string,
+  value: PropTypes.string.isRequired,
 };
 
 export default CopyToClipboard;

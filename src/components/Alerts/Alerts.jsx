@@ -1,17 +1,48 @@
 import React, { memo, useState, useEffect } from "react";
-import classNames from "classnames";
-import { Typography, Icon, IconButton } from "../";
+import { Typography, Icon, IconButton, Box } from "../";
 import { validators } from "investira.sdk";
 import PropTypes from "prop-types";
-import { capitalize } from "../utils/helpers";
-import Style from "./Alerts.module.scss";
+import { styled } from "@mui/material/styles";
+
+const Root = styled("div")(({ color, close, theme }) => {
+  return {
+    position: "relative",
+    padding: "0.6rem 1rem",
+    marginBottom: "1rem",
+    borderRadius: "0.5rem",
+    backgroundColor: theme.palette.primary.main,
+    display: "flex",
+    alignItems: "center",
+    wordBreak: "break-word",
+    ...(color === "primary" && {
+      backgroundColor: theme.palette.primary.main,
+    }),
+    ...(color === "secondary" && {
+      backgroundColor: theme.palette.secondary.main,
+    }),
+    ...(color === "secondaryLight" && {
+      backgroundColor: theme.palette.secondary.light,
+    }),
+    ...(color === "secondaryDark" && {
+      backgroundColor: theme.palette.secondary.dark,
+    }),
+    ...(color === "warn" && {
+      backgroundColor: theme.palette.warning.main,
+    }),
+    ...(color === "error" && {
+      backgroundColor: theme.palette.error.main,
+    }),
+    ...(color === "info" && {
+      backgroundColor: theme.palette.info.main,
+    }),
+    ...(color === "infoLight" && {
+      backgroundColor: theme.palette.info.light,
+    }),
+    ...(close && { justifyContent: "space-between" }),
+  };
+});
 
 const Alerts = memo((props) => {
-  const xClassName = classNames(Style.root, {
-    [Style[`color${capitalize(props.backgroundColor)}`]]:
-      props.backgroundColor !== "default",
-    [Style.justify]: props.close,
-  });
   const [open, setOpen] = useState(true);
 
   const handleClose = () => {
@@ -26,21 +57,21 @@ const Alerts = memo((props) => {
     return null;
   } else {
     return (
-      <div className={xClassName}>
+      <Root close={props.close} color={props.backgroundColor}>
         {!validators.isEmpty(props.iconName) && (
-          <div className={Style.icon}>
+          <Box pr={1.5}>
             <Icon
               size={21}
               color={props.color || "black"}
               iconName={props.iconName}
             />
-          </div>
+          </Box>
         )}
-        <div className={Style.content}>
+        <Box flexGrow={1}>
           <Typography variant={"caption"} color={props.color || "inherit"}>
             {props.children}
           </Typography>
-        </div>
+        </Box>
         {props.close && (
           <IconButton edge={"end"} onClick={handleClose}>
             <Icon
@@ -50,7 +81,7 @@ const Alerts = memo((props) => {
             />
           </IconButton>
         )}
-      </div>
+      </Root>
     );
   }
 });
@@ -62,11 +93,11 @@ Alerts.propTypes = {
     "primary",
     "secondary",
     "secondaryLight",
-    "secondaryLightness",
+    "secondaryDark",
     "warn",
-    "danger",
+    "error",
     "info",
-    "infoHighlight",
+    "infoLight",
   ]),
   color: PropTypes.string,
   iconName: PropTypes.string,

@@ -1,33 +1,22 @@
-import React, { Component } from "react";
+import React, { useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import { validators } from "investira.sdk";
 
-import { Scroller } from "../";
+import { Scroller, Box } from "../";
 import { Loading, CenterInView } from "../template";
 
-import Style from "./InfiniteScroller.module.scss";
+function InfiniteScroller(props) {
+  const scroller = useRef();
+  const endListRef = useRef();
+  const startListRef = useRef();
 
-class InfiniteScroller extends Component {
-  constructor(props) {
-    super(props);
+  let target = null;
+  let observer = null;
 
-    this.scroller = React.createRef();
-    this.endListRef = React.createRef();
-    this.startListRef = React.createRef();
-
-    this.target = null;
-    this.observer = null;
-
-    this.tempScrollHeight = 0;
-
-    this.state = {
-      scrollAreaSize: null,
-    };
-  }
+  let tempScrollHeight = 0;
 
   //TODO: Alterar pela do sdk quando for publicado
-  queryParamsToObject = (pQuerystring) => {
+  const queryParamsToObject = (pQuerystring) => {
     const xQueryParams = pQuerystring.split("?")[1].split("&");
     let xParams = {};
 
@@ -39,26 +28,26 @@ class InfiniteScroller extends Component {
     return xParams;
   };
 
-  handleNextPage = (pProps) => {
+  const handleNextPage = (pProps) => {
     const { onNextPage, nextPage } = pProps;
     if (nextPage && onNextPage) {
-      const xNextParams = this.queryParamsToObject(nextPage);
+      const xNextParams = queryParamsToObject(nextPage);
       onNextPage(xNextParams);
     }
   };
 
-  handlePrevPage = (pProps) => {
+  const handlePrevPage = (pProps) => {
     const { onPrevPage, prevPage } = pProps;
     const isPrevPageEmpty = validators.isEmpty(prevPage);
     if (prevPage && !isPrevPageEmpty && onPrevPage) {
-      const xPrevParams = this.queryParamsToObject(prevPage);
+      const xPrevParams = queryParamsToObject(prevPage);
       onPrevPage(xPrevParams);
     } else if (isPrevPageEmpty) {
       onPrevPage();
     }
   };
 
-  nextPageObserver = (pTarget, pScrollElem, pScrollerRect) => {
+  const nextPageObserver = (pTarget, pScrollElem, pScrollerRect) => {
     if (pTarget) {
       const xOptions = {
         root: pScrollElem,
@@ -66,19 +55,19 @@ class InfiniteScroller extends Component {
         threshold: 0,
       };
 
-      this.observer = new IntersectionObserver((entries, observer) => {
+      observer.current = new IntersectionObserver((entries, observer) => {
         if (entries[0].isIntersecting) {
-          this.handleNextPage(this.props);
+          handleNextPage(props);
         }
       }, xOptions);
 
-      this.observer.observe(pTarget);
+      observer.current.observe(pTarget);
     } else {
       console.info("Não há target");
     }
   };
 
-  prevPageObserver = (pTarget, pScrollElem, pScrollerRect) => {
+  const prevPageObserver = (pTarget, pScrollElem, pScrollerRect) => {
     if (pTarget) {
       const xOptions = {
         root: pScrollElem,
@@ -87,131 +76,132 @@ class InfiniteScroller extends Component {
         threshold: 0,
       };
 
-      this.observer = new IntersectionObserver((entries, observer) => {
+      observer.current = new IntersectionObserver((entries, observer) => {
         if (entries[0].isIntersecting) {
-          this.handlePrevPage(this.props);
+          handlePrevPage(props);
         }
       }, xOptions);
 
-      this.observer.observe(pTarget);
+      observer.current.observe(pTarget);
     } else {
       console.info("Não há target");
     }
   };
 
-  onMountScroll = () => {
-    window.setTimeout(this.autoScroller, 300);
+  const onMountScroll = () => {
+    window.setTimeout(autoScroller, 300);
   };
 
-  autoScroller = () => {
-    if (this.scroller && this.scroller.current) {
-      const xScroller = this.scroller.current.scrollRef.current;
+  const autoScroller = () => {
+    if (scroller && scroller.current) {
+      const xScroller = scroller.current.scrollRef.current;
       xScroller.scrollTo(0, xScroller.scrollHeight);
     } else {
       console.info("Componente Scroller não encontrado");
     }
   };
 
-  rightScroll = () => {
-    if (this.scroller.current.scrollRef.current.scrollHeight) {
-      const xScroller = this.scroller.current.scrollRef.current;
+  const rightScroll = () => {
+    if (scroller.current.scrollRef.current.scrollHeight) {
+      const xScroller = scroller.current.scrollRef.current;
       const xCurrentScrollHeight = xScroller.scrollHeight;
-      const xDiffScrollHeight = xCurrentScrollHeight - this.tempScrollHeight;
+      const xDiffScrollHeight = xCurrentScrollHeight - tempScrollHeight;
 
-      const xStartHeight =
-        this.startListRef.current.getBoundingClientRect().height;
+      const xStartHeight = startListRef.current.getBoundingClientRect().height;
 
       xScroller.scrollTo(0, xDiffScrollHeight - xStartHeight);
-      this.tempScrollHeight = xCurrentScrollHeight;
+      tempScrollHeight = xCurrentScrollHeight;
     }
   };
 
-  componentDidMount() {
+  useEffect(() => {
     if (
-      this.scroller &&
-      this.scroller.current &&
-      this.scroller.current.scrollRef &&
-      this.scroller.current.scrollRef.current &&
-      this.endListRef &&
-      this.endListRef.current &&
-      this.startListRef &&
-      this.startListRef.current
+      scroller &&
+      scroller.current &&
+      scroller.current.scrollRef &&
+      scroller.current.scrollRef.current &&
+      endListRef &&
+      endListRef.current &&
+      startListRef &&
+      startListRef.current
     ) {
-      const xScrollerElem = this.scroller.current.scrollRef.current;
+      const xScrollerElem = scroller.current.scrollRef.current;
       const xScrollerRect =
-        this.scroller.current.scrollRef.current.getBoundingClientRect();
+        scroller.current.scrollRef.current.getBoundingClientRect();
 
-      if (!validators.isNull(this.props.onNextPage)) {
-        this.target = this.endListRef.current;
-        this.nextPageObserver(this.target, xScrollerElem, xScrollerRect);
+      if (!validators.isNull(props.onNextPage)) {
+        target.current = endListRef.current;
+        nextPageObserver(target.current, xScrollerElem, xScrollerRect);
       }
 
-      if (!validators.isNull(this.props.onPrevPage)) {
-        this.onMountScroll();
-        this.target = this.startListRef.current;
-        this.prevPageObserver(this.target, xScrollerElem, xScrollerRect);
+      if (!validators.isNull(props.onPrevPage)) {
+        onMountScroll();
+        target.current = startListRef.current;
+        prevPageObserver(target.current, xScrollerElem, xScrollerRect);
       }
     }
-  }
+    return () => {
+      observer.current && observer.current.unobserve(target.current);
+    };
+  }, []);
 
-  componentDidUpdate() {
+  useEffect(() => {
     if (
-      validators.isNull(this.props.prevPage) &&
-      !validators.isNull(this.props.onPrevPage)
+      validators.isNull(props.prevPage) &&
+      !validators.isNull(props.onPrevPage)
     ) {
-      this.onMountScroll();
+      onMountScroll();
     }
 
     if (
-      !validators.isNull(this.props.onPrevPage) &&
-      !validators.isNull(this.props.prevPage)
+      !validators.isNull(props.onPrevPage) &&
+      !validators.isNull(props.prevPage)
     ) {
-      this.rightScroll();
+      rightScroll();
     }
-  }
+  }, [props.prevPage, props.onPrevPage]);
 
-  componentWillUnmount() {
-    this.observer && this.observer.unobserve(this.target);
-  }
+  const { children, nextPage, prevPage } = props;
+  //const xChild = React.Children.only(children);
 
-  render() {
-    const { children, nextPage, prevPage } = this.props;
-    //const xChild = React.Children.only(children);
+  return (
+    <Scroller ref={scroller}>
+      <Box
+        id={"startList"}
+        ref={startListRef}
+        sx={[
+          { position: "relative", height: "24px", p: 2 },
+          validators.isEmpty(prevPage) && {
+            display: "none",
+            visibility: "nome",
+          },
+        ]}
+      >
+        <CenterInView>
+          <Loading />
+        </CenterInView>
+      </Box>
 
-    const xLoadingEndAreaClass = classNames(Style.loadingArea, {
-      [Style.loadingHidden]: validators.isEmpty(nextPage),
-    });
-    const xLoadingStartAreaClass = classNames(Style.loadingArea, {
-      [Style.loadingHidden]: validators.isEmpty(prevPage),
-    });
+      {/* {React.cloneElement(xChild, {}, xChild)} */}
+      {children}
 
-    return (
-      <Scroller ref={this.scroller}>
-        <div
-          id={"startList"}
-          ref={this.startListRef}
-          className={xLoadingStartAreaClass}
-        >
-          <CenterInView>
-            <Loading />
-          </CenterInView>
-        </div>
-
-        {/* {React.cloneElement(xChild, {}, xChild)} */}
-        {children}
-
-        <div
-          id={"endlist"}
-          ref={this.endListRef}
-          className={xLoadingEndAreaClass}
-        >
-          <CenterInView>
-            <Loading />
-          </CenterInView>
-        </div>
-      </Scroller>
-    );
-  }
+      <Box
+        id={"endlist"}
+        ref={endListRef}
+        sx={[
+          { position: "relative", height: "24px", p: 2 },
+          validators.isEmpty(nextPage) && {
+            display: "none",
+            visibility: "nome",
+          },
+        ]}
+      >
+        <CenterInView>
+          <Loading />
+        </CenterInView>
+      </Box>
+    </Scroller>
+  );
 }
 
 InfiniteScroller.propTypes = {

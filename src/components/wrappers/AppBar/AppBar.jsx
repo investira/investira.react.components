@@ -1,8 +1,8 @@
-import React from 'react';
-import { default as WAppBar } from '@material-ui/core/AppBar';
+import React from "react";
+import { default as WAppBar } from "@mui/material/AppBar";
 
 function AppBar(props) {
-    return <WAppBar {...props} />;
+  return <WAppBar {...props} />;
 }
 
 export default AppBar;
