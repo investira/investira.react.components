@@ -238,8 +238,8 @@ export const themePrimary = createTheme({
           fontWeight: base.typo.fontWeightSemiBold,
         },
         colorSecondary: {
-          color: base.colors.secondary.main,
-          backgroundColor: base.colors.background.light,
+          color: base.colors.secondary.lightness,
+          borderColor: base.colors.secondary.lightness,
         },
         clickableColorSecondary: {
           "&:hover": {

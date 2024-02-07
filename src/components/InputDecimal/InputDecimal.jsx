@@ -6,30 +6,28 @@ import PropTypes from "prop-types";
 const InputDecimal = forwardRef((props, ref) => {
   const [value, setValue] = useState(props.value);
 
-  function formatTextValue(
-    pValue = "",
-    pDecimal = 4,
-    pLocale = "pt-BR",
-    pSeparator = ","
-  ) {
-    const xValue = validators.isNumber(pValue)
+  function formatTextValue(pValue = "", pDecimal = 2, pCurrency = "BRL") {
+    let xValue = validators.isNumber(pValue)
       ? pValue.toFixed(pDecimal)
       : pValue;
 
-    const xResult = currency.toDecimal(
+    xValue = currency.toDecimal(
       xValue.toString(),
-      pDecimal,
-      pLocale,
-      pSeparator
+      ".",
+      pCurrency,
+      "pt-BR",
+      pDecimal
     );
-    return xResult;
+
+    return xValue;
   }
 
   function handleChange(pEvent) {
     pEvent.persist();
     const xValueAsCurrency = formatTextValue(
       pEvent.target.value,
-      props.decimal
+      props.decimal,
+      props.currency
     );
 
     setValue(xValueAsCurrency);
@@ -43,8 +41,8 @@ const InputDecimal = forwardRef((props, ref) => {
   }
 
   useEffect(() => {
-    if (formatTextValue(props.value) !== value) {
-      setValue(formatTextValue(props.value));
+    if (formatTextValue(props.value, props.decimal) !== value) {
+      setValue(formatTextValue(props.value, props.decimal));
     }
   }, [props.value, value]);
 
@@ -72,7 +70,7 @@ InputDecimal.propTypes = {
 
 InputDecimal.defaultProps = {
   separator: ",",
-  decimal: 4,
+  currency: "BRL",
 };
 
 InputDecimal.displayName = "InputDecimal";

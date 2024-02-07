@@ -92,7 +92,7 @@ const ResponsiveImage = (props) => {
             id={props.id}
             sx={[
               {
-                maxWidth: "100%",
+                //maxWidth: "100%",
                 width: "inherit",
                 height: "inherit",
                 borderRadius: "inherit",
