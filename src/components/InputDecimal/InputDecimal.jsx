@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 const InputDecimal = forwardRef((props, ref) => {
   const [value, setValue] = useState(props.value);
 
-  function formatTextValue(pValue = "", pDecimal = 2, pCurrency = "BRL") {
+  function formatTextValue(pValue = 0, pDecimal = 2, pCurrency = "BRL") {
     let xValue = validators.isNumber(pValue)
       ? pValue.toFixed(pDecimal)
       : pValue;
