@@ -73,6 +73,8 @@ const ResponsiveImage = (props) => {
           right: 0,
           bottom: 0,
           borderRadius: "inherit",
+          width: "inherit",
+          height: "inherit",
         }}
       >
         {imagesSource.map((image, index) => {
