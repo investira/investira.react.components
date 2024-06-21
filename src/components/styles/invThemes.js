@@ -300,15 +300,24 @@ export const themePrimary = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          "&.Mui-disabled": {
-            color: base.colors.text.disabled,
-            border: `1px solid ${base.colors.secondary.light}`,
-          },
+          // "&.Mui-disabled": {
+          //   color: base.colors.text.disabled,
+          //   border: `1px solid ${base.colors.secondary.light}`,
+          // },
+          borderRadius: base.spacing.unit,
         },
-        contained: {
-          borderRadius: base.spacing.unit * 4,
+        // contained: {
+        //   borderRadius: base.spacing.unit * 4,
+        // },
+        // outlined: { borderRadius: base.spacing.unit * 4 },
+      },
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          borderColor: base.colors.primary.main,
+          color: base.colors.primary.main,
         },
-        outlined: { borderRadius: base.spacing.unit * 4 },
       },
     },
     MuiSnackbarContent: {
@@ -678,13 +687,13 @@ export const themeSecondary = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: {
-          color: "#fff",
-        },
-        outlined: { borderRadius: base.spacing.unit * 4 },
-        containedPrimary: {
-          color: base.colors.primary.contrastText,
-        },
+        // root: {
+        //   color: "#fff",
+        // },
+        // outlined: { borderRadius: base.spacing.unit * 4 },
+        // containedPrimary: {
+        //   color: base.colors.primary.contrastText,
+        // },
         // "&.Mui-disabled": {
         //   color: base.colors.text.disabled,
         //   border: 0,
