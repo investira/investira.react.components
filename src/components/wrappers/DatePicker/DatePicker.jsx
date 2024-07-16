@@ -2,10 +2,11 @@ import React from "react";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker as MuiDatePicker } from "@mui/x-date-pickers/DatePicker";
+import "dayjs/locale/pt-br";
 
 const DatePicker = React.forwardRef((props, ref) => {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
       <MuiDatePicker ref={ref} {...props} />
     </LocalizationProvider>
   );
