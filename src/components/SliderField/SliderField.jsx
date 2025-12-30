@@ -41,7 +41,9 @@ const SliderField = memo((props) => {
   }
 
   function valueLabelFormat(pValue) {
-    return formats.friendlyNumber(pValue, 2, true);
+    return `${formats.friendlyNumber(pValue, 2, false)}${
+      props.valueSuffix || ""
+    }`;
   }
 
   function handleChange(pEvent, pValue) {

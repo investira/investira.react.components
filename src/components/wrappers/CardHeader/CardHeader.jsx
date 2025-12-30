@@ -1,8 +1,8 @@
 import React from "react";
-import { default as MuiCardMedia } from "@mui/material/CardMedia";
+import { default as MuiCardHeader } from "@mui/material/CardHeader";
 
-function CardMedia(props) {
-  return <MuiCardMedia {...props} />;
+function CardHeader(props) {
+  return <MuiCardHeader {...props} />;
 }
 
-export default CardMedia;
+export default CardHeader;

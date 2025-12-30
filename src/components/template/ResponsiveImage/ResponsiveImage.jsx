@@ -73,6 +73,8 @@ const ResponsiveImage = (props) => {
           right: 0,
           bottom: 0,
           borderRadius: "inherit",
+          width: "inherit",
+          height: "inherit",
         }}
       >
         {imagesSource.map((image, index) => {
@@ -92,7 +94,7 @@ const ResponsiveImage = (props) => {
             id={props.id}
             sx={[
               {
-                maxWidth: "100%",
+                //maxWidth: "100%",
                 width: "inherit",
                 height: "inherit",
                 borderRadius: "inherit",
@@ -105,6 +107,7 @@ const ResponsiveImage = (props) => {
             srcSet={imagesSrcSet[0].srcSet}
             src={imagesSrcSet[0].srcSet}
             alt={props.alt}
+            title={props.title || props.alt}
             type={props.type}
             onLoad={handleLoad}
             onError={handleError}

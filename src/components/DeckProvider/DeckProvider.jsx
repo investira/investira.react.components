@@ -2,7 +2,7 @@ import React, { memo, useState, useEffect, useRef } from "react";
 import { validators } from "investira.sdk";
 import PropTypes from "prop-types";
 import { DeckContext } from "../";
-import { useRouteMatch, useHistory } from "react-router-dom";
+//import { useRouteMatch, useHistory } from "react-router-dom";
 
 const DeckProvider = memo((props) => {
   const [activeView, setActive] = useState(null);
@@ -11,8 +11,11 @@ const DeckProvider = memo((props) => {
 
   const URL = useRef(null);
 
-  const match = useRouteMatch();
-  const history = useHistory();
+  // const match = useRouteMatch();
+  // const history = useHistory();
+
+  const match = props.match;
+  const history = props.history;
 
   const isActive = (pId) => {
     return pId === activeView;

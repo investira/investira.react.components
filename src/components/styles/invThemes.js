@@ -7,24 +7,25 @@ export const themePrimary = createTheme({
     MuiListItem: {
       styleOverrides: {
         root: {
-          borderColor: base.colors.secondary.main,
+          //borderColor: base.colors.secondary.main,
+          color: base.colors.primary.main,
           "&.Mui-selected": {
-            backgroundColor: base.colors.primary.main,
-            color: base.colors.primary.contrastText,
+            //backgroundColor: base.colors.primary.main,
+            color: base.colors.text.primary,
             svg: {
-              fill: base.colors.primary.contrastText,
+              fill: base.colors.primary.main,
             },
           },
           "&:hover": {
             backgroundColor: base.colors.background.default,
             color: base.colors.primary.main,
-            svg: {
-              fill: base.colors.primary.main,
-            },
+            // svg: {
+            //   fill: base.colors.primary.main,
+            // },
           },
-          svg: {
-            fill: base.colors.primary.main,
-          },
+          // svg: {
+          //   fill: base.colors.primary.main,
+          // },
         },
       },
     },
@@ -174,41 +175,51 @@ export const themePrimary = createTheme({
     },
     MuiCalendarPicker: {
       styleOverrides: {
-        root: {
-          color: base.colors.text.primary,
-        },
+        // root: {
+        //   color: base.colors.text.primary,
+        // },
       },
     },
     MuiYearPicker: {
       styleOverrides: {
-        root: {
-          "& div > button": {
-            justifyContent: "center",
-            alignItems: "center",
-            "&.Mui-selected": {
-              backgroundColor: "transparent",
-              color: base.colors.text.primary,
-              border: `1px solid ${base.colors.primary.main}`,
-              "&:hover": {
-                backgroundColor: base.colors.primary.main,
-                color: base.colors.primary.contrastText,
-              },
-            },
-          },
-        },
+        // root: {
+        //   "& div > button": {
+        //     justifyContent: "center",
+        //     alignItems: "center",
+        //     "&.Mui-selected": {
+        //       backgroundColor: "transparent",
+        //       color: base.colors.text.primary,
+        //       border: `1px solid ${base.colors.primary.main}`,
+        //       "&:hover": {
+        //         backgroundColor: base.colors.primary.main,
+        //         color: base.colors.primary.contrastText,
+        //       },
+        //     },
+        //   },
+        // },
       },
     },
     MuiPickersDay: {
       styleOverrides: {
-        root: {
-          backgroundColor: "transparent",
-          "&:hover": {
-            backgroundColor: base.colors.primary.main,
-            color: base.colors.primary.contrastText,
-          },
-        },
+        // root: {
+        //   backgroundColor: "transparent",
+        //   "&:hover": {
+        //     backgroundColor: base.colors.primary.main,
+        //     color: base.colors.primary.contrastText,
+        //   },
+        // },
         today: {
           border: `1px solid ${base.colors.primary.main} !important`,
+        },
+      },
+    },
+    MuiPickersYear: {
+      styleOverrides: {
+        yearButton: {
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+          flexWrap: "wrap",
         },
       },
     },
@@ -238,8 +249,8 @@ export const themePrimary = createTheme({
           fontWeight: base.typo.fontWeightSemiBold,
         },
         colorSecondary: {
-          color: base.colors.secondary.main,
-          backgroundColor: base.colors.background.light,
+          color: base.colors.secondary.lightness,
+          borderColor: base.colors.secondary.lightness,
         },
         clickableColorSecondary: {
           "&:hover": {
@@ -300,15 +311,31 @@ export const themePrimary = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          "&.Mui-disabled": {
-            color: base.colors.text.disabled,
-            border: `1px solid ${base.colors.secondary.light}`,
-          },
+          // "&.Mui-disabled": {
+          //   color: base.colors.text.disabled,
+          //   border: `1px solid ${base.colors.secondary.light}`,
+          // },
+          borderRadius: base.spacing.unit,
         },
-        contained: {
-          borderRadius: base.spacing.unit * 4,
+        // contained: {
+        //   borderRadius: base.spacing.unit * 4,
+        // },
+        // outlined: { borderRadius: base.spacing.unit * 4 },
+      },
+    },
+    MuiToggleButton: {
+      styleOverrides: {
+        root: {
+          borderColor: base.colors.primary.main,
+          color: base.colors.primary.main,
         },
-        outlined: { borderRadius: base.spacing.unit * 4 },
+      },
+    },
+    MuiTabScrollButton: {
+      styleOverrides: {
+        root: {
+          color: base.colors.primary.main,
+        },
       },
     },
     MuiSnackbarContent: {
@@ -335,10 +362,10 @@ export const themePrimary = createTheme({
         regular: {
           minHeight: 44,
         },
-        gutters: {
-          paddingLeft: 0,
-          paddingRight: 0,
-        },
+        // gutters: {
+        //   paddingLeft: 0,
+        //   paddingRight: 0,
+        // },
       },
     },
     MuiFormLabel: {
@@ -678,13 +705,13 @@ export const themeSecondary = createTheme({
     },
     MuiButton: {
       styleOverrides: {
-        root: {
-          color: "#fff",
-        },
-        outlined: { borderRadius: base.spacing.unit * 4 },
-        containedPrimary: {
-          color: base.colors.primary.contrastText,
-        },
+        // root: {
+        //   color: "#fff",
+        // },
+        // outlined: { borderRadius: base.spacing.unit * 4 },
+        // containedPrimary: {
+        //   color: base.colors.primary.contrastText,
+        // },
         // "&.Mui-disabled": {
         //   color: base.colors.text.disabled,
         //   border: 0,

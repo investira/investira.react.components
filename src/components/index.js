@@ -4,7 +4,7 @@ export * from "../hoc/";
 export { default as Alerts } from "./Alerts";
 export { default as Basic } from "./Basic";
 export { default as Chips } from "./Chips";
-export { default as Calendar } from "./Calendar";
+// export { default as Calendar } from "./Calendar";
 export { default as ContainerFeedback } from "./ContainerFeedback";
 export { default as ContainerList } from "./ContainerList";
 export { default as ContentList } from "./ContentList";
