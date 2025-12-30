@@ -107,6 +107,7 @@ const ResponsiveImage = (props) => {
             srcSet={imagesSrcSet[0].srcSet}
             src={imagesSrcSet[0].srcSet}
             alt={props.alt}
+            title={props.title || props.alt}
             type={props.type}
             onLoad={handleLoad}
             onError={handleError}

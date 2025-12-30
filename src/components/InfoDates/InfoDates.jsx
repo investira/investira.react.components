@@ -84,7 +84,7 @@ InfoDates.defaultProps = {
   labelVariant: "caption",
   timeVariant: "caption",
   colon: false,
-  gutterBottom: true,
+  gutterBottom: false,
 };
 
 InfoDates.propTypes = {

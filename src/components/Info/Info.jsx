@@ -76,7 +76,7 @@ function Info(props) {
 Info.defaultProps = {
   variant: "caption",
   labelColor: "textSecondary",
-  gutterBottom: true,
+  gutterBottom: false,
   valueColor: "textPrimary",
   variantValue: "caption",
   direction: "vertical",
