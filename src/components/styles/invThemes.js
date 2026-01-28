@@ -243,27 +243,27 @@ export const themePrimary = createTheme({
     MuiSwitch: {
       styleOverrides: {},
     },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          fontWeight: base.typo.fontWeightSemiBold,
-        },
-        colorSecondary: {
-          color: base.colors.secondary.lightness,
-          borderColor: base.colors.secondary.lightness,
-        },
-        clickableColorSecondary: {
-          "&:hover": {
-            color: base.colors.primary.contrastText,
-            backgroundColor: base.colors.primary.main,
-          },
-          "&:focus": {
-            color: base.colors.primary.contrastText,
-            backgroundColor: base.colors.primary.main,
-          },
-        },
-      },
-    },
+    // MuiChip: {
+    //   styleOverrides: {
+    //     root: {
+    //       fontWeight: base.typo.fontWeightSemiBold,
+    //     },
+    //     colorSecondary: {
+    //       color: base.colors.secondary.lightness,
+    //       borderColor: base.colors.secondary.lightness,
+    //     },
+    //     clickableColorSecondary: {
+    //       "&:hover": {
+    //         color: base.colors.primary.contrastText,
+    //         backgroundColor: base.colors.primary.main,
+    //       },
+    //       "&:focus": {
+    //         color: base.colors.primary.contrastText,
+    //         backgroundColor: base.colors.primary.main,
+    //       },
+    //     },
+    //   },
+    // },
     MuiInputAdornment: {
       styleOverrides: {
         root: {
@@ -640,25 +640,25 @@ export const themeSecondary = createTheme({
       },
     },
     MuiChip: {
-      styleOverrides: {
-        root: {
-          fontWeight: base.typo.fontWeightSemiBold,
-        },
-        colorSecondary: {
-          color: base.colors.secondary.main,
-          backgroundColor: base.colors.background.light,
-        },
-        clickableColorSecondary: {
-          "&:hover": {
-            color: base.colors.primary.contrastText,
-            backgroundColor: base.colors.primary.main,
-          },
-          "&:focus": {
-            color: base.colors.primary.contrastText,
-            backgroundColor: base.colors.primary.main,
-          },
-        },
-      },
+      // styleOverrides: {
+      //   root: {
+      //     fontWeight: base.typo.fontWeightSemiBold,
+      //   },
+      //   colorSecondary: {
+      //     color: base.colors.secondary.main,
+      //     backgroundColor: base.colors.background.light,
+      //   },
+      //   clickableColorSecondary: {
+      //     "&:hover": {
+      //       color: base.colors.primary.contrastText,
+      //       backgroundColor: base.colors.primary.main,
+      //     },
+      //     "&:focus": {
+      //       color: base.colors.primary.contrastText,
+      //       backgroundColor: base.colors.primary.main,
+      //     },
+      //   },
+      // },
     },
     MuiInputAdornment: {
       styleOverrides: {
