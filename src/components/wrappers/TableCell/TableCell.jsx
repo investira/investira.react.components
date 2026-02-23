@@ -1,19 +1,18 @@
 import React from "react";
-import makeStyles from "@mui/styles/makeStyles";
+import styled from "@emotion/styled";
 import { default as WTableCell } from "@mui/material/TableCell";
-const useStyles = makeStyles((theme) => ({
-  root: {
+
+const StyledTableCell = styled(WTableCell, {
+  shouldForwardProp: (prop) => prop !== "naked",
+})(({ naked }) => ({
+  ...(naked && {
     borderBottom: "none",
     padding: "8px",
-  },
+  }),
 }));
 
-const TableCell = (props) => {
-  const classes = useStyles();
-
-  const { naked, ...otherProps } = props;
-
-  return <WTableCell className={naked ? classes.root : ""} {...otherProps} />;
+const TableCell = ({ naked, ...otherProps }) => {
+  return <StyledTableCell naked={naked} {...otherProps} />;
 };
 
 export default TableCell;

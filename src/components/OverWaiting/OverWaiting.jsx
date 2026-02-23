@@ -1,58 +1,56 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
+import styled from "@emotion/styled";
 import { Backdrop, Typography, LinearProgress, Button } from "../wrappers";
 import { Icon } from "../";
-import classNames from "classnames";
-import makeStyles from "@mui/styles/makeStyles";
 
-const useStyles = makeStyles((theme) => {
-  return {
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-    },
-    info: {
-      margin: "0 auto",
-      width: "80%",
-      textAlign: "center",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-    },
-    hspace: {
-      height: "16px",
-    },
-    backgroundFlat: {
-      backgroundColor: theme.palette.background.default,
-    },
-    action: {
-      position: "absolute",
-      bottom: "24px",
-    },
-    progress: {
-      paddingTop: "24px",
-      width: "100%",
-    },
-    icons: {
-      position: "relative",
-    },
-    header: {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      right: 0,
-      height: "55px",
-      padding: "16px",
-    },
-  };
+const StyledBackdrop = styled(Backdrop, {
+  shouldForwardProp: (prop) => prop !== "backgroundFlat",
+})(({ theme, backgroundFlat }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  ...(backgroundFlat && {
+    backgroundColor: theme.palette.background.default,
+  }),
+}));
+
+const Info = styled("div")({
+  margin: "0 auto",
+  width: "80%",
+  textAlign: "center",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+});
+
+const HSpace = styled("div")({
+  height: "16px",
+});
+
+const Action = styled("div")({
+  position: "absolute",
+  bottom: "24px",
+});
+
+const ProgressWrapper = styled("div")({
+  paddingTop: "24px",
+  width: "100%",
+});
+
+const Icons = styled("div")({
+  position: "relative",
+});
+
+const Header = styled("div")({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  height: "55px",
+  padding: "16px",
 });
 
 function OverWaiting(props) {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
-  const xClassRoot = classNames(classes.backdrop, {
-    [classes.backgroundFlat]: props.backgroundFlat,
-  });
 
   const handleCancel = (pEvent) => {
     props.onCancel && props.onCancel(pEvent);
@@ -62,29 +60,30 @@ function OverWaiting(props) {
     setOpen(props.open);
   }, [props.open]);
 
-  const { message, progressProps, typographyProps, header } = props;
+  const { message, progressProps, typographyProps, header, backgroundFlat } =
+    props;
 
   return (
-    <Backdrop className={xClassRoot} open={open}>
+    <StyledBackdrop backgroundFlat={backgroundFlat} open={open}>
       {open && (
         <>
-          {header && <div className={classes.header}>{header}</div>}
-          <div className={classes.info}>
-            <div className={classes.icons}>
+          {header && <Header>{header}</Header>}
+          <Info>
+            <Icons>
               <Icon
                 color={progressProps.color || "primary"}
                 iconName="clock"
                 size={128}
               />
-            </div>
+            </Icons>
 
-            <div className={classes.progress}>
+            <ProgressWrapper>
               <LinearProgress
                 color={progressProps.color}
                 variant={progressProps.variant}
                 value={progressProps.value}
               />
-              <div className={classes.hspace}></div>
+              <HSpace />
               {message && (
                 <Typography
                   color={typographyProps.color || "textPrimary"}
@@ -94,10 +93,10 @@ function OverWaiting(props) {
                   {message}
                 </Typography>
               )}
-            </div>
+            </ProgressWrapper>
 
             {props.cancelable && (
-              <div className={classes.action}>
+              <Action>
                 <Button
                   variant="outlined"
                   color="primary"
@@ -105,12 +104,12 @@ function OverWaiting(props) {
                 >
                   Cancelar
                 </Button>
-              </div>
+              </Action>
             )}
-          </div>
+          </Info>
         </>
       )}
-    </Backdrop>
+    </StyledBackdrop>
   );
 }
 

@@ -1,36 +1,22 @@
 import React from "react";
+import styled from "@emotion/styled";
 import { default as WTab } from "@mui/material/Tab";
-import makeStyles from "@mui/styles/makeStyles";
-import { classList } from "../../utils/helpers";
 
-const useStyles = makeStyles(
-  (theme) => ({
-    horizontalRoot: {
-      "& $wrapper": {
-        display: "flex",
-        flexDirection: "row",
-      },
+const StyledTab = styled(WTab, {
+  shouldForwardProp: (prop) => prop !== "direction",
+})(({ direction }) => ({
+  ...(direction === "row" && {
+    "& .MuiTab-wrapper": {
+      display: "flex",
+      flexDirection: "row",
     },
-    fullWidth: {
-      flexBasis: "auto",
-    },
-    textColorPrimary: {
-      color: "#fff",
-    },
-    wrapper: {},
   }),
-  { name: "MuiTab" }
-);
+  flexBasis: "auto",
+  color: "#fff",
+}));
 
-function Tab(props) {
-  const classes = useStyles();
-  const xClassNames = {
-    [classes.horizontalRoot]: props.direction === "row",
-    [classes.fullWidth]: true,
-    [classes.textColorPrimary]: true,
-  };
-
-  return <WTab {...props} className={classList(xClassNames)} />;
+function Tab({ direction, ...otherProps }) {
+  return <StyledTab direction={direction} {...otherProps} />;
 }
 
 export default Tab;
