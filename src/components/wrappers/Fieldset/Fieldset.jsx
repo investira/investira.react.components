@@ -1,39 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
-import withStyles from "@mui/styles/withStyles";
+import styled from "@emotion/styled";
 import { Typography } from "..";
 
-export const styles = {
-  root: {
-    border: "none",
-    marginBottom: "24px",
-  },
-  legend: {
-    marginBottom: "8px",
-  },
-};
+const Root = styled("fieldset")({
+  border: "none",
+  marginBottom: "24px",
+});
+
+const Legend = styled("legend")({
+  marginBottom: "8px",
+});
 
 function Fieldset(props) {
-  const { classes, className, legend, children, ...otherProps } = props;
-
-  let xClass = classNames(classes.root, className, {});
+  const { className, legend, children, ...otherProps } = props;
 
   return (
-    <fieldset className={xClass} {...otherProps}>
-      <legend className={classes.legend}>
+    <Root className={className} {...otherProps}>
+      <Legend>
         <Typography variant={"caption"}>
           <b>{legend}</b>
         </Typography>
-      </legend>
+      </Legend>
       {children}
-    </fieldset>
+    </Root>
   );
 }
 
-Fieldset.protoTypes = {
+Fieldset.propTypes = {
   children: PropTypes.node,
   legend: PropTypes.string,
 };
 
-export default withStyles(styles, { name: "MuiFieldset" })(Fieldset);
+export default Fieldset;
