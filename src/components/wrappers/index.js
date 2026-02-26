@@ -109,7 +109,7 @@ export { default as Tooltip } from "./Tooltip";
 export { default as Typography } from "./Typography";
 export { default as Pagination } from "./Pagination";
 export { default as PaginationItem } from "./PaginationItem";
-
+export { default as Rating } from "./Rating";
 export { default as useMediaQuery } from "./useMediaQuery";
 export { default as useTheme } from "./useTheme";
 export { default as createTheme } from "./createTheme";
