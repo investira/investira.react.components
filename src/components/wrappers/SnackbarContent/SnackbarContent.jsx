@@ -1,46 +1,50 @@
 import React from "react";
+import styled from "@emotion/styled";
 import { default as WSnackbarContent } from "@mui/material/SnackbarContent";
-import { makeStyles } from "@material-ui/core/styles";
-import classNames from "classnames";
+import { amber, green } from "@mui/material/colors";
 
-const useStyles = makeStyles((theme) => ({
-  success: {
-    backgroundColor: green[600],
-  },
-  error: {
-    backgroundColor: theme.palette.error.dark,
-  },
-  info: {
-    backgroundColor: theme.palette.primary.dark,
-  },
-  warning: {
-    backgroundColor: amber[700],
-  },
-  icon: {
+const StyledSnackbarContent = styled(WSnackbarContent, {
+  shouldForwardProp: (prop) => prop !== "variant",
+})(({ theme, variant }) => {
+  const styles = {};
+
+  if (variant === "success") {
+    styles.backgroundColor = green[600];
+  }
+  if (variant === "error") {
+    styles.backgroundColor = theme.palette.error.dark;
+  }
+  if (variant === "info") {
+    styles.backgroundColor = theme.palette.primary.dark;
+  }
+  if (variant === "warning") {
+    styles.backgroundColor = amber[700];
+  }
+
+  return styles;
+});
+
+const Message = styled("span")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  "& svg": {
     fontSize: 20,
     opacity: 0.9,
     marginRight: theme.spacing(1),
   },
-  message: {
-    display: "flex",
-    alignItems: "center",
-  },
 }));
 
 function SnackbarContent(props) {
-  const classes = useStyles();
-  const { className, message, onClose, variant, icon, ...other } = props;
-  const Icon = icon;
-  const xClassName = classNames(classes[variant], className, {});
+  const { message, variant, icon: Icon, ...other } = props;
 
   return (
-    <WSnackbarContent
-      className={xClassName}
+    <StyledSnackbarContent
+      variant={variant}
       message={
-        <span id="client-snackbar" className={classes.message}>
-          <Icon className={classes.icon} />
+        <Message id="client-snackbar">
+          {Icon && <Icon />}
           {message}
-        </span>
+        </Message>
       }
       {...other}
     />

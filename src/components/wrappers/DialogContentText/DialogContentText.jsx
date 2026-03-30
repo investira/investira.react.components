@@ -1,20 +1,17 @@
 import React from "react";
-import makeStyles from "@mui/styles/makeStyles";
-import { classList } from "../../utils/helpers";
+import styled from "@emotion/styled";
 import { default as WDialogContentText } from "@mui/material/DialogContentText";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "margin-bottom": "0",
-  },
+const StyledDialogContentText = styled(WDialogContentText, {
+  shouldForwardProp: (prop) => prop !== "nogutter",
+})(({ nogutter }) => ({
+  ...(nogutter && {
+    marginBottom: 0,
+  }),
 }));
 
-function DialogContentText(props) {
-  const classes = useStyles();
-  const xClassNames = {
-    [classes.root]: props.nogutter,
-  };
-  return <WDialogContentText {...props} className={classList(xClassNames)} />;
+function DialogContentText({ nogutter, ...otherProps }) {
+  return <StyledDialogContentText nogutter={nogutter} {...otherProps} />;
 }
 
 export default DialogContentText;

@@ -1,98 +1,72 @@
 import React from "react";
-import makeStyles from "@mui/styles/makeStyles";
+import styled from "@emotion/styled";
 import { default as WBadge } from "@mui/material/Badge";
-import { classList } from "../../utils/helpers";
 
-const useStyles = makeStyles(
-  (theme) => ({
-    specialAnchor: {
-      "& $badge": {
-        right: "40%",
-      },
-    },
-    // animated: {
-    //     '& $badge': {
-    //         animation: `$bounceIn 750ms ${theme.transitions.easing.easeInOut}`
-    //     }
-    // },
-    // '@keyframes bounceIn': {
-    //     '0%': {
-    //         transform: 'scale3d(1, 1, 1)'
-    //     },
-    //     '5%': {
-    //         transform: 'scale3d(0.8, 0.8, 0.8)'
-    //     },
-    //     '20%': {
-    //         transform: 'scale3d(1.1, 1.1, 1.1)'
-    //     },
-    //     '40%': {
-    //         transform: 'scale3d(0.9, 0.9, 0.9)'
-    //     },
-    //     '60%': {
-    //         transform: 'scale3d(1.03, 1.03, 1.03)'
-    //     },
-    //     '80%': {
-    //         transform: 'scale3d(0.97, 0.97, 0.97)'
-    //     },
-    //     '100%': {
-    //         transform: 'scale3d(1, 1, 1)'
-    //     }
-    // },
-    extraLarge: {
-      "& $badge": {
-        width: theme.spacing(5),
-        height: theme.spacing(5),
-        borderRadius: theme.spacing(4),
-        "& svg": {
-          width: "24px",
-          height: "24px",
-        },
-      },
-    },
-    large: {
-      "& $badge": {
-        width: theme.spacing(4),
-        height: theme.spacing(4),
-        borderRadius: theme.spacing(3),
-        "& svg": {
-          width: "21px",
-          height: "21px",
-        },
-      },
-    },
-    small: {
-      "& $badge": {
-        width: theme.spacing(2),
-        height: theme.spacing(2),
-        borderRadius: theme.spacing(2),
-        "& svg": {
-          width: "10px",
-          height: "10px",
-        },
-      },
-    },
-    badge: {},
-  }),
-  { name: "MuiBadge" }
-);
+const StyledBadge = styled(WBadge, {
+  shouldForwardProp: (prop) =>
+    !["specialAnchor", "sizeCustom"].includes(prop.toString()),
+})(({ theme, specialAnchor, sizeCustom }) => {
+  const base = {};
+
+  if (specialAnchor) {
+    base["& .MuiBadge-badge"] = {
+      ...(base["& .MuiBadge-badge"] || {}),
+      right: "40%",
+    };
+  }
+
+  if (sizeCustom === "XL") {
+    base["& .MuiBadge-badge"] = {
+      ...(base["& .MuiBadge-badge"] || {}),
+      width: theme.spacing(5),
+      height: theme.spacing(5),
+      borderRadius: theme.spacing(4),
+    };
+    base["& .MuiBadge-badge svg"] = {
+      width: "24px",
+      height: "24px",
+    };
+  }
+
+  if (sizeCustom === "large") {
+    base["& .MuiBadge-badge"] = {
+      ...(base["& .MuiBadge-badge"] || {}),
+      width: theme.spacing(4),
+      height: theme.spacing(4),
+      borderRadius: theme.spacing(3),
+    };
+    base["& .MuiBadge-badge svg"] = {
+      width: "21px",
+      height: "21px",
+    };
+  }
+
+  if (sizeCustom === "small") {
+    base["& .MuiBadge-badge"] = {
+      ...(base["& .MuiBadge-badge"] || {}),
+      width: theme.spacing(2),
+      height: theme.spacing(2),
+      borderRadius: theme.spacing(2),
+    };
+    base["& .MuiBadge-badge svg"] = {
+      width: "10px",
+      height: "10px",
+    };
+  }
+
+  return base;
+});
 
 function Badge(props) {
-  const { anchorOrigin, ...propsProps } = props;
-  const classes = useStyles();
-
-  const xClassNames = {
-    // [classes.animated]: props.animated === 'true',
-    [classes.specialAnchor]: anchorOrigin?.special,
-    [classes.extraLarge]: props.size === "XL",
-    [classes.large]: props.size === "large",
-    [classes.small]: props.size === "small",
-  };
+  const { anchorOrigin, size, ...propsProps } = props;
+  const specialAnchor = anchorOrigin?.special;
 
   return (
-    <WBadge
+    <StyledBadge
       {...propsProps}
       anchorOrigin={anchorOrigin}
-      className={classList(xClassNames)}
+      specialAnchor={specialAnchor}
+      sizeCustom={size}
     />
   );
 }

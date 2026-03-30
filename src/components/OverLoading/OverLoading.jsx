@@ -1,55 +1,54 @@
 import React, { useEffect } from "react";
+import styled from "@emotion/styled";
 import { CircularProgress, Backdrop, Typography } from "../wrappers";
 import classNames from "classnames";
-import makeStyles from "@mui/styles/makeStyles";
 
-const useStyles = makeStyles((theme) => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-  },
-  info: {
-    margin: "0 auto",
-    width: "60%",
-    textAlign: "center",
-  },
-  hspace: {
-    height: "24px",
-  },
-  backgroundFlat: {
+const Info = styled("div")({
+  margin: "0 auto",
+  width: "60%",
+  textAlign: "center",
+});
+
+const HSpace = styled("div")({
+  height: "24px",
+});
+
+const StyledBackdrop = styled(Backdrop, {
+  shouldForwardProp: (prop) => prop !== "backgroundFlat",
+})(({ theme, backgroundFlat }) => ({
+  zIndex: theme.zIndex.drawer + 1,
+  ...(backgroundFlat && {
     backgroundColor: theme.palette.background.default,
-  },
+  }),
 }));
 
 function OverLoading(props) {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-
-  const xClassRoot = classNames(classes.backdrop, {
-    [classes.backgroundFlat]: props.backgroundFlat,
-  });
 
   useEffect(() => {
     setOpen(props.open);
   }, [props.open]);
 
+  const { backgroundFlat, message, color, variant, size, ...otherProps } = props;
+
   return (
-    <Backdrop className={xClassRoot} open={open}>
+    <StyledBackdrop backgroundFlat={backgroundFlat} open={open} {...otherProps}>
       {open && (
-        <div className={classes.info}>
-          <CircularProgress color="primary" size={props.size || 40} />
-          <div className={classes.hspace}></div>
-          {props.message && (
+        <Info>
+          <CircularProgress color="primary" size={size || 40} />
+          <HSpace />
+          {message && (
             <Typography
-              color={props.color || "textPrimary"}
+              color={color || "textPrimary"}
               align="center"
-              variant={props.variant || "caption"}
+              variant={variant || "caption"}
             >
-              {props.message}
+              {message}
             </Typography>
           )}
-        </div>
+        </Info>
       )}
-    </Backdrop>
+    </StyledBackdrop>
   );
 }
 

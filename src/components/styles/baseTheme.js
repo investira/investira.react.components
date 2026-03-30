@@ -38,7 +38,7 @@ export const componentsTheme = {
       main: "#0bbbd0",
       dark: "#008b9f",
       highlight: "#1e90ff",
-      contrastText: "rgba(255, 255, 255, .87)",
+      contrastText: "rgba(0, 0, 0, .87)",
     },
     warn: {
       light: "#ffe650",

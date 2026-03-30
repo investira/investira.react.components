@@ -1,47 +1,31 @@
 import React from "react";
-import makeStyles from "@mui/styles/makeStyles";
+import styled from "@emotion/styled";
 import classNames from "classnames";
 import { Typography } from "../";
 import { dates } from "investira.sdk";
 
-const useStyles = makeStyles(
-  (theme) => {
-    return {
-      root: {
-        position: "relative",
-        display: "flex",
-        justifyContent: "start",
-        alignContent: "center",
-        flexWrap: "wrap",
-      },
-      monthYear: {
-        padding: "4px 0",
-        marginRight: "8px",
-        color: theme.palette.primary.main,
-        textAlign: "right",
-        textTransform: "uppercase",
-      },
-      day: {
-        color: theme.palette.primary.main,
-        textTransform: "uppercase",
-      },
-      label: {
-        width: "100%",
-      },
-      locked: {
-        color: theme.palette.secondary.light,
-      },
-      disabled: {
-        color: theme.palette.secondary.light,
-      },
-    };
-  },
-  { name: "FriendlyDatePicker" }
-);
+const Root = styled("div")({
+  position: "relative",
+  display: "flex",
+  justifyContent: "start",
+  alignContent: "center",
+  flexWrap: "wrap",
+});
+
+const Label = styled("div")({
+  width: "100%",
+});
+
+const Day = styled("div")(({ theme }) => ({
+  color: theme.palette.primary.main,
+  textTransform: "uppercase",
+}));
+
+const Locked = styled("div")(({ theme }) => ({
+  color: theme.palette.secondary.light,
+}));
 
 const FriendlyDatePicker = (props) => {
-  const classes = useStyles();
-
   const xMomentUtils = new props.utils({
     locale: props.locale,
   });
@@ -55,56 +39,36 @@ const FriendlyDatePicker = (props) => {
     today: xMomentUtils.isSameDay(xCurrentDate, xTodayDate),
   };
 
-  const xClassDay = classNames(classes.day, {
-    [classes.locked]: props.locked,
-    [classes.disabled]: props.disabled,
-  });
-
-  // const xClassMonthYear = classNames(classes.monthYear, {
-  //     [classes.locked]: props.locked,
-  //     [classes.disabled]: props.disabled
-  // });
+  const DayComponent = props.locked || props.disabled ? Locked : Day;
 
   return (
-    <div className={classes.root}>
-      <div className={classes.label}>
+    <Root>
+      <Label>
         <Typography color={"textSecondary"} variant={"caption"}>
           {props.label}
         </Typography>
-      </div>
+      </Label>
       {xDate.today ? (
-        <div className={xClassDay}>
+        <DayComponent>
           <div style={{ paddingTop: "19px" }}>
             <Typography color={"inherit"} variant={"h4"}>
               Hoje
             </Typography>
           </div>
-        </div>
+        </DayComponent>
       ) : (
         <>
-          {/* <div className={xClassMonthYear}>
-                        <div className={classes.year}>
-                            <Typography color={'inherit'} variant={'body2'}>
-                                {xDate.day}
-                            </Typography>
-                        </div>
-                        <div className={classes.month}>
-                            <Typography color={'inherit'} variant={'body1'}>
-                                {xDate.month}
-                            </Typography>
-                        </div>
-                    </div> */}
-          <div className={xClassDay}>
+          <DayComponent>
             <Typography color={"inherit"} variant={"body2"}>
               {xDate.day} <span style={{ fontWeight: 500 }}>{xDate.month}</span>
             </Typography>
             <Typography color={"inherit"} variant={"h4"}>
               {xDate.year}
             </Typography>
-          </div>
+          </DayComponent>
         </>
       )}
-    </div>
+    </Root>
   );
 };
 

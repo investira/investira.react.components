@@ -1,19 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Field } from "formik";
-import makeStyles from "@mui/styles/makeStyles";
+import styled from "@emotion/styled";
 import KeyboardDatePicker from "../KeyboardDatePicker";
 import DatePicker from "../DatePicker";
 
-const useStyles = makeStyles(
-  (theme) => ({
-    root: {
-      position: "relative",
-      marginBottom: "12px",
-    },
-  }),
-  { name: "DatePickerField" }
-);
+const Root = styled("div")({
+  position: "relative",
+  marginBottom: "12px",
+});
 
 const DatePickerMode = ({
   field,
@@ -24,7 +19,6 @@ const DatePickerMode = ({
   locked,
   ...otherProps
 }) => {
-  const classes = useStyles();
   const currentError = form.errors[field.name];
   const DatePickerProps = {
     id: field.id,
@@ -37,7 +31,7 @@ const DatePickerMode = ({
   };
 
   return (
-    <div className={classes.root}>
+    <Root>
       {mode === "input" ? (
         <KeyboardDatePicker
           format={"DD/MM/YYYY"}
@@ -57,7 +51,7 @@ const DatePickerMode = ({
           {...otherProps}
         />
       )}
-    </div>
+    </Root>
   );
 };
 
