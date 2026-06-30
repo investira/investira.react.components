@@ -94,6 +94,10 @@ const Svg = styled("svg")(({ color, theme }) => {
       stroke: theme.palette.info.dark,
       fill: theme.palette.info.dark,
     }),
+    ...(color === "success" && {
+      stroke: theme.palette.success.main,
+      fill: theme.palette.success.main,
+    }),
     ...(color === "textPrimary" && {
       stroke: theme.palette.text.primary,
       fill: theme.palette.text.primary,
